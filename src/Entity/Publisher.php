@@ -2,43 +2,43 @@
 
 namespace App\Entity;
 
-use App\Repository\PublisherRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\PublisherRepository;
+use App\Generic\Api\Trait\EntityApiGeneric;
+use App\Generic\Api\Trait\JsonMapValidator;
+use App\Generic\Api\Interfaces\ApiInterface;
+use App\Generic\Api\Identifier\Trait\IdentifierByUid;
+use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
-class Publisher
+class Publisher implements ApiInterface,IdentifierUid
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
+    use EntityApiGeneric;
+    use IdentifierByUid;
+    use JsonMapValidator;
+    
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
-    private array $general_information = [];
+    private array $generalInformation = [];
 
     #[ORM\Column]
     private array $descriptions = [];
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $created_by = null;
+    private ?User $createdBy = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creation_date = null;
+    private ?\DateTimeInterface $creationDate = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getGeneralInformation(): array
     {
-        return $this->general_information;
+        return $this->generalInformation;
     }
 
-    public function setGeneralInformation(array $general_information): static
+    public function setGeneralInformation(array $generalInformation): static
     {
-        $this->general_information = $general_information;
+        $this->generalInformation = $generalInformation;
 
         return $this;
     }
@@ -57,24 +57,24 @@ class Publisher
 
     public function getCreatedBy(): ?User
     {
-        return $this->created_by;
+        return $this->createdBy;
     }
 
-    public function setCreatedBy(?User $created_by): static
+    public function setCreatedBy(?User $createdBy): static
     {
-        $this->created_by = $created_by;
+        $this->createdBy = $createdBy;
 
         return $this;
     }
 
     public function getCreationDate(): ?\DateTimeInterface
     {
-        return $this->creation_date;
+        return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creation_date): static
+    public function setCreationDate(\DateTimeInterface $creationDate): static
     {
-        $this->creation_date = $creation_date;
+        $this->creationDate = $creationDate;
 
         return $this;
     }
