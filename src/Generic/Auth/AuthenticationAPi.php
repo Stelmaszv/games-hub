@@ -61,7 +61,7 @@ trait AuthenticationAPi
         $data = json_decode($request->getContent(), true);
 
         $authenticationEntity = new User();
-        $idetikatorUid = $authenticationEntity instanceof IdentifierUid;
+        $IdentifierUid = $authenticationEntity instanceof IdentifierUid;
 
         $issetData = isset($data['email']) && isset($data['password']) && isset($data['repeatpassword']);
         $emptyData = empty($data['email']) && empty($data['password']) && empty($data['repeatpassword']);
@@ -81,7 +81,7 @@ trait AuthenticationAPi
             $data['password']
         );
 
-        if($idetikatorUid){
+        if($IdentifierUid){
             $authenticationEntity->setId(Uuid::v4());
         }
 
