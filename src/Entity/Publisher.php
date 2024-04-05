@@ -2,14 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use App\Validation\DTO\EditorsDTO;
 use App\Repository\PublisherRepository;
+use App\Validation\DTO\DescriptionsDTO;
 use App\Generic\Api\Trait\EntityApiGeneric;
 use App\Generic\Api\Trait\JsonMapValidator;
 use App\Generic\Api\Interfaces\ApiInterface;
+use App\Validation\DTO\GeneralInformationDTO;
 use App\Generic\Api\Identifier\Trait\IdentifierByUid;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use App\Entity\JsonMaper\Publisher\PublisherEditorsMapper;
+use App\Entity\JsonMaper\Publisher\PublisherDescriptionsMapper;
+use App\Entity\JsonMaper\Publisher\PublisherGeneralInformationMapper;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
 class Publisher implements ApiInterface,IdentifierUid
@@ -36,15 +42,14 @@ class Publisher implements ApiInterface,IdentifierUid
     #[ORM\Column]
     private ?bool $verified = null;
 
-
     public function getGeneralInformation(): array
     {
         return $this->generalInformation;
     }
 
-    public function setGeneralInformation(array $generalInformation): static
+    public function setGeneralInformation(GeneralInformationDTO $generalInformation): static
     {
-        $this->generalInformation = $generalInformation;
+        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation),PublisherGeneralInformationMapper::class);;
 
         return $this;
     }
@@ -54,9 +59,9 @@ class Publisher implements ApiInterface,IdentifierUid
         return $this->descriptions;
     }
 
-    public function setDescriptions(array $descriptions): static
+    public function setDescriptions(DescriptionsDTO $descriptions): static
     {
-        $this->descriptions = $descriptions;
+        $this->descriptions = $this->jsonValidate(get_object_vars($descriptions),PublisherDescriptionsMapper::class);
 
         return $this;
     }
@@ -92,7 +97,7 @@ class Publisher implements ApiInterface,IdentifierUid
 
     public function setEditors(array $editors): static
     {
-        $this->editors = $editors;
+        $this->editors = $this->jsonValidate($editors,PublisherEditorsMapper::class);
 
         return $this;
     }
