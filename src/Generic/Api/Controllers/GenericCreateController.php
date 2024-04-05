@@ -66,7 +66,10 @@ class GenericCreateController extends AbstractController implements GenricInterf
         }
 
         $dto = $this->deserializeDto($data);
-
+        $dto->setComponnets([
+            'managerRegistry' => $this->managerRegistry,
+            'request' => $this->request
+        ]);
         $this->beforeValidation();
         $errors = $this->validateDto($dto);
         if (!empty($errors)) {
