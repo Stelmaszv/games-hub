@@ -30,6 +30,12 @@ class Publisher implements ApiInterface,IdentifierUid
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
+    #[ORM\Column]
+    private array $editors = [];
+
+    #[ORM\Column]
+    private ?bool $verified = null;
+
 
     public function getGeneralInformation(): array
     {
@@ -75,6 +81,30 @@ class Publisher implements ApiInterface,IdentifierUid
     public function setCreationDate(\DateTimeInterface $creationDate): static
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getEditors(): array
+    {
+        return $this->editors;
+    }
+
+    public function setEditors(array $editors): static
+    {
+        $this->editors = $editors;
+
+        return $this;
+    }
+
+    public function isVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): static
+    {
+        $this->verified = $verified;
 
         return $this;
     }
