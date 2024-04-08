@@ -4,7 +4,6 @@ namespace App\Generic\Api\Trait;
 use App\Security\Roles;
 use App\Generic\Auth\JWT;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 trait Security
 {
