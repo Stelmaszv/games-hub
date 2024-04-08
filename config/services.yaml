@@ -27,5 +27,10 @@ services:
         arguments:
             $appSecret: '%env(APP_SECRET)%'
 
+    App\Security\Voter\PublisherEditVoter:
+        arguments:
+            $requestStack: '@request_stack'
+            $jwtService: '@App\Generic\Auth\JWT'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -49,6 +49,11 @@ trait GenericProcessEntity
             $object = $this->getObject($propertyTypeName);
             $method = 'set' . ucfirst($propertyName);
 
+            if($method === 'setId'){
+                continue;
+            }
+
+
             if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
                 $objectRepository = $this->managerRegistry->getRepository($object::class);
                 $entity->$method($objectRepository->find($dto->$propertyName));

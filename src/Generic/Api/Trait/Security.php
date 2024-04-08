@@ -1,6 +1,7 @@
 <?php
 namespace App\Generic\Api\Trait;
 
+use App\Entity\Publisher;
 use App\Security\Roles;
 use App\Generic\Auth\JWT;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,14 +31,20 @@ trait Security
                 return new JsonResponse(['success' => false,"message" => $e->getMessage()], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
+            if (property_exists($this, 'id')) {
+                $subject = $this->managerRegistry->getRepository($this->voterSubject)->find($this->id);
+            }
+
             foreach($JWTtokken['roles'] as $role){
                 if(Roles::checkAtribute($role,$this->voterAtribute)){
                     $vote = $this->security->isGranted($this->voterAtribute, $subject);
-                    if($subject !== null && $vote){
+                    if($vote){
+                        if($subject !== null){
+                            return $this->$action();
+                        }
+
                         return $this->$action();
                     }
-
-                    return $this->$action();
                 }
             }
         }

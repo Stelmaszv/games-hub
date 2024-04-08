@@ -2,6 +2,7 @@
 
 namespace App\Generic\Api\Controllers;
 
+use App\Entity\User;
 use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;
@@ -26,6 +27,7 @@ class GenericCreateController extends AbstractController implements GenricInterf
     use SecurityTrait;
 
     private Security $security;
+    private JWT $jwt;
 
     public function __invoke(
             Request $request, 
@@ -38,6 +40,7 @@ class GenericCreateController extends AbstractController implements GenricInterf
     {
         $this->initialize($request, $serializer, $validator, $managerRegistry,$security);
         $this->checkData();
+        $this->jwt = $jwt;
 
         return $this->setSecurityView('createAction',$jwt);
     }
@@ -65,10 +68,15 @@ class GenericCreateController extends AbstractController implements GenricInterf
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
+        $JWTtokken = $this->jwt->decode($this->getJWTFromHeader());
+        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
+
         $dto = $this->deserializeDto($data);
-        $dto->setComponnets([
+        $dto->setComponnetsData([
             'managerRegistry' => $this->managerRegistry,
-            'request' => $this->request
+            'request' => $this->request,
+            'userId' => $user->getId(),
+            'edit' => false
         ]);
         $this->beforeValidation();
         $errors = $this->validateDto($dto);

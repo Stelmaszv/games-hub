@@ -101,7 +101,7 @@ class Publisher implements ApiInterface,IdentifierUid
         return $this;
     }
 
-    public function isVerified(): ?bool
+    public function getVerified(): ?bool
     {
         return $this->verified;
     }
