@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Publisher;
 use App\Entity\Publisher;
 use App\Security\Atribute;
-use App\Validation\DTO\PublisherDTO;
+use App\Validation\DTO\Publisher\PublisherDTO;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericCreateController;
 

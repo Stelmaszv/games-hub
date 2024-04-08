@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Validation\DTO;
+namespace App\Validation\DTO\Publisher;
 
 use DateTime;
 use App\Entity\Publisher;
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Validation\DTO\GeneralInformationDTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 

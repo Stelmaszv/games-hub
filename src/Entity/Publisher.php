@@ -4,14 +4,13 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Validation\DTO\EditorsDTO;
 use App\Repository\PublisherRepository;
-use App\Validation\DTO\DescriptionsDTO;
 use App\Generic\Api\Trait\EntityApiGeneric;
 use App\Generic\Api\Trait\JsonMapValidator;
 use App\Generic\Api\Interfaces\ApiInterface;
-use App\Validation\DTO\GeneralInformationDTO;
+use App\Validation\DTO\Publisher\DescriptionsDTO;
 use App\Generic\Api\Identifier\Trait\IdentifierByUid;
+use App\Validation\DTO\Publisher\GeneralInformationDTO;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use App\Entity\JsonMaper\Publisher\PublisherEditorsMapper;
 use App\Entity\JsonMaper\Publisher\PublisherDescriptionsMapper;
