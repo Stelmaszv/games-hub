@@ -3,7 +3,6 @@
 namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
-use App\Entity\Publisher;
 use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;

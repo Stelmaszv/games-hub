@@ -37,7 +37,6 @@ class PublisherEditVoter extends Voter
         $userHasRule = in_array(RolePublisherEditor::NAME, $this->jwtService->decode($user)['roles']);
 
         return (($this->userInEditors($subject->getEditors(),$this->jwtService->decode($user)['id']) && $userHasRule) || $userHasSuperRule);
-
     }
 
     private function userInEditors(array $editors,string $user): bool
