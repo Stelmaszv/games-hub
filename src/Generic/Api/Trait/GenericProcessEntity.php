@@ -53,7 +53,9 @@ trait GenericProcessEntity
                 $objectRepository = $this->managerRegistry->getRepository($object::class);
                 $entity->$method($objectRepository->find($dto->$propertyName));
             } else {
-                $entity->$method($dto->$propertyName);
+                if($method !== 'setId'){
+                    $entity->$method($dto->$propertyName);
+                }
             }
 
         }

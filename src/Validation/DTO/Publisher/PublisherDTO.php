@@ -15,7 +15,7 @@ class PublisherDTO implements DTO
 {
     public ?string $id = null;
 
-    public string $createdBy = '';
+    public ?string $createdBy = null;
 
     public DateTime $creationDate; 
     
@@ -40,7 +40,9 @@ class PublisherDTO implements DTO
      */
     public ?DescriptionsDTO $descriptions = null;
 
-    public ?bool $verified = false;
+    public bool $verified = false;
+
+    public bool $edit = false;
 
     public function __construct(array $editors = [])
     {
@@ -60,6 +62,7 @@ class PublisherDTO implements DTO
     {
         $this->managerRegistry = $componnets['managerRegistry'];
         $this->createdBy = $componnets['userId'];
+        $this->edit = $componnets['edit'];
     }
 
      /**
@@ -67,10 +70,15 @@ class PublisherDTO implements DTO
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
+        if($this->edit === true){
+            return false;
+        }
+
         $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
         
         if($user !== null){
-            $context->buildViolation('A user can only add one publisher.')
+            $context
+            ->buildViolation('A user can only add one publisher.')
             ->atPath('createdBy')
             ->addViolation();   
         }

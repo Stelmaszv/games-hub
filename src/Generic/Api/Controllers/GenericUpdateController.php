@@ -2,6 +2,7 @@
 
 namespace App\Generic\Api\Controllers;
 
+use App\Entity\User;
 use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;
@@ -16,7 +17,6 @@ use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class GenericUpdateController extends AbstractController implements GenricInterface
 {
@@ -27,19 +27,21 @@ class GenericUpdateController extends AbstractController implements GenricInterf
 
     protected null|int|string $id;
     private Security $security;
+    private JWT $jwt;
 
     public function __invoke(
             Request $request, 
             SerializerInterface $serializer, 
             ValidatorInterface $validator, 
             ManagerRegistry $managerRegistry,
-            Security $security, null|int|string 
-            $id,TokenStorageInterface $token,
+            Security $security, 
+            null|int|string $id,
             JWT $jwt,
         ): JsonResponse
     {
         $this->initialize($request, $serializer, $validator, $managerRegistry,$security,$id);
         $this->checkData();
+        $this->jwt = $jwt;
 
         return $this->setSecurityView('updateAction',$jwt);
     }
@@ -68,7 +70,18 @@ class GenericUpdateController extends AbstractController implements GenricInterf
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
+        $JWTtokken = $this->jwt->decode($this->getJWTFromHeader());
+        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
+
         $dto = $this->deserializeDto($data);
+
+        $dto->setComponnetsData([
+            'managerRegistry' => $this->managerRegistry,
+            'request' => $this->request,
+            'userId' => $user->getId(),
+            'edit' => true
+        ]);
+
         $this->beforeValidation();
         $errors = $this->validateDto($dto);
         
