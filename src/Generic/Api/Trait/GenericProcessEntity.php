@@ -81,4 +81,5 @@ trait GenericProcessEntity
 
         return new $nameSpace;
     }
+
 }

@@ -107,7 +107,7 @@ trait AuthenticationAPi
     private function generateToken(UserInterface $user): string
     {
         $userPayload = [
-            'id ' =>  $user->getId(),
+            'id' =>  $user->getId(),
             'email' => $user->getEmail(),
             'roles' => $user->getRoles()
         ];

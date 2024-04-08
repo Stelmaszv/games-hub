@@ -15,10 +15,7 @@ class PublisherDTO implements DTO
 {
     public ?string $id = null;
 
-    /**
-    * @Assert\NotBlank
-    */
-    public ?string $createdBy = null;
+    public string $createdBy = '';
 
     public DateTime $creationDate; 
     
@@ -49,7 +46,6 @@ class PublisherDTO implements DTO
     {
         $this->creationDate = new DateTime();
         $this->generalInformation = new GeneralInformationDTO();
-
         $this->editors = $editors;
 
         foreach ($editors as $key => $editor) {
@@ -60,9 +56,10 @@ class PublisherDTO implements DTO
 
     private ManagerRegistry $managerRegistry;
 
-    public function setComponnets(array $componnets): void
+    public function setComponnetsData(array $componnets): void
     {
         $this->managerRegistry = $componnets['managerRegistry'];
+        $this->createdBy = $componnets['userId'];
     }
 
      /**
