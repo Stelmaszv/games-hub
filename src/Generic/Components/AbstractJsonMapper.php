@@ -6,16 +6,16 @@ abstract class AbstractJsonMapper
 {
 	protected bool $multi = false;
 
-    public function isValid(array $value): bool
+    public function isValid(mixed $value): bool
     {
         $maper = false;
-        
-        if ($this->multi && $this->is2dArray($value)) {
+
+        if ($this->multi) {
             $this->validMultiMapper($value);
             $maper = true;
         }
 
-        if (!$this->multi && !$this->is2dArray($value)) {
+        if (!$this->multi) {
             $this->validMapper($value);
             $maper = true;
         }
@@ -38,7 +38,7 @@ abstract class AbstractJsonMapper
     private function validMultiMapper(array $value): void
     {
         foreach ($value as $el) {
-            $this->validMapper($el);
+            $this->validMapper(get_object_vars($el));
         }
     }
 
@@ -57,6 +57,10 @@ abstract class AbstractJsonMapper
 
     private function validType(string $type, mixed $value): bool
     {
+        if($type === ""){
+            throw new \Exception("Invalid type !");
+        }
+
         return match ($type) {
             'string' => is_string($value),
             'bool' => is_bool($value),
