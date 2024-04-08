@@ -5,9 +5,17 @@ declare(strict_types=1);
 namespace App\Validation\DTO;
 
 use App\Generic\Api\Interfaces\DTO;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class DescriptionsDTO  implements DTO
 {
-    public ?string $eng = null;
-    public ?string $pl = null;
+    /**
+     * @Assert\NotNull
+     */
+    public string $eng = '';
+
+    /**
+    * @Assert\NotNull
+    */
+    public string $pl = '';
 }

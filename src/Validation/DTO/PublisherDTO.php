@@ -17,8 +17,8 @@ class PublisherDTO implements DTO
     public ?string $id = null;
 
     /**
-     * @Assert\NotNull
-     */
+    * @Assert\NotBlank
+    */
     public ?string $createdBy = null;
 
     public DateTime $creationDate; 
@@ -33,12 +33,6 @@ class PublisherDTO implements DTO
      * @var EditorsDTO[]
      * @Assert\Valid
      * @Assert\NotNull
-     * @Assert\Count(
-     *      min = 1,
-     *      minMessage = "At least one editor must be provided",
-     *      max = 10,
-     *      maxMessage = "You cannot specify more than {{ limit }} editors"
-     * )
      * @Assert\Valid()
      *
      */
