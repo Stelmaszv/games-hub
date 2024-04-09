@@ -40,7 +40,6 @@ abstract class GenericPostController extends AbstractController
             ValidatorInterface $validator,
             ManagerRegistry $managerRegistry, 
             Security $security,
-            TokenStorageInterface $token,
             JWT $jwt
         ): JsonResponse
     {
@@ -72,6 +71,10 @@ abstract class GenericPostController extends AbstractController
 
         if (empty($data)) {
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if(!$this->dto) {
+            throw new \Exception("Dto is not define in controller ".get_class($this)."!");
         }
 
         $dto = $this->deserializeDto($data);
