@@ -1,7 +1,6 @@
 <?php
 namespace App\Generic\Api\Trait;
 
-use App\Entity\Publisher;
 use App\Security\Roles;
 use App\Generic\Auth\JWT;
 use Symfony\Component\HttpFoundation\JsonResponse;
