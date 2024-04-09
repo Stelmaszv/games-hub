@@ -25,7 +25,7 @@ class PublisherUrlValidator extends ConstraintValidator
 
         if(!in_array($urlParts['host'],PublisherHosts::HOST)){
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ string }}', $urlParts['host'])
+                ->setParameter('{{ host }}', $urlParts['host'])
                 ->addViolation();
         }
     }
