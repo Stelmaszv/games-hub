@@ -75,7 +75,7 @@ class PublisherDTO implements DTO
         }
 
         $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
-        
+
         if($user !== null){
             $context
             ->buildViolation('A user can only add one publisher.')

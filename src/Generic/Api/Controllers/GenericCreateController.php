@@ -46,11 +46,11 @@ class GenericCreateController extends AbstractController implements GenricInterf
     }
 
     protected function initialize(
-            Request $request, 
-            SerializerInterface $serializer, 
-            ValidatorInterface $validator, 
-            ManagerRegistry $managerRegistry,
-            Security $security
+        Request $request, 
+        SerializerInterface $serializer, 
+        ValidatorInterface $validator, 
+        ManagerRegistry $managerRegistry,
+        Security $security
         ): void
     {
         $this->serializer = $serializer;
