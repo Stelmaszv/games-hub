@@ -11,5 +11,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class PublisherUrl extends Constraint
 {
-    public $message = 'Host {{ host }} jest not allowed.';
+    public $message = 'Host {{ host }} is not allowed.';
 }
