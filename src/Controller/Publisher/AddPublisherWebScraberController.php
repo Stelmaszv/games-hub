@@ -51,15 +51,16 @@ class AddPublisherWebScraberController extends GenericPostController
         $data = json_decode($this->request->getContent(), true);
         $publisherScraber = new PublisherScraber($data['url']);
 
-        $publisherDTO = new PublisherDTO();
-        $publisherDTO->createdBy = $this->jwt->decode($this->getTokken())['id'];
-        $publisherDTO->generalInformation = $this->setGenaralInformation($publisherScraber->getGenaralInformation());
-        $publisherDTO->descriptions = new DescriptionsDTO();
-        $publisherDTO->editors = [];
+        $publisherDTO = new PublisherDTO(
+            $this->setGenaralInformation($publisherScraber->getGenaralInformation()),
+            new DescriptionsDTO(),
+            [],
+        );
+
         $publisherDTO->setComponnetsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
-            'userId' => null,
+            'userId' => $this->jwt->decode($this->getTokken())['id'],
             'edit' => false
         ]);
 
