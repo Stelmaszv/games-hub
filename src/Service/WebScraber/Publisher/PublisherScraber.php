@@ -52,7 +52,7 @@ class PublisherScraber
                 $parts = explode(',', $node->text());
                 $city = trim($parts[0]);
 
-                $this->data['genaral-information']['Headquarter'] = $city;
+                $this->data['genaral-information']['headquarter'] = $city;
 
                 $remaining = implode(',', array_slice($parts, 1));
 

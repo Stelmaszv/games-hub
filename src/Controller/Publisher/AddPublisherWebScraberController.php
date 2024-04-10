@@ -89,9 +89,15 @@ class AddPublisherWebScraberController extends GenericPostController
 
     private function setGenaralInformation(array $publisherGenaralInformation) : GeneralInformationDTO 
     {
-        $generalInformation = new GeneralInformationDTO();
-        $generalInformation->name = $publisherGenaralInformation['name'];
-        
+        $generalInformation = new GeneralInformationDTO(
+            $publisherGenaralInformation['name'],
+            $publisherGenaralInformation['founded'],
+            $publisherGenaralInformation['funder'],
+            $publisherGenaralInformation['headquarter'],
+            $publisherGenaralInformation['origin'],
+            $publisherGenaralInformation['website']
+        );
+
         return $generalInformation;
     }
 

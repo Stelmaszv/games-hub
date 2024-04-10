@@ -12,13 +12,23 @@ class PublisherGeneralInformationMapper   extends AbstractJsonMapper
     {
         return [
             "name" => "string",
+            "founded" => "string",
+            "funder" => "string",
+            "headquarter" => "string",
+            "origin" => "string",
+            "website" => "string"
         ];
     }
 
     public function defaultValue(): array
     {
         return [
-            "name" => "string",
+            "name" => "",
+            "founded" => "",
+            "funder" => "",
+            "headquarter" => "",
+            "origin" => "",
+            "website" => ""
         ];
     }
 }
