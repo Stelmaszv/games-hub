@@ -52,7 +52,7 @@ class AddPublisherWebScraberController extends GenericPostController
         $publisherScraber = new PublisherScraber($data['url']);
 
         $publisherDTO = new PublisherDTO(
-            $this->setGenaralInformation($publisherScraber->getGenaralInformation()),
+            $this->setGenaralInformation($publisherScraber->getGeneralInformation()),
             new DescriptionsDTO(),
             [],
         );
@@ -89,16 +89,14 @@ class AddPublisherWebScraberController extends GenericPostController
 
     private function setGenaralInformation(array $publisherGenaralInformation) : GeneralInformationDTO 
     {
-        $generalInformation = new GeneralInformationDTO(
-            $publisherGenaralInformation['name'],
-            $publisherGenaralInformation['founded'],
-            $publisherGenaralInformation['funder'],
-            $publisherGenaralInformation['headquarter'],
-            $publisherGenaralInformation['origin'],
-            $publisherGenaralInformation['website']
+        return new GeneralInformationDTO(
+            $publisherGenaralInformation['name'] ?? null,
+            $publisherGenaralInformation['founded'] ?? null,
+            $publisherGenaralInformation['funder'] ?? null,
+            $publisherGenaralInformation['headquarter'] ?? null,
+            $publisherGenaralInformation['origin'] ?? null,
+            $publisherGenaralInformation['website'] ?? null
         );
-
-        return $generalInformation;
     }
 
     private function validation(PublisherDTO $publisherDTO) : void {

@@ -27,7 +27,10 @@ class PublisherScraber
         $this->crawler = new Crawler($htmlContent);
     }
 
-    public function getGenaralInformation(){
+    public function getGeneralInformation(){
+        var_dump($this->getFounders());
+        var_dump($this->data);
+        die();
         
         $elements = $this->crawler->filter('.mw-page-title-main');
         $elements->each(function (Crawler $node, $i) {
@@ -67,10 +70,31 @@ class PublisherScraber
 
         return $this->data['genaral-information'];
     }
+    
+    private function extractFoundedDate(): ?string
+    {
+        $pattern = '/\((\d{4}-\d{2}-\d{2})\)/';
+        $foundedNode = $this->crawler->filter('.infobox-data')->eq(3)->text();
+    
+        if (preg_match($pattern, $foundedNode, $matches)) {
+            return $matches[1];
+        }
+    
+        return null;
+    }
+    
+    private function extractHeadquarterAndOrigin(): array
+    {
+        $locationParts = explode(',', $this->crawler->filter('.infobox-data')->eq(5)->text());
+        $headquarter = trim($locationParts[0]);
+        $origin = implode(',', array_slice($locationParts, 1));
+    
+        return [$headquarter, $origin];
+    }
 
     public function getDescription(){
 
-        var_dump($this->test());
+        var_dump($this->getFounders());
         die();
 
         $elements = $this->crawler->filter('p');
@@ -85,12 +109,40 @@ class PublisherScraber
 
     }
 
-    public function test(){
-        $elements = $this->crawler->filter('li');
-        $elements->each(function (Crawler $node, $i) {
-            var_dump($node->text());
+    public function getFounded(){
+        $table = $this->crawler->filter('table')->first();
+        $table->filter('tr')->each(function (Crawler $row, $i) {
+            if (strpos($row->text(), 'Founded') !== false) {
+                $pattern = '/\((\d{4}-\d{2}-\d{2})\)/';
+                if (preg_match($pattern, $row->text(), $matches)) {
+                    $date = $matches[1];
+                    $this->data['genaral-information']['founded'] = $date;
+                }
+            }
         });
+    }
 
-        return $this->data;
+    public function getWebsite(){
+        $table = $this->crawler->filter('table')->first();
+        $table->filter('tr')->each(function (Crawler $row, $i) {
+            if (strpos($row->text(), 'Website') !== false) {
+                $this->data['genaral-information']['website'] = $row->text();
+            }
+        });
+    }
+
+    public function getHeadquarters(){
+        $table = $this->crawler->filter('table')->first();
+        $table->filter('tr')->each(function (Crawler $row, $i) {
+            if (strpos($row->text(), 'Headquarters') !== false) {
+                $parts = explode(',', $row->text());
+                $city = trim($parts[0]);
+                $origin = implode(',', array_slice($parts, 1));
+                $originWithoutDigitsAndBrackets = preg_replace('/\[\d+\]/', '', $origin);
+
+                $this->data['genaral-information']['origin'] = $originWithoutDigitsAndBrackets;
+                $this->data['genaral-information']['headquarters'] = $city;
+            }
+        });
     }
 }

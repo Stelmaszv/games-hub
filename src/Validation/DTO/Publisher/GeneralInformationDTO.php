@@ -22,12 +22,6 @@ class GeneralInformationDTO  implements DTO
 
     public ?string $origin = null;
 
-    /**
-     * @Assert\Regex(
-     *     pattern="/^(https?:\/\/)?([a-zA-Z0-9]+\.)+[a-zA-Z]{2,}$/",
-     *     message="Invalid website URL format."
-     * )
-     */
     public ?string $website = null;
 
     function __construct(?string $name, ?string $founded, ?string $funder, ?string $headquarter, ?string $origin, ?string $website){
@@ -37,5 +31,10 @@ class GeneralInformationDTO  implements DTO
         $this->headquarter = $headquarter;
         $this->origin = $origin;
         $this->website = $website;
+        var_dump($this->founded);
+        var_dump($this->funder);
+        var_dump($this->headquarter);
+        var_dump($this->origin);
+        var_dump($this->website);
     }
 }
