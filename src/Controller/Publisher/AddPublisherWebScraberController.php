@@ -82,7 +82,8 @@ class AddPublisherWebScraberController extends GenericPostController
         );
     }
 
-    private function validation(PublisherDTO $publisherDTO) : void {
+    private function validation(PublisherDTO $publisherDTO) : void 
+    {
 
         $violations = $this->validator->validate($publisherDTO);
 
