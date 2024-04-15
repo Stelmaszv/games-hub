@@ -8,7 +8,7 @@ use App\Generic\Api\Interfaces\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validation\Validator\Publisher as CustomAssert;
 
-class PublisherWebScraberDTO  implements DTO
+class DescriptionsUrlsDTO implements DTO
 {
     /**
     * @Assert\NotBlank
@@ -17,5 +17,9 @@ class PublisherWebScraberDTO  implements DTO
     */
     public ?string $url = null;
 
+    /**
+    * @Assert\NotBlank
+    */
+    public ?string $lng = null;
     function setComponnetsData(array $componnets){}
 }

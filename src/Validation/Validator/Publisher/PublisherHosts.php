@@ -7,6 +7,8 @@ namespace App\Validation\Validator\Publisher;
 class PublisherHosts
 {
     public const HOST = [
-        'en.wikipedia.org'
+        'en.wikipedia.org',
+        'pl.wikipedia.org',
+        'fr.wikipedia.org'
     ];
 }

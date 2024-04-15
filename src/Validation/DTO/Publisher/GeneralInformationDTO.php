@@ -33,4 +33,8 @@ class GeneralInformationDTO  implements DTO
         $this->origin = $origin;
         $this->website = $website;
     }
+
+    function setComponnetsData(array $componnets){
+
+    }
 }

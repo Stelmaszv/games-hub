@@ -13,4 +13,6 @@ class EditorsDTO implements DTO
     * @Assert\NotBlank
     */
    public ?string $uid = null; 
+
+   function setComponnetsData(array $componnets){}
 }
