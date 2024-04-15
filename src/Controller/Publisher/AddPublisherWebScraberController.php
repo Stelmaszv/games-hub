@@ -7,7 +7,6 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\Publisher;
 use Symfony\Component\Uid\UuidV4;
-use App\Generic\Api\Trait\GenericValidation;
 use App\Validation\DTO\Publisher\PublisherDTO;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
@@ -20,7 +19,6 @@ use App\Validation\DTO\Publisher\PublisherWebScraberDTO;
 #[Route("api/publisher/web-scraber/add/", name: "publisher_add", methods: ["POST"])]
 class AddPublisherWebScraberController extends GenericPostController
 {
-    use GenericValidation;
     protected ?string $dto = PublisherWebScraberDTO::class;
 
     protected function action(): void
