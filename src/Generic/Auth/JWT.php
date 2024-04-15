@@ -2,13 +2,20 @@
 
 
 namespace App\Generic\Auth;
+
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
+
 class JWT
 {
     private string $appSecret;
 
-    public function __construct(string $appSecret)
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack,string $appSecret)
     {
         $this->appSecret = $appSecret;
+        $this->requestStack = $requestStack;
     }
 
     public function encode(array $data)
@@ -33,5 +40,19 @@ class JWT
         }
 
         return $data;
+    }
+
+    public function getJWTFromHeader(): ?string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        
+        if ($request instanceof Request) {
+            $authorizationHeader = $request->headers->get('Authorization');
+
+            if (strpos($authorizationHeader, 'Bearer ') === 0) {
+                return substr($authorizationHeader, 7);
+            }
+        }
+        return null;
     }
 }

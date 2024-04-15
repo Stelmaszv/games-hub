@@ -44,11 +44,18 @@ class PublisherDTO implements DTO
 
     public bool $edit = false;
 
-    public function __construct(array $editors = [])
+    public function __construct(
+            GeneralInformationDTO $eneralInformation,
+            DescriptionsDTO $descriptions,
+            array $editors = [],
+            bool $verified = false,
+        )
     {
         $this->creationDate = new DateTime();
-        $this->generalInformation = new GeneralInformationDTO();
+        $this->generalInformation = $eneralInformation;
         $this->editors = $editors;
+        $this->descriptions = $descriptions;
+        $this->verified = $verified;
 
         foreach ($editors as $key => $editor) {
             $this->editors[$key] = new EditorsDTO();
@@ -75,7 +82,7 @@ class PublisherDTO implements DTO
         }
 
         $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
-        
+
         if($user !== null){
             $context
             ->buildViolation('A user can only add one publisher.')
