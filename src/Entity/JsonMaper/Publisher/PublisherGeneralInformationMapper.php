@@ -13,7 +13,6 @@ class PublisherGeneralInformationMapper   extends AbstractJsonMapper
         return [
             "name" => "string",
             "founded" => "string",
-            "funder" => "string",
             "headquarter" => "string",
             "origin" => "string",
             "website" => "string"
@@ -25,7 +24,6 @@ class PublisherGeneralInformationMapper   extends AbstractJsonMapper
         return [
             "name" => "",
             "founded" => "",
-            "funder" => "",
             "headquarter" => "",
             "origin" => "",
             "website" => ""

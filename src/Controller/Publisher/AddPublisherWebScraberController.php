@@ -8,16 +8,14 @@ use App\Entity\User;
 use App\Entity\Publisher;
 use Symfony\Component\Uid\UuidV4;
 use App\Generic\Api\Trait\GenericValidation;
-use App\Validation\DTO\Publisher\EditorsDTO;
 use App\Validation\DTO\Publisher\PublisherDTO;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Generic\Api\Controllers\GenericPostController;
-use App\Service\WebScraber\Publisher\PublisherScraber;
+use App\Service\WebScraber\Publisher\PublisherScraper;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
 use App\Validation\DTO\Publisher\PublisherWebScraberDTO;
-
 
 #[Route("api/publisher/web-scraber/add/", name: "publisher_add", methods: ["POST"])]
 class AddPublisherWebScraberController extends GenericPostController
@@ -35,21 +33,10 @@ class AddPublisherWebScraberController extends GenericPostController
         }
     }
 
-    private function getTokken(){
-        $authorizationHeader = $this->request->headers->get('Authorization');
-
-        if (strpos($authorizationHeader, 'Bearer ') === 0) {
-            return substr($authorizationHeader, 7);
-        }
-        
-
-        return null;
-    }
-
     private function setPublisherDTO() : PublisherDTO
     {
         $data = json_decode($this->request->getContent(), true);
-        $publisherScraber = new PublisherScraber($data['url']);
+        $publisherScraber = new PublisherScraper($data['url']);
 
         $publisherDTO = new PublisherDTO(
             $this->setGenaralInformation($publisherScraber->getGeneralInformation()),
@@ -60,7 +47,7 @@ class AddPublisherWebScraberController extends GenericPostController
         $publisherDTO->setComponnetsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
-            'userId' => $this->jwt->decode($this->getTokken())['id'],
+            'userId' => $this->jwt->decode($this->jwt->getJWTFromHeader())['id'],
             'edit' => false
         ]);
 
@@ -69,7 +56,6 @@ class AddPublisherWebScraberController extends GenericPostController
 
     private function savePublisher(PublisherDTO $publisherDTO) :void 
     {
-        $user = $this->managerRegistry->getRepository(User::class)->find($this->jwt->decode($this->getTokken())['id']);
         $uuidObject = new UuidV4();
         $uuidString = $uuidObject->toRfc4122();
 
@@ -80,7 +66,7 @@ class AddPublisherWebScraberController extends GenericPostController
         $publisher->setGeneralInformation($publisherDTO->generalInformation);
         $publisher->setDescriptions($publisherDTO->descriptions);
         $publisher->setVerified($publisherDTO->verified);
-        $publisher->setCreatedBy($user);
+        $publisher->setCreatedBy($this->managerRegistry->getRepository(User::class)->find($publisherDTO->createdBy));
 
         $entityManager = $this->managerRegistry->getManager();
         $entityManager->persist($publisher);
@@ -92,8 +78,7 @@ class AddPublisherWebScraberController extends GenericPostController
         return new GeneralInformationDTO(
             $publisherGenaralInformation['name'] ?? null,
             $publisherGenaralInformation['founded'] ?? null,
-            $publisherGenaralInformation['funder'] ?? null,
-            $publisherGenaralInformation['headquarter'] ?? null,
+            $publisherGenaralInformation['headquarters'] ?? null,
             $publisherGenaralInformation['origin'] ?? null,
             $publisherGenaralInformation['website'] ?? null
         );

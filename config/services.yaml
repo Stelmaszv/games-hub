@@ -26,6 +26,7 @@ services:
     App\Generic\Auth\JWT:
         arguments:
             $appSecret: '%env(APP_SECRET)%'
+            $requestStack: '@request_stack'
 
     App\Security\Voter\PublisherEditVoter:
         arguments:

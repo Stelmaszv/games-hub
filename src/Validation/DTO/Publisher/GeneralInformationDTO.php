@@ -16,25 +16,17 @@ class GeneralInformationDTO  implements DTO
 
     public ?string $founded = null;
 
-    public ?string $funder = null;
-
     public ?string $headquarter = null;
 
     public ?string $origin = null;
 
     public ?string $website = null;
 
-    function __construct(?string $name, ?string $founded, ?string $funder, ?string $headquarter, ?string $origin, ?string $website){
+    function __construct(?string $name, ?string $founded, ?string $headquarter, ?string $origin, ?string $website){
         $this->name = $name;
         $this->founded = $founded;
-        $this->funder = $funder;
         $this->headquarter = $headquarter;
         $this->origin = $origin;
         $this->website = $website;
-        var_dump($this->founded);
-        var_dump($this->funder);
-        var_dump($this->headquarter);
-        var_dump($this->origin);
-        var_dump($this->website);
     }
 }
