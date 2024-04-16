@@ -13,7 +13,7 @@ class UserFixtures extends AbstractFixtureGeneric
     protected array $data = [
         [
           'email' => 'user@qwe.com',
-          'roles' => [RoleSuperAdmin::NAME],
+          'roles' => [RoleSuperAdmin::NAME,RoleUser::NAME],
           'password' => '123'
         ],
         [

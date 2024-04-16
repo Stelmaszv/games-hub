@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Publisher;
 
+use App\Security\Atribute;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericPostController;
 use App\Service\WebScraber\Publisher\PublisherDescriptionsScraper;
@@ -13,6 +14,7 @@ use App\Validation\DTO\Publisher\PublisherWebScraberDescriptionsDTO;
 class AddDescriptionsPublisherController  extends GenericPostController
 {
     protected ?string $dto = PublisherWebScraberDescriptionsDTO::class;
+    protected ?string $voterAtribute = Atribute::CAN_ADD_PUBLISHER;
 
     protected function action(): void {}
 

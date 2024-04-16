@@ -6,6 +6,7 @@ namespace App\Controller\Publisher;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Publisher;
+use App\Security\Atribute;
 use Symfony\Component\Uid\UuidV4;
 use App\Validation\DTO\Publisher\PublisherDTO;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,7 @@ use App\Validation\DTO\Publisher\PublisherWebScraberDTO;
 class AddPublisherWebScraberController extends GenericPostController
 {
     protected ?string $dto = PublisherWebScraberDTO::class;
+    protected ?string $voterAtribute = Atribute::CAN_ADD_PUBLISHER;
 
     protected function action(): void
     {

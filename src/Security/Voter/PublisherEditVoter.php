@@ -3,12 +3,12 @@
 
 namespace App\Security\Voter;
 
+use App\Roles\RoleAdmin;
 use App\Entity\Publisher;
 use App\Generic\Auth\JWT;
 use App\Security\Atribute;
 use App\Roles\RoleSuperAdmin;
 use App\Roles\RolePublisherEditor;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,7 +19,7 @@ class PublisherEditVoter extends Voter
     private JWT $jwtService;
     protected RequestStack $requestStack;
 
-    function __construct(RequestStack $requestStack,JWT $jwtService){
+    public function __construct(RequestStack $requestStack,JWT $jwtService){
         $this->requestStack = $requestStack;
         $this->jwtService = $jwtService;
     }
@@ -31,35 +31,12 @@ class PublisherEditVoter extends Voter
     
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {    
-        $user = $this->getJWTFromHeader();
+        $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
         
-        $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $this->jwtService->decode($user)['roles']);
-        $userHasRule = in_array(RolePublisherEditor::NAME, $this->jwtService->decode($user)['roles']);
+        $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
+        $userHasRule = in_array(RolePublisherEditor::NAME, ['roles']);
+        $isAdmin =  \in_array(RoleAdmin::NAME, $this->jwtService->decode($user)['roles'], true);
 
-        return (($this->userInEditors($subject->getEditors(),$this->jwtService->decode($user)['id']) && $userHasRule) || $userHasSuperRule);
-    }
-
-    private function userInEditors(array $editors,string $user): bool
-    {
-        foreach($editors as $editor){
-            if($editor['uid'] === $user){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function getJWTFromHeader(): ?string
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        
-        if ($request instanceof Request) {
-            $authorizationHeader = $request->headers->get('Authorization');
-
-            if (strpos($authorizationHeader, 'Bearer ') === 0) {
-                return substr($authorizationHeader, 7);
-            }
-        }
-        return null;
+        return (($subject->isEditor($this->jwtService->decode($user)['id']) && $userHasRule) || $userHasSuperRule || $isAdmin);
     }
 }
