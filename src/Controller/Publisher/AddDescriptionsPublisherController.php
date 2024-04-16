@@ -14,11 +14,10 @@ class AddDescriptionsPublisherController  extends GenericPostController
 {
     protected ?string $dto = PublisherWebScraberDescriptionsDTO::class;
 
-    protected function action(): void
-    {
-    }
+    protected function action(): void {}
 
-    protected function onSuccessResponseMessage() : array {
+    protected function onSuccessResponseMessage() : array 
+    {
         $data = json_decode($this->request->getContent(), true);
         $description = $this->setDescription($data['descriptions']);
 
@@ -29,7 +28,6 @@ class AddDescriptionsPublisherController  extends GenericPostController
 
     private function setDescription(array $descriptions) : PublisherDescriptionsScraper
     {
-
         $publisherScraber = new PublisherDescriptionsScraper();
 
         foreach($descriptions as $description){

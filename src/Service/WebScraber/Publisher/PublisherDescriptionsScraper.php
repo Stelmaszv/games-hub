@@ -32,12 +32,10 @@ class PublisherDescriptionsScraper
     
         $paragraphs->each(function (Crawler $node) use (&$desc) {
             if ($node->text() !== '') {
-                // Dodawanie tekstu paragrafu i nowej linii do opisu
                 $desc .= $node->text() . "\n";
             }
         });
     
-        // Przypisanie opisu do klucza
         $this->description[$key] = $desc;
     }
 

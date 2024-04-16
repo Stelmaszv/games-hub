@@ -48,7 +48,7 @@ class AddPublisherWebScraberController extends GenericPostController
 
         return new PublisherDTO(
             $this->setGenaralInformation($publisherScraber->getGeneralInformation()),
-            new DescriptionsDTO(),
+            new DescriptionsDTO('','',''),
             [],
         );
     }
