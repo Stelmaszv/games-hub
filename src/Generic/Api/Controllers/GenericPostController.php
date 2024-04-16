@@ -18,7 +18,6 @@ use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 abstract class GenericPostController extends AbstractController
 {
@@ -104,4 +103,42 @@ abstract class GenericPostController extends AbstractController
     {
         return $this->managerRegistry->getRepository($entity);
     }
+
+    protected function validationDTO(DTO $DTO) : void 
+    {
+        $DTO = $this->setDTO($DTO);
+        $violations = $this->validator->validate($DTO);
+
+        if (count($violations) > 0) {
+            foreach ($violations as $violation) {
+                $data = [];
+                $data['path'] = $violation->getPropertyPath();
+                $data['message'] = $violation->getMessage();
+                    
+                $errors[] = $data;
+            }
+
+            $errorMessages = [];
+            foreach ($errors as $violation) {
+                $errorMessages[$violation['path']] = $violation['message'];
+            }
+
+            $this->actionJsonData = new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
+
+    private function DTOComponnetsData() :array
+    {
+        return  [
+            'managerRegistry' => $this->managerRegistry,
+            'request' => $this->request,
+            'userId' => $this->jwt->decode($this->jwt->getJWTFromHeader())['id'],
+            'edit' => false
+        ];
+    }
+
+    private function setDTO(DTO $DTO){
+        $DTO->setComponnetsData($this->DTOComponnetsData());
+        return $DTO;
+    } 
 }

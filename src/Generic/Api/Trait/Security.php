@@ -19,24 +19,25 @@ trait Security
         }
         
         if((null !== $this->voterAtribute && $subject !== null) || (null !== $this->voterAtribute && $subject === null)){
-            
-            if($this->getJWTFromHeader() === null){
+
+            if($jwt->getJWTFromHeader() === null){
                 return new JsonResponse(['success' => false,"message" => 'token not found'], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
             try {
-                $JWTtokken = $jwt->decode($this->getJWTFromHeader());
+                $JWTtokken = $jwt->decode($jwt->getJWTFromHeader());
             } catch (\Exception $e) {
                 return new JsonResponse(['success' => false,"message" => $e->getMessage()], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
-            if (property_exists($this, 'id')) {
+            if (property_exists($this, 'id') && $this->voterSubject !== null) {
                 $subject = $this->managerRegistry->getRepository($this->voterSubject)->find($this->id);
             }
 
             foreach($JWTtokken['roles'] as $role){
                 if(Roles::checkAtribute($role,$this->voterAtribute)){
                     $vote = $this->security->isGranted($this->voterAtribute, $subject);
+
                     if($vote){
                         if($subject !== null){
                             return $this->$action();
@@ -54,14 +55,5 @@ trait Security
     private function response() :JsonResponse
     {
         return new JsonResponse(['success' => false,"message" => 'Access Denied'], JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    private function getJWTFromHeader(): ?string
-    {
-        $authorizationHeader = $this->request->headers->get('Authorization');
-        if (strpos($authorizationHeader, 'Bearer ') === 0) {
-            return substr($authorizationHeader, 7);
-        }
-        return null;
     }
 }

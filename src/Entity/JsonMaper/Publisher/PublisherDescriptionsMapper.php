@@ -12,7 +12,8 @@ class PublisherDescriptionsMapper  extends AbstractJsonMapper
     {
         return [
             "eng" => "string",
-            "pl" =>"string"
+            "pl" =>"string",
+            "fr" => "string"
         ];
     }
 
@@ -20,7 +21,8 @@ class PublisherDescriptionsMapper  extends AbstractJsonMapper
     {
         return [
             "eng" => "",
-            "pl" =>""
+            "pl" =>"",
+            "fr" =>""
         ];
     }
 }

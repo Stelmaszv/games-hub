@@ -70,7 +70,7 @@ class Publisher implements ApiInterface,IdentifierUid
         return $this->createdBy;
     }
 
-    public function setCreatedBy(?User $createdBy): static
+    public function setCreatedBy(User $createdBy): static
     {
         $this->createdBy = $createdBy;
 
@@ -99,6 +99,16 @@ class Publisher implements ApiInterface,IdentifierUid
         $this->editors = $this->jsonValidate($editors,PublisherEditorsMapper::class);
 
         return $this;
+    }
+
+    public function isEditor(string $user): bool
+    {
+        foreach($this->getEditors() as $editor){
+            if($editor['uid'] === $user){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getVerified(): ?bool

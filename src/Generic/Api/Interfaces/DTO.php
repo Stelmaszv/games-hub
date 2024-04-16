@@ -2,4 +2,6 @@
 
 namespace App\Generic\Api\Interfaces;
 
-interface DTO{}
+interface DTO{
+    function setComponnetsData(array $componnets);
+}
