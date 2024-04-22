@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use App\Roles\RoleUser;
 use App\Roles\RoleSuperAdmin;
+use App\Roles\RolePublisherEditor;
+use App\Roles\RolePublisherCreator;
 use App\Generic\Components\AbstractFixtureGeneric;
 
 class UserFixtures extends AbstractFixtureGeneric
@@ -18,12 +20,12 @@ class UserFixtures extends AbstractFixtureGeneric
         ],
         [
             'email' => 'kot123@dot.com',
-            'roles' => [RoleUser::NAME],
+            'roles' => [RoleUser::NAME,RolePublisherCreator::NAME,RolePublisherEditor::NAME],
             'password' => 'qwe'
         ],
         [
             'email' => 'pani@wp.pl',
-            'roles' => [RoleUser::NAME],
+            'roles' => [RoleUser::NAME,RolePublisherEditor::NAME],
             'password' => 'vbn'
         ]
     ];

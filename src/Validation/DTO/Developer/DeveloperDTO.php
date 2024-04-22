@@ -2,23 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Validation\DTO\Publisher;
+namespace App\Validation\DTO\Developer;
 
 use DateTime;
-use App\Entity\Publisher;
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Validation\DTO\Publisher\EditorsDTO;
+use App\Validation\DTO\Publisher\DescriptionsDTO;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Validation\DTO\Publisher\GeneralInformationDTO;
 
-class PublisherDTO implements DTO
+class DeveloperDTO implements DTO
 {
     public ?string $id = null;
 
     public ?string $createdBy = null;
 
-    public DateTime $creationDate; 
-    
+    public DateTime $creationDate;
+
     /**
      * @var GeneralInformationDTO
      * @Assert\Valid
@@ -68,29 +69,5 @@ class PublisherDTO implements DTO
         $this->managerRegistry = $componnets['managerRegistry'];
         $this->createdBy = $componnets['userId'];
         $this->edit = $componnets['edit'];
-    }
-
-     /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context, $payload)
-    {
-        if($this->edit === true){
-            return false;
-        }
-
-        $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
-
-        if($user !== null){
-            $context
-            ->buildViolation('A user can only add one publisher.')
-            ->atPath('createdBy')
-            ->addViolation();   
-        }
-
-    }
-
-    public function __toString(){
-        return get_class($this);
     }
 }

@@ -28,11 +28,12 @@ class BaseUserVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
+
         $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
         $isSuperAdmin =  \in_array(RoleSuperAdmin::NAME, $user['roles'], true);
         $isAdmin =  \in_array(RoleAdmin::NAME, $user['roles'], true);
-        $isEditor = $subject->isEditor($user['id']);
-        $isVerified = $subject->getVerified();
+        $isEditor = $subject?->isEditor($user['id']) ;
+        $isVerified = $subject?->getVerified();
     
         if($isVerified || $isEditor || $isSuperAdmin || $isAdmin){
             return true;

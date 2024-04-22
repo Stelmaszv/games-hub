@@ -68,18 +68,22 @@ class GenericCreateController extends AbstractController implements GenricInterf
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $JWTtokken = $this->jwt->decode($this->getJWTFromHeader());
+        $JWTtokken = $this->jwt->decode($this->jwt->getJWTFromHeader());
         $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
 
-        $dto = $this->deserializeDto($data);
+        $dto = new $this->dto(json_decode($data,true));
+        
         $dto->setComponnetsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
             'userId' => $user->getId(),
             'edit' => false
         ]);
+
         $this->beforeValidation();
+
         $errors = $this->validateDto($dto);
+
         if (!empty($errors)) {
             return $this->validationErrorResponse($errors);
         }
@@ -87,6 +91,8 @@ class GenericCreateController extends AbstractController implements GenricInterf
 
         $this->processEntity($dto);
         $this->afterProcessEntity();
+
+        
 
         return $this->respondWithSuccess(JsonResponse::HTTP_CREATED);
     }

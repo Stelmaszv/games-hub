@@ -13,8 +13,6 @@ class ListPublisherController extends GenericListController
 {
     protected ?string $entity = Publisher::class;
 
-    protected ?string $voterAtribute = Atribute::CAN_LIST_PUBLISHERS;
-
     protected function onQuerySet(): array
     {
         return $this->repository->findBy(['verified' => true]);

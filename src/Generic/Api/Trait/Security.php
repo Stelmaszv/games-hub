@@ -19,7 +19,6 @@ trait Security
         }
         
         if((null !== $this->voterAtribute && $subject !== null) || (null !== $this->voterAtribute && $subject === null)){
-
             if($jwt->getJWTFromHeader() === null){
                 return new JsonResponse(['success' => false,"message" => 'token not found'], JsonResponse::HTTP_UNAUTHORIZED);
             }

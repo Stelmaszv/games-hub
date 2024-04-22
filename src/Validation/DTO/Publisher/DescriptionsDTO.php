@@ -24,11 +24,11 @@ class DescriptionsDTO  implements DTO
     */
     public string $fr = '';
 
-    function __construct(string $eng, string $pl, string $fr)
+    function __construct(array $data = [])
     {
-        $this->eng = $eng;
-        $this->pl = $pl;
-        $this->fr = $fr;
+        $this->eng = $data['pc'] ?? '' ;
+        $this->pl = $data['eng'] ?? '';
+        $this->fr = $data['fr'] ?? '';
     }
 
     function setComponnetsData(array $componnets){}
