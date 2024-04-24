@@ -51,15 +51,16 @@ class PublisherDTO implements DTO
         $this->creationDate = new DateTime();
         $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
  
-        $this->editors = $data['editors'];
+        $this->editors = $data['editors'] ?? [];
         $this->descriptions = new DescriptionsDTO($data['descriptions']);
         $this->verified = $data['verified'] ?? false;
 
-        foreach ($data['editors'] as $key => $editor) {
-            $this->editors[$key] = new EditorsDTO();
-            $this->editors[$key]->uid = $editor['uid'];
+        if (isset($data['editors'])) {
+            foreach ($data['editors'] as $key => $editor) {
+                $this->editors[$key] = new EditorsDTO();
+                $this->editors[$key]->id = $editor['id'];
+            }
         }
-
 
     }
 

@@ -52,9 +52,9 @@ class DeveloperDTO implements DTO
         $this->creationDate = new DateTime();
         $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
  
-        $this->editors = $data['editors'];
-        $this->descriptions = new DescriptionsDTO($data['descriptions']);
+        $this->editors = $data['editors'] ?? [];
         $this->verified = $data['verified'] ?? false;
+        $this->descriptions = new DescriptionsDTO($data['descriptions']);
 
         if (isset($data['editors'])) {
             foreach ($data['editors'] as $key => $editor) {
