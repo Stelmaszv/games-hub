@@ -92,8 +92,6 @@ class GenericCreateController extends AbstractController implements GenricInterf
         $this->processEntity($dto);
         $this->afterProcessEntity();
 
-        
-
         return $this->respondWithSuccess(JsonResponse::HTTP_CREATED);
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Publisher;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Publisher>
@@ -16,9 +18,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PublisherRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry,EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Publisher::class);
+        $this->entityManager = $entityManager;
+    }
+
+    public function getUsers(){
+
+        $connection = $this->entityManager->getConnection();
+        $sql = '
+        SELECT general_information FROM publisher
+            ';
+
+        $resultSet = $connection->executeQuery($sql, []);
+
+        return $resultSet->fetchAllAssociative();
+    
     }
 
 //    /**

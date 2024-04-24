@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Publisher;
 use App\Entity\Publisher;
-use App\Security\Atribute;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericDetailController;
 
@@ -12,9 +11,5 @@ use App\Generic\Api\Controllers\GenericDetailController;
 class ShowPublisherController extends GenericDetailController
 {
     protected ?string $entity = Publisher::class;
-
-    protected ?string $voterAtribute = Atribute::CAN_SHOW_PUBLISHER;
-    
-    protected ?string $voterSubject = Publisher::class;
 
 }

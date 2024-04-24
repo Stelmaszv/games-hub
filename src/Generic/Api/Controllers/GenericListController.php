@@ -2,6 +2,7 @@
 
 namespace App\Generic\Api\Controllers;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use ReflectionClass;
 use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class GenericListController extends AbstractController
 {
@@ -21,7 +23,7 @@ class GenericListController extends AbstractController
     protected int $perPage = 0;
     protected ObjectRepository $repository;
     protected Request $request;
-    private ManagerRegistry $managerRegistry;
+    protected ManagerRegistry $managerRegistry;
     private SerializerInterface $serializer;
     private PaginatorInterface $paginator;
     private ?array $paginatorData = null;
@@ -66,7 +68,7 @@ class GenericListController extends AbstractController
 
     protected function afterQuery() :void {}
 
-    protected function onQuerySet(): array
+    protected function onQuerySet(): mixed
     {
         return $this->repository->findAll();
     }
@@ -80,35 +82,30 @@ class GenericListController extends AbstractController
         $this->beforeQuery();
         $respane = $this->getResponse();
         $this->afterQuery();
-
+ 
         return new JsonResponse($respane, JsonResponse::HTTP_OK);
     }
 
     private function getResponse(): array
     {
         return [
-            'results' => $this->normalize($this->getQuery()),
+            'results' => $this->prepareQuerySet($this->getQuery()),
             'paginatorData' => $this->paginatorData
         ];
     }
 
-    private function normalize(array $query): array
-    {
-        return $this->serializer->normalize($this->prepareQuerySet($query), null, []);
-    }
-
-    private function getQuery(): array
+    private function getQuery(): mixed
     {
         return $this->onQuerySet();
     }
 
-    private function prepareQuerySet(array $query): mixed
+    private function prepareQuerySet(mixed $query): mixed
     {
         $data = $this->setData($query);
 
         if($this->perPage){
             $paginator = $this->paginator->paginate(
-                $data,
+                new ArrayCollection($data),
                 $this->request->query->getInt('page', 1),
                 $this->perPage
             );
@@ -128,28 +125,36 @@ class GenericListController extends AbstractController
             return $paginator;
         }
 
-        return $query;
+        return $data;
     }
 
-    private function setData(array $query) : array
+    private function setData(mixed $query) : array
     {
-
         $reflection = new ReflectionClass($this->entity);
-
+        
         $results = [];
 
         foreach ($query as $currency) {
             $entity = [];
 
+            if(is_array($currency)){
+                $results[] = $currency;
+                continue;
+            }
+
+            
             foreach($reflection->getProperties() as $property){
-                if(count($this->columns) == 0 || (in_array($property->getName() ,$this->columns) && in_array($property->getName() ,$this->columns)) ){
-                    $method = 'get' . ucfirst($property->getName());
+                if(
+                    count($this->columns) == 0 || (
+                        in_array($property->getName() ,$this->columns) && 
+                        in_array($property->getName() ,$this->columns)) 
+                    ){
+
+                    $method = 'get' . ucfirst($property->getName());             
                     $entity[$property->getName()] = $currency->$method();
                 }
             }
-
             $results[] = $entity;
-
         }
 
         return $results;

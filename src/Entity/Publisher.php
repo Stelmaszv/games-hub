@@ -2,25 +2,28 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PublisherRepository;
 use App\Generic\Api\Trait\EntityApiGeneric;
 use App\Generic\Api\Trait\JsonMapValidator;
+use Doctrine\Common\Collections\Collection;
 use App\Generic\Api\Interfaces\ApiInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
-use App\Generic\Api\Identifier\Trait\IdentifierByUid;
+use App\Generic\Api\Identifier\Trait\IdentifierById;
+use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use App\Entity\JsonMaper\Publisher\PublisherEditorsMapper;
 use App\Entity\JsonMaper\Publisher\PublisherDescriptionsMapper;
 use App\Entity\JsonMaper\Publisher\PublisherGeneralInformationMapper;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
-class Publisher implements ApiInterface,IdentifierUid
+class Publisher implements ApiInterface,IdentifierId
 {
     use EntityApiGeneric;
-    use IdentifierByUid;
+    use IdentifierById;
     use JsonMapValidator;
     
     #[ORM\Column]
@@ -41,6 +44,14 @@ class Publisher implements ApiInterface,IdentifierUid
     #[ORM\Column]
     private ?bool $verified = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'yes')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
     public function getGeneralInformation(): array
     {
         return $this->generalInformation;
@@ -48,7 +59,7 @@ class Publisher implements ApiInterface,IdentifierUid
 
     public function setGeneralInformation(GeneralInformationDTO $generalInformation): static
     {
-        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation),PublisherGeneralInformationMapper::class);;
+        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation),PublisherGeneralInformationMapper::class);
 
         return $this;
     }
@@ -65,9 +76,9 @@ class Publisher implements ApiInterface,IdentifierUid
         return $this;
     }
 
-    public function getCreatedBy(): ?User
+    public function getCreatedBy(): ?array
     {
-        return $this->createdBy;
+        return $this->setApiGroup(new User,'createdBy');
     }
 
     public function setCreatedBy(User $createdBy): static
@@ -119,6 +130,30 @@ class Publisher implements ApiInterface,IdentifierUid
     public function setVerified(bool $verified): static
     {
         $this->verified = $verified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): array
+    {
+        return $this->setApiGroupMany(new User,$this->users);
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }
