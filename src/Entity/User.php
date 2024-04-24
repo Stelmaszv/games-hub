@@ -21,39 +21,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Identif
 	use AuthenticationEntity;
     use IdentifierById;
     use EntityApiGeneric;
-
-    #[ORM\ManyToMany(targetEntity: Publisher::class, mappedBy: 'users')]
-    private Collection $yes;
-
-    public function __construct()
-    {
-        $this->yes = new ArrayCollection();
-    }
-
-    /**
-     * @return Collection<int, Publisher>
-     */
-    public function getYes(): Collection
-    {
-        return $this->yes;
-    }
-
-    public function addYe(Publisher $ye): static
-    {
-        if (!$this->yes->contains($ye)) {
-            $this->yes->add($ye);
-            $ye->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeYe(Publisher $ye): static
-    {
-        if ($this->yes->removeElement($ye)) {
-            $ye->removeUser($this);
-        }
-
-        return $this;
-    }
 }

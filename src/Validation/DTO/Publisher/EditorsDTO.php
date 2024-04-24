@@ -12,7 +12,7 @@ class EditorsDTO implements DTO
     /**
     * @Assert\NotBlank
     */
-   public ?string $uid = null; 
+   public ?string $id = null; 
 
    function setComponnetsData(array $componnets){}
 }

@@ -156,7 +156,7 @@ class GenericListController extends AbstractController
             }
             $results[] = $entity;
         }
-
+        
         return $results;
     }
 

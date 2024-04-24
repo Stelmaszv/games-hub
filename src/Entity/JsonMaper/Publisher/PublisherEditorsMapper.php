@@ -12,7 +12,7 @@ class PublisherEditorsMapper  extends AbstractJsonMapper
     public function jsonSchema(): array
     {
         return [
-            "uid" => 'string',
+            "id" => 'string',
         ];
     }
 

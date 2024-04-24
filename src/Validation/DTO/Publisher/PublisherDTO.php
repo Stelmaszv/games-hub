@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PublisherDTO implements DTO
 {
-    public ?string $id = null;
+    public ?int $id = null;
 
-    public ?string $createdBy = null;
+    public ?int $createdBy = null;
 
     public DateTime $creationDate; 
     
@@ -75,19 +75,23 @@ class PublisherDTO implements DTO
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if($this->edit === true){
-            return false;
+        if ($this->edit === true) {
+            return; // Jeśli edit jest ustawione na true, pomijamy walidację
         }
-
+    
+        if ($this->managerRegistry === null) {
+            throw new \RuntimeException('ManagerRegistry is not set.');
+        }
+    
+        // Sprawdzamy, czy użytkownik istnieje
         $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
-
-        if($user !== null){
+    
+        if ($user !== null) {
             $context
-            ->buildViolation('A user can only add one publisher.')
-            ->atPath('createdBy')
-            ->addViolation();   
+                ->buildViolation('A user can only add one publisher.')
+                ->atPath('createdBy')
+                ->addViolation();
         }
-
     }
 
     public function __toString(){

@@ -8,8 +8,10 @@ use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ProcessEntity;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use PhpParser\Node\Stmt\Continue_;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait GenericProcessEntity
@@ -39,28 +41,39 @@ trait GenericProcessEntity
         $entity = $this->getEntity();
         $reflectionClass = new ReflectionClass($entity);
         $properties = $reflectionClass->getProperties();
-  
+    
         foreach ($properties as $property) {
-
-            $propertyName = $property->getName();
-            $propertyType = $property->getType();
-            
-            $propertyTypeName = $propertyType->__toString();
-            $object = $this->getObject($propertyTypeName);
-            $method = 'set' . ucfirst($propertyName);
-
-            if($method === 'setId'){
-                continue;
+            if (!$property->isStatic()) {
+                $propertyName = $property->getName();
+                $propertyType = $property->getType();
+    
+                if ($propertyType !== null) {
+                    $propertyTypeName = $propertyType->__toString();
+                    $method = 'set' . ucfirst($propertyName);
+    
+                    if ($method === 'setId') {
+                        continue;
+                    }
+    
+                    if ($propertyType->__toString() === 'Doctrine\Common\Collections\Collection' && empty($dto->$propertyName)) {
+                        continue;
+                    } else {
+                        // Obsługa innych właściwości
+                        $object = $this->getObject($propertyTypeName);
+                        if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
+                            $objectRepository = $this->managerRegistry->getRepository($object::class);
+                            $entity->$method($objectRepository->find($dto->$propertyName));
+                        } else {
+                            $entity->$method($dto->$propertyName);
+                        }
+                    }
+                } else {
+                    // Obsługa właściwości bez deklarowanego typu (np. typów prymitywnych)
+                    $propertyName = $property->getName();
+                    $method = 'set' . ucfirst($propertyName);
+                    $entity->$method($dto->$propertyName);
+                }
             }
-
-
-            if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
-                $objectRepository = $this->managerRegistry->getRepository($object::class);
-                $entity->$method($objectRepository->find($dto->$propertyName));
-            } else {
-                $entity->$method($dto->$propertyName);
-            }
-
         }
 
         if($entity instanceof IdentifierUid && $this instanceof ProcessEntity){
@@ -73,6 +86,18 @@ trait GenericProcessEntity
 
         $this->insertId = $entity->getId();
     }
+    
+    private function processCollection($data, $collectionType)
+    {
+        $collection = new ArrayCollection();
+    
+        foreach ($data as $item) {
+            $collection->add($item);
+        }
+    
+        return $collection;
+    }
+    
 
     private function getObject(string $type): ?object
     {

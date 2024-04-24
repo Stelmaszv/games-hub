@@ -16,7 +16,7 @@ class DeveloperDTO implements DTO
 {
     public ?string $id = null;
 
-    public ?string $createdBy = null;
+    public ?int $createdBy = null;
 
     public DateTime $creationDate;
 
@@ -56,11 +56,12 @@ class DeveloperDTO implements DTO
         $this->descriptions = new DescriptionsDTO($data['descriptions']);
         $this->verified = $data['verified'] ?? false;
 
-        foreach ($data['editors'] as $key => $editor) {
-            $this->editors[$key] = new EditorsDTO();
-            $this->editors[$key]->uid = $editor['uid'];
+        if (isset($data['editors'])) {
+            foreach ($data['editors'] as $key => $editor) {
+                $this->editors[$key] = new EditorsDTO();
+                $this->editors[$key]->id = $editor['id'];
+            }
         }
-
 
     }
 
