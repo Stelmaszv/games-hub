@@ -8,10 +8,8 @@ use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ProcessEntity;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
-use PhpParser\Node\Stmt\Continue_;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait GenericProcessEntity
@@ -45,66 +43,70 @@ trait GenericProcessEntity
         foreach ($properties as $property) {
             $propertyName = $property->getName();
             $propertyType = $property->getType();
-
-            if (!$property->isStatic()) {
-                if ($propertyType !== null) {
-                    $propertyTypeName = $propertyType->__toString();
-                    $method = 'set' . ucfirst($propertyName);
     
-                    if ($method === 'setId') {
-                        continue;
-                    }
+            if ($propertyType !== null) {
+                $propertyTypeName = $propertyType->__toString();
+                $method = 'set' . ucfirst($propertyName);
     
-                    if ($propertyType->__toString() === 'Doctrine\Common\Collections\Collection') {
-                        foreach($dto->$propertyName as $collectionEl){
-                            $namespace = "App\Entity\Publisher";
-                            $class = new $namespace;
-                            $objectRepository = $this->managerRegistry->getRepository($class::class);
-                            $el = $objectRepository->find(2);
-
-                            $method = 'addPublisher';
-                            $entity->$method($el);
-                        }
-                    } else {
-                        $object = $this->getObject($propertyTypeName);
-                        if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
-                            $objectRepository = $this->managerRegistry->getRepository($object::class);
-                            $entity->$method($objectRepository->find($dto->$propertyName));
-                        } else {
-                            $entity->$method($dto->$propertyName);
-                        }
-                    }
-                } else {
-                    $propertyName = $property->getName();
-                    $method = 'set' . ucfirst($propertyName);
-                    $entity->$method($dto->$propertyName);
+                if ($method === 'setId') {
+                    continue;
                 }
+    
+                if ($propertyType->__toString() === 'Doctrine\Common\Collections\Collection') {
+                    $this->handleCollection($dto, $propertyName, $entity);
+                } else {
+                    $this->handleSingleEntity($dto, $propertyName, $entity, $propertyTypeName, $method);
+                }
+            } else {
+                $this->handleNonTypedProperty($dto, $propertyName, $entity);
             }
         }
-
-        if($entity instanceof IdentifierUid && $this instanceof ProcessEntity){
-            $entity->setId(Uuid::v4());
-        }
-
+    
+        $this->handleIdentifierUid($entity);
+    
         $entityManager = $this->managerRegistry->getManager();
         $entityManager->persist($entity);
         $entityManager->flush();
-
+    
         $this->insertId = $entity->getId();
-
     }
     
-    private function processCollection($data, $collectionType)
+    private function handleCollection(DTO $dto, string $propertyName, $entity): void
     {
-        $collection = new ArrayCollection();
-    
-        foreach ($data as $item) {
-            $collection->add($item);
+        foreach ($dto->$propertyName as $collectionEl) {
+            $name = basename(str_replace('\\', '/', get_class($collectionEl)), 'DTO');
+            $namespace = "App\Entity\\" . $name;
+            $class = new $namespace;
+            $objectRepository = $this->managerRegistry->getRepository($class::class);
+            $el = $objectRepository->find($collectionEl->id);
+            $method = 'add' . ucfirst($name);
+            $entity->$method($el);
         }
-    
-        return $collection;
     }
     
+    private function handleSingleEntity(DTO $dto, string $propertyName, $entity, string $propertyTypeName, string $method): void
+    {
+        $object = $this->getObject($propertyTypeName);
+        if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
+            $objectRepository = $this->managerRegistry->getRepository($object::class);
+            $entity->$method($objectRepository->find($dto->$propertyName));
+        } else {
+            $entity->$method($dto->$propertyName);
+        }
+    }
+    
+    private function handleNonTypedProperty(DTO $dto, string $propertyName, $entity): void
+    {
+        $method = 'set' . ucfirst($propertyName);
+        $entity->$method($dto->$propertyName);
+    }
+    
+    private function handleIdentifierUid($entity): void
+    {
+        if ($entity instanceof IdentifierUid && $this instanceof ProcessEntity) {
+            $entity->setId(Uuid::v4());
+        }
+    }    
 
     private function getObject(string $type): ?object
     {
