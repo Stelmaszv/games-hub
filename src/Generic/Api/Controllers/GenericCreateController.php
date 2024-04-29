@@ -30,12 +30,12 @@ class GenericCreateController extends AbstractController implements GenricInterf
     private JWT $jwt;
 
     public function __invoke(
-            Request $request, 
-            SerializerInterface $serializer, 
-            ValidatorInterface $validator, 
-            ManagerRegistry $managerRegistry,
-            Security $security,
-            JWT $jwt,
+        Request $request, 
+        SerializerInterface $serializer, 
+        ValidatorInterface $validator, 
+        ManagerRegistry $managerRegistry,
+        Security $security,
+        JWT $jwt,
         ): JsonResponse
     {
         $this->initialize($request, $serializer, $validator, $managerRegistry,$security);
