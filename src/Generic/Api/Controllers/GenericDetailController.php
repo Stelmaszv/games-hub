@@ -26,11 +26,11 @@ class GenericDetailController extends AbstractController
     protected array $columns = [];
 
     public function __invoke(
-            ManagerRegistry $managerRegistry, 
-            SerializerInterface $serializer,
-            Security $security, 
-            null|int|string $id,
-            JWT $jwt
+        ManagerRegistry $managerRegistry, 
+        SerializerInterface $serializer,
+        Security $security, 
+        null|int|string $id,
+        JWT $jwt
         ): JsonResponse
     {
         if(!$this->entity) {
@@ -43,10 +43,10 @@ class GenericDetailController extends AbstractController
     }
 
     protected function initialize(
-            ManagerRegistry $managerRegistry, 
-            SerializerInterface $serializer,
-            Security $security, 
-            null|int|string $id
+        ManagerRegistry $managerRegistry, 
+        SerializerInterface $serializer,
+        Security $security, 
+        null|int|string $id
         ): void
     {
         $this->managerRegistry = $managerRegistry;
