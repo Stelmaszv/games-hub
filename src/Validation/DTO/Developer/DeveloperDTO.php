@@ -35,6 +35,16 @@ class DeveloperDTO implements DTO
      */
     public array $editors = [];
 
+
+    /**
+     * @var PublisherDTO[]
+     * @Assert\Valid
+     * @Assert\NotNull
+     * @Assert\Valid()
+     *
+     */
+    public array $publishers = [];
+
     /**
      * @var DescriptionsDTO
      * @Assert\NotNull
@@ -53,6 +63,7 @@ class DeveloperDTO implements DTO
         $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
  
         $this->editors = $data['editors'] ?? [];
+        $this->publishers  = $data['publishers'] ?? [];
         $this->verified = $data['verified'] ?? false;
         $this->descriptions = new DescriptionsDTO($data['descriptions']);
 
@@ -60,6 +71,13 @@ class DeveloperDTO implements DTO
             foreach ($data['editors'] as $key => $editor) {
                 $this->editors[$key] = new EditorsDTO();
                 $this->editors[$key]->id = $editor['id'];
+            }
+        }
+
+        if (isset($data['publishers'])) {
+            foreach ($data['publishers'] as $key => $editor) {
+                $this->publishers[$key] = new PublisherDTO();
+                $this->publishers[$key]->id = $editor['id'];
             }
         }
 

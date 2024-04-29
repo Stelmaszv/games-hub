@@ -43,10 +43,10 @@ trait GenericProcessEntity
         $properties = $reflectionClass->getProperties();
     
         foreach ($properties as $property) {
+            $propertyName = $property->getName();
+            $propertyType = $property->getType();
+
             if (!$property->isStatic()) {
-                $propertyName = $property->getName();
-                $propertyType = $property->getType();
-    
                 if ($propertyType !== null) {
                     $propertyTypeName = $propertyType->__toString();
                     $method = 'set' . ucfirst($propertyName);
@@ -55,10 +55,17 @@ trait GenericProcessEntity
                         continue;
                     }
     
-                    if ($propertyType->__toString() === 'Doctrine\Common\Collections\Collection' && empty($dto->$propertyName)) {
-                        continue;
+                    if ($propertyType->__toString() === 'Doctrine\Common\Collections\Collection') {
+                        foreach($dto->$propertyName as $collectionEl){
+                            $namespace = "App\Entity\Publisher";
+                            $class = new $namespace;
+                            $objectRepository = $this->managerRegistry->getRepository($class::class);
+                            $el = $objectRepository->find(2);
+
+                            $method = 'addPublisher';
+                            $entity->$method($el);
+                        }
                     } else {
-                        // Obsługa innych właściwości
                         $object = $this->getObject($propertyTypeName);
                         if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
                             $objectRepository = $this->managerRegistry->getRepository($object::class);
@@ -68,7 +75,6 @@ trait GenericProcessEntity
                         }
                     }
                 } else {
-                    // Obsługa właściwości bez deklarowanego typu (np. typów prymitywnych)
                     $propertyName = $property->getName();
                     $method = 'set' . ucfirst($propertyName);
                     $entity->$method($dto->$propertyName);
@@ -85,6 +91,7 @@ trait GenericProcessEntity
         $entityManager->flush();
 
         $this->insertId = $entity->getId();
+
     }
     
     private function processCollection($data, $collectionType)

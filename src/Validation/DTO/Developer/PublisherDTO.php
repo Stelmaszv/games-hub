@@ -7,12 +7,12 @@ namespace App\Validation\DTO\Developer;
 use App\Generic\Api\Interfaces\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PublisherIdDTO  implements DTO
+class PublisherDTO  implements DTO
 {
     /**
     * @Assert\NotBlank
     */
-   public ?string $id = null; 
+   public ?int $id = null; 
 
     public function setComponnetsData(array $componnets): void {}
 }
