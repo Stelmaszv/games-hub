@@ -31,18 +31,18 @@ class GenericListController extends AbstractController
     private Security $security;
 
     public function __construct(
-            ManagerRegistry $doctrine,
-            SerializerInterface $serializer, 
-            PaginatorInterface $paginator,
-            Security $security
+        ManagerRegistry $doctrine,
+        SerializerInterface $serializer, 
+        PaginatorInterface $paginator,
+        Security $security
         )
     {
         $this->initialize($doctrine, $serializer, $paginator,$security);
     }
 
     public function __invoke(
-            Request $request,
-            JWT $jwt
+        Request $request,
+        JWT $jwt
         ): JsonResponse
     {
         $this->request = $request;
@@ -51,10 +51,10 @@ class GenericListController extends AbstractController
     }
 
     protected function initialize(
-            ManagerRegistry $doctrine, 
-            SerializerInterface $serializer, 
-            PaginatorInterface $paginator,
-            Security $security
+        ManagerRegistry $doctrine, 
+        SerializerInterface $serializer, 
+        PaginatorInterface $paginator,
+        Security $security
         ): void
     {
         $this->managerRegistry = $doctrine;
