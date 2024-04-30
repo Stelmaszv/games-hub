@@ -45,11 +45,11 @@ class Publisher implements ApiInterface,IdentifierId
     private ?bool $verified = null;
 
     #[ORM\ManyToMany(targetEntity: Developer::class, mappedBy: 'publisher')]
-    private Collection $developers;
+    private Collection $developer;
 
     public function __construct()
     {
-        $this->developers = new ArrayCollection();
+        $this->developer = new ArrayCollection();
     }
 
     public function getGeneralInformation(): array
@@ -137,15 +137,15 @@ class Publisher implements ApiInterface,IdentifierId
     /**
      * @return Collection<int, Developer>
      */
-    public function getDevelopers(): Collection
+    public function getDeveloper(): Collection
     {
-        return $this->developers;
+        return $this->developer;
     }
 
     public function addDeveloper(Developer $developer): static
     {
-        if (!$this->developers->contains($developer)) {
-            $this->developers->add($developer);
+        if (!$this->developer->contains($developer)) {
+            $this->developer->add($developer);
             $developer->addPublisher($this);
         }
 
@@ -154,7 +154,7 @@ class Publisher implements ApiInterface,IdentifierId
 
     public function removeDeveloper(Developer $developer): static
     {
-        if ($this->developers->removeElement($developer)) {
+        if ($this->developer->removeElement($developer)) {
             $developer->removePublisher($this);
         }
 

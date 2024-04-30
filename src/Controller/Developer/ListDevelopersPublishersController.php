@@ -9,7 +9,7 @@ use App\Entity\Publisher;
 use App\Generic\Api\Controllers\GenericListController;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route("api/developer/publishers/{id}", name: "developer_publishers_list", methods: ["GET"])]
+#[Route("api/developer/publishers/{id}", name: "developer_publisher_list", methods: ["GET"])]
 class ListDevelopersPublishersController extends GenericListController
 {
     protected ?string $entity = Developer::class;
@@ -17,7 +17,7 @@ class ListDevelopersPublishersController extends GenericListController
     
     protected function onQuerySet(): mixed
     {
-        return $this->repository->find($this->attributes->get('id'))->getPublishers();
+        return $this->repository->find($this->attributes->get('id'))->getPublisher();
     }
 }
 

@@ -46,8 +46,9 @@ class GenericListController extends AbstractController
     public function __invoke(
         Request $request,
         JWT $jwt,
-        ): JsonResponse
+        ) : JsonResponse
     {   
+        $this->request = $request;
         $this->attributes = $request->attributes;
         $this->query = $request->query;
         
@@ -59,7 +60,7 @@ class GenericListController extends AbstractController
         SerializerInterface $serializer, 
         PaginatorInterface $paginator,
         Security $security
-        ): void
+        ) : void
     {
         $this->managerRegistry = $doctrine;
         $this->serializer = $serializer;
@@ -68,16 +69,16 @@ class GenericListController extends AbstractController
         $this->repository = $this->managerRegistry->getRepository($this->entity);
     }
 
-    protected function beforeQuery() :void {}
+    protected function beforeQuery() : void {}
 
-    protected function afterQuery() :void {}
+    protected function afterQuery() : void {}
 
-    protected function onQuerySet(): mixed
+    protected function onQuerySet() : mixed
     {
         return $this->repository->findAll();
     }
 
-    private function listAction(): JsonResponse
+    private function listAction() : JsonResponse
     {
         if(!$this->entity) {
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
@@ -137,15 +138,14 @@ class GenericListController extends AbstractController
         
         $results = [];
 
-        foreach ($query as $currency) {
+        foreach ($query as $el) {
             $entity = [];
 
-            if(is_array($currency)){
-                $results[] = $currency;
+            if(is_array($el)){
+                $results[] = $el;
                 continue;
             }
 
-            
             foreach($reflection->getProperties() as $property){
                 if(
                     count($this->columns) == 0 || (
@@ -153,8 +153,8 @@ class GenericListController extends AbstractController
                         in_array($property->getName() ,$this->columns)) 
                     ){
 
-                    $method = 'get' . ucfirst($property->getName());             
-                    $entity[$property->getName()] = $currency->$method();
+                    $method = 'get' . ucfirst($property->getName());   
+                    $entity[$property->getName()] = $el->$method();
                 }
             }
             $results[] = $entity;
