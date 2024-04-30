@@ -6,9 +6,8 @@ namespace App\Controller\Developer;
 
 use App\Entity\Developer;
 use App\Entity\Publisher;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericListController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route("api/developer/publishers/{id}", name: "developer_publishers_list", methods: ["GET"])]
 class ListDevelopersPublishersController extends GenericListController
