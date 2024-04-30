@@ -6,18 +6,15 @@ namespace App\Controller\Developer;
 
 use App\Entity\Developer;
 use App\Entity\Publisher;
-use App\Generic\Api\Controllers\GenericListController;
+use App\Generic\Api\Controllers\GenericListRelationController;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route("api/developer/publishers/{id}", name: "developer_publisher_list", methods: ["GET"])]
-class ListDevelopersPublishersController extends GenericListController
+class ListDevelopersPublishersController extends GenericListRelationController
 {
     protected ?string $entity = Developer::class;
     protected ?string $entityLiteration = Publisher::class;
-    
-    protected function onQuerySet(): mixed
-    {
-        return $this->repository->find($this->attributes->get('id'))->getPublisher();
-    }
+
+    protected ?string $relationMethod = 'getPublisher'; 
 }
 
