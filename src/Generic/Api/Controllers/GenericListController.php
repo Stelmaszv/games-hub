@@ -2,7 +2,6 @@
 
 namespace App\Generic\Api\Controllers;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use ReflectionClass;
 use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
@@ -10,22 +9,26 @@ use Doctrine\Persistence\ObjectRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class GenericListController extends AbstractController
 {
     use SecurityTrait;
     protected ?string $entity = null;
-    protected int $perPage = 0;
+    protected ?string $entityLiteration = null;
+    protected int $perPage = 1;
     protected ObjectRepository $repository;
     protected Request $request;
     protected ManagerRegistry $managerRegistry;
     private SerializerInterface $serializer;
     private PaginatorInterface $paginator;
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
     private ?array $paginatorData = null;
     protected array $columns = [];
     private Security $security;
@@ -42,11 +45,12 @@ class GenericListController extends AbstractController
 
     public function __invoke(
         Request $request,
-        JWT $jwt
+        JWT $jwt,
         ): JsonResponse
-    {
-        $this->request = $request;
-
+    {   
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
+        
         return $this->setSecurityView('listAction',$jwt);
     }
 
@@ -121,8 +125,6 @@ class GenericListController extends AbstractController
                 'previous' => $paginationData['previous'] ?? null,
                 'next' => $paginationData['next'] ?? null
             ];
-
-            return $paginator;
         }
 
         return $data;
@@ -130,7 +132,8 @@ class GenericListController extends AbstractController
 
     private function setData(mixed $query) : array
     {
-        $reflection = new ReflectionClass($this->entity);
+        $entity = ($this->entityLiteration === null)?  $this->entity : $this->entityLiteration;
+        $reflection = new ReflectionClass($entity);
         
         $results = [];
 

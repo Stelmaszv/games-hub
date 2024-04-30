@@ -28,7 +28,7 @@ trait Security
             } catch (\Exception $e) {
                 return new JsonResponse(['success' => false,"message" => $e->getMessage()], JsonResponse::HTTP_UNAUTHORIZED);
             }
-
+            
             if (property_exists($this, 'id') && $this->voterSubject !== null) {
                 $subject = $this->managerRegistry->getRepository($this->voterSubject)->find($this->id);
             }

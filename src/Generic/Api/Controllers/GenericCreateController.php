@@ -18,6 +18,7 @@ use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GenericCreateController extends AbstractController implements GenricInterface, ProcessEntity
 {
@@ -28,6 +29,9 @@ class GenericCreateController extends AbstractController implements GenricInterf
 
     private Security $security;
     private JWT $jwt;
+
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
 
     public function __invoke(
         Request $request, 
@@ -58,6 +62,9 @@ class GenericCreateController extends AbstractController implements GenricInterf
         $this->security = $security;
         $this->managerRegistry = $managerRegistry;
         $this->request = $request;
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
+
     }
 
     private function createAction(): JsonResponse

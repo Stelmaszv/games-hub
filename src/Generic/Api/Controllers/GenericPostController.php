@@ -18,6 +18,7 @@ use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 abstract class GenericPostController extends AbstractController
 {
@@ -30,32 +31,36 @@ abstract class GenericPostController extends AbstractController
     protected ManagerRegistry $managerRegistry;
     protected SerializerInterface $serializer;
     protected ValidatorInterface $validator;
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
     protected Request $request;
     private Security $security;
     protected ?JsonResponse $actionJsonData = null;
     protected JWT $jwt;
 
     public function __invoke(
-            Request $request,
-            SerializerInterface $serializer, 
-            ValidatorInterface $validator,
-            ManagerRegistry $managerRegistry, 
-            Security $security,
-            JWT $jwt
+        Request $request,
+        SerializerInterface $serializer, 
+        ValidatorInterface $validator,
+        ManagerRegistry $managerRegistry, 
+        Security $security,
+        JWT $jwt
         ): JsonResponse
     {
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
         $this->initialize($request, $serializer, $validator, $managerRegistry,$security,$jwt);
 
         return $this->setSecurityView('postAction',$jwt);
     }
 
     protected function initialize(
-            Request $request, 
-            SerializerInterface $serializer, 
-            ValidatorInterface $validator, 
-            ManagerRegistry $managerRegistry, 
-            Security $security,
-            JWT $jwt
+        Request $request, 
+        SerializerInterface $serializer, 
+        ValidatorInterface $validator, 
+        ManagerRegistry $managerRegistry, 
+        Security $security,
+        JWT $jwt
         ): void
     {
         $this->jwt = $jwt;

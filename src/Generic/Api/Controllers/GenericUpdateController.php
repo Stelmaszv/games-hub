@@ -4,19 +4,20 @@ namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
 use App\Generic\Auth\JWT;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Trait\GenericValidation;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use App\Generic\Api\Trait\GenericJSONResponse;
 use App\Generic\Api\Interfaces\GenricInterface;
 use App\Generic\Api\Trait\GenericProcessEntity;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Generic\Api\Trait\Security as SecurityTrait;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GenericUpdateController extends AbstractController implements GenricInterface
 {
@@ -24,34 +25,35 @@ class GenericUpdateController extends AbstractController implements GenricInterf
     use GenericProcessEntity;
     use GenericJSONResponse;
     use SecurityTrait;
-
-    protected null|int|string $id;
     private Security $security;
     private JWT $jwt;
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
 
     public function __invoke(
-            Request $request, 
-            SerializerInterface $serializer, 
-            ValidatorInterface $validator, 
-            ManagerRegistry $managerRegistry,
-            Security $security, 
-            null|int|string $id,
-            JWT $jwt,
+        Request $request, 
+        SerializerInterface $serializer, 
+        ValidatorInterface $validator, 
+        ManagerRegistry $managerRegistry,
+        Security $security, 
+        JWT $jwt,
         ): JsonResponse
     {
-        $this->initialize($request, $serializer, $validator, $managerRegistry,$security,$id);
+        $this->initialize($request, $serializer, $validator, $managerRegistry,$security);
         $this->checkData();
         $this->jwt = $jwt;
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
 
         return $this->setSecurityView('updateAction',$jwt);
     }
 
     protected function initialize(
-            Request $request, 
-            SerializerInterface $serializer, 
-            ValidatorInterface $validator, 
-            ManagerRegistry $managerRegistry,
-            Security $security, null|int|string $id
+        Request $request, 
+        SerializerInterface $serializer, 
+        ValidatorInterface $validator, 
+        ManagerRegistry $managerRegistry,
+        Security $security
         ): void
     {
         $this->request = $request;
@@ -59,7 +61,6 @@ class GenericUpdateController extends AbstractController implements GenricInterf
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->managerRegistry = $managerRegistry;
-        $this->id = $id;
     }
 
     private function updateAction(): JsonResponse
@@ -70,7 +71,7 @@ class GenericUpdateController extends AbstractController implements GenricInterf
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $JWTtokken = $this->jwt->decode($this->getJWTFromHeader());
+        $JWTtokken = $this->jwt->getJWTFromHeader();
         $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
 
         $dto = $this->deserializeDto($data);
@@ -97,6 +98,18 @@ class GenericUpdateController extends AbstractController implements GenricInterf
     }
 
     public function getEntity() : ApiInterface {
-        return $this->managerRegistry->getRepository($this->entity)->find($this->id);
+
+
+        if ($this->request->attributes->get('id') === null) {
+            return $this->respondWithError('GenericUpdateController {id} in address',JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $entity = $this->managerRegistry->getRepository($this->entity)->find($this->$this->attributes->get('id'));
+
+        if (!$entity) {
+            return $this->respondWithError('Object not found',JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        return $entity;
     }
 }

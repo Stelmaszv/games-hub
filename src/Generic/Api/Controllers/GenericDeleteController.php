@@ -9,6 +9,8 @@ use App\Generic\Api\Trait\GenericJSONResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GenericDeleteController extends AbstractController
 {
@@ -16,49 +18,52 @@ class GenericDeleteController extends AbstractController
     use GenericJSONResponse;
 
     protected ?string $entity = null;
-
     private Security $security;
-
     protected ManagerRegistry $managerRegistry;
-    protected null|int|string $id = 0;
+    protected Request $request;
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
 
     public function __invoke(
-            ManagerRegistry $doctrine,
-            Security $security, 
-            null|int|string $id,
-            JWT $jwt
+        Request $request,
+        ManagerRegistry $doctrine,
+        Security $security, 
+        JWT $jwt
         ): JsonResponse
     {
-        $this->initialize($doctrine,$security,$id);
+        $this->initialize($doctrine,$security);
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
 
         return $this->setSecurityView('deleteAction',$jwt);
     }
 
-    public function deleteAction(): JsonResponse
+    private function deleteAction(): JsonResponse
     {
+        if ($this->request->attributes->get('id') === null) {
+            return $this->respondWithError('GenericDeleteController requied {id} in address',JsonResponse::HTTP_NOT_FOUND);
+        }
 
-        $car = $this->managerRegistry->getRepository($this->entity)->find($this->id);
+        $entity = $this->managerRegistry->getRepository($this->entity)->find($this->request->attributes->get('id'));
     
-        if (!$car) {
+        if (!$entity) {
             return $this->respondWithError('Object not found',JsonResponse::HTTP_NOT_FOUND);
         }
     
         $this->beforeDelete();
-        $this->delete($car);
+        $this->delete($entity);
         $this->afterDelete();
 
         return $this->respondWithSuccess(JsonResponse::HTTP_OK);
     }
 
     protected function initialize(
-            ManagerRegistry $doctrine,
-            Security $security, 
-            null|int|string $id
+        ManagerRegistry $doctrine,
+        Security $security, 
         ): void
     {
         $this->managerRegistry = $doctrine;
         $this->security = $security;
-        $this->id = $id;
     }
 
     protected function beforeDelete(): void {}

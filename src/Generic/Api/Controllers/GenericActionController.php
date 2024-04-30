@@ -13,6 +13,8 @@ use App\Generic\Api\Trait\GenericJSONResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GenericActionController extends AbstractController
 {
@@ -21,16 +23,21 @@ class GenericActionController extends AbstractController
     use SecurityTrait;
     
     protected ManagerRegistry $managerRegistry;
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
     private Security $security;
 
     public function __invoke(
-            ManagerRegistry $managerRegistry,
-            Security $security,
-            JWT $jwt,
+        ManagerRegistry $managerRegistry,
+        Request $request,
+        Security $security,
+        JWT $jwt,
         ): JsonResponse
     {
         $this->managerRegistry = $managerRegistry;
         $this->security = $security;
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
 
         return $this->setSecurityView('executeAction',$jwt);
     }

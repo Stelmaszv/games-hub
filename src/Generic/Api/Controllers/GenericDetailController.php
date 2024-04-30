@@ -7,8 +7,11 @@ use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use App\Generic\Api\Interfaces\ApiInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use App\Generic\Api\Trait\GenericJSONResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,28 +19,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class GenericDetailController extends AbstractController
 {
     use SecurityTrait;
+    use GenericJSONResponse;
     
     protected ?string $entity = null;
     protected ManagerRegistry $managerRegistry;
     protected ObjectRepository $repository;
     private SerializerInterface $serializer;
-    private null|int|string $id = 0;
+    protected ParameterBag $attributes;
+    protected ParameterBag $query;
+    protected Request $request;
     private Security $security;
     protected array $columns = [];
 
     public function __invoke(
         ManagerRegistry $managerRegistry, 
         SerializerInterface $serializer,
+        Request $request,
         Security $security, 
-        null|int|string $id,
         JWT $jwt
         ): JsonResponse
     {
         if(!$this->entity) {
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
         }
-
-        $this->initialize($managerRegistry, $serializer,$security, $id);
+        
+        $this->request = $request;
+        $this->attributes = $request->attributes;
+        $this->query = $request->query;
+        $this->initialize($managerRegistry, $serializer,$security);
 
         return $this->setSecurityView('detailAction',$jwt);
     }
@@ -45,37 +54,39 @@ class GenericDetailController extends AbstractController
     protected function initialize(
         ManagerRegistry $managerRegistry, 
         SerializerInterface $serializer,
-        Security $security, 
-        null|int|string $id
+        Security $security
         ): void
     {
         $this->managerRegistry = $managerRegistry;
         $this->serializer = $serializer;
         $this->security = $security;
-        $this->id = $id;
         $this->repository = $this->managerRegistry->getRepository($this->entity);
     }
 
     protected function onQuerySet(): ?object
     {
-        return $this->repository->find($this->id);
+        return $this->managerRegistry->getRepository($this->entity)->find($this->request->attributes->get('id'));
     }
 
-    protected function beforeQuery() :void {}
+    protected function beforeQuery() : void {}
 
-    protected function afterQuery() :void {}
+    protected function afterQuery() : void {}
 
     private function detailAction(): JsonResponse
     {
+        if ($this->request->attributes->get('id') === null) {
+            return $this->respondWithError('GenericDeleteController requied {id} in address',JsonResponse::HTTP_NOT_FOUND);
+        }
+
         $this->beforeQuery();
-        $car = $this->getObject();
+        $entity = $this->getObject();
         $this->afterQuery();
 
-        if (!$car) {
+        if (!$entity) {
             return new JsonResponse(['message' => 'Object not found'], JsonResponse::HTTP_NOT_FOUND);
         }
-        
-        return new JsonResponse($this->normalize($car), JsonResponse::HTTP_OK);
+  
+        return new JsonResponse($this->normalize($entity), JsonResponse::HTTP_OK);
     }
 
     private function normalize(ApiInterface $object): array
