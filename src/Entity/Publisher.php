@@ -11,13 +11,13 @@ use App\Generic\Api\Trait\JsonMapValidator;
 use Doctrine\Common\Collections\Collection;
 use App\Generic\Api\Interfaces\ApiInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\JsonMaper\Publisher\EditorsMapper;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
 use App\Generic\Api\Identifier\Trait\IdentifierById;
+use App\Entity\JsonMaper\Publisher\DescriptionsMapper;
 use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
-use App\Entity\JsonMaper\Publisher\PublisherEditorsMapper;
-use App\Entity\JsonMaper\Publisher\PublisherDescriptionsMapper;
-use App\Entity\JsonMaper\Publisher\PublisherGeneralInformationMapper;
+use App\Entity\JsonMaper\Publisher\GeneralInformationMapper;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
 class Publisher implements ApiInterface,IdentifierId
@@ -59,7 +59,7 @@ class Publisher implements ApiInterface,IdentifierId
 
     public function setGeneralInformation(GeneralInformationDTO $generalInformation): static
     {
-        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation),PublisherGeneralInformationMapper::class);
+        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation),GeneralInformationMapper::class);
 
         return $this;
     }
@@ -71,7 +71,7 @@ class Publisher implements ApiInterface,IdentifierId
 
     public function setDescriptions(DescriptionsDTO $descriptions): static
     {
-        $this->descriptions = $this->jsonValidate(get_object_vars($descriptions),PublisherDescriptionsMapper::class);
+        $this->descriptions = $this->jsonValidate(get_object_vars($descriptions),DescriptionsMapper::class);
 
         return $this;
     }
@@ -107,7 +107,7 @@ class Publisher implements ApiInterface,IdentifierId
 
     public function setEditors(array $editors): static
     {
-        $this->editors = $this->jsonValidate($editors,PublisherEditorsMapper::class);
+        $this->editors = $this->jsonValidate($editors,EditorsMapper::class);
 
         return $this;
     }

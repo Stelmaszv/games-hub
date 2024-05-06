@@ -6,18 +6,23 @@ namespace App\Entity\JsonMaper\Publisher;
 
 use App\Generic\Components\AbstractJsonMapper;
 
-class PublisherEditorsMapper  extends AbstractJsonMapper
+class DescriptionsMapper  extends AbstractJsonMapper
 {
-    protected bool $multi = true ;
     public function jsonSchema(): array
     {
         return [
-            "id" => 'string',
+            "eng" => "string",
+            "pl" =>"string",
+            "fr" => "string"
         ];
     }
 
     public function defaultValue(): array
     {
-        return [];
+        return [
+            "eng" => "",
+            "pl" =>"",
+            "fr" =>""
+        ];
     }
 }

@@ -7,10 +7,7 @@ namespace App\Validation\DTO\Developer;
 use DateTime;
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Validation\DTO\Publisher\EditorsDTO;
-use App\Validation\DTO\Publisher\DescriptionsDTO;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validation\DTO\Publisher\GeneralInformationDTO;
 
 class DeveloperDTO implements DTO
 {

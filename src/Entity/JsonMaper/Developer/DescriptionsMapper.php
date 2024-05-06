@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
-namespace App\Entity\JsonMaper\Publisher;
-
+namespace App\Entity\JsonMaper\Developer;
 use App\Generic\Components\AbstractJsonMapper;
 
-class PublisherDescriptionsMapper  extends AbstractJsonMapper
+class DescriptionsMapper  extends AbstractJsonMapper
 {
     public function jsonSchema(): array
     {

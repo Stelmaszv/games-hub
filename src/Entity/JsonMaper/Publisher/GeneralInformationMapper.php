@@ -6,7 +6,7 @@ namespace App\Entity\JsonMaper\Publisher;
 
 use App\Generic\Components\AbstractJsonMapper;
 
-class PublisherGeneralInformationMapper   extends AbstractJsonMapper
+class GeneralInformationMapper   extends AbstractJsonMapper
 {
     public function jsonSchema(): array
     {
