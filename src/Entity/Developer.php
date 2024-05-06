@@ -8,15 +8,15 @@ use App\Repository\DeveloperRepository;
 use App\Generic\Api\Trait\EntityApiGeneric;
 use App\Generic\Api\Trait\JsonMapValidator;
 use Doctrine\Common\Collections\Collection;
-use App\Generic\Api\Interfaces\ApiInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Entity\JsonMaper\Developer\EditorsMapper;
-use App\Validation\DTO\Developer\DescriptionsDTO;
+use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Identifier\Trait\IdentifierById;
-use App\Entity\JsonMaper\Developer\DescriptionsMapper;
 use App\Generic\Api\Identifier\Interfaces\IdentifierId;
+use App\Validation\DTO\Developer\DescriptionsDTO;
 use App\Validation\DTO\Developer\GeneralInformationDTO;
+use App\Entity\JsonMaper\Developer\DescriptionsMapper;
 use App\Entity\JsonMaper\Developer\GeneralInformationMapper;
+use App\Entity\JsonMaper\Developer\EditorsMapper;
 
 #[ORM\Entity(repositoryClass: DeveloperRepository::class)]
 class Developer  implements ApiInterface,IdentifierId
