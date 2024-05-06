@@ -8,49 +8,51 @@ use Doctrine\Persistence\ObjectManager;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\Persistence\ManagerRegistry;
 
 abstract class AbstractDataFixture
 {
     protected UserPasswordHasherInterface $passwordEncoder;
     protected ObjectManager $objectManager;
-
-    protected ?string $enetity = null;
+    protected ManagerRegistry $managerRegistry;
+    protected ?string $entity = null;
     protected array $data = [];
 
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher,ObjectManager $objectManager)
+    public function __construct(UserPasswordHasherInterface $passwordEncoder, ObjectManager $objectManager, ManagerRegistry $managerRegistry)
     {
-        $this->passwordEncoder = $userPasswordHasher;
+        $this->passwordEncoder = $passwordEncoder;
         $this->objectManager = $objectManager;
+        $this->managerRegistry = $managerRegistry;
 
-        if($this->enetity === null){
-            throw new \Exception("Entity is not define in Fixture ".get_class($this)."!");
+        if ($this->entity === null) {
+            throw new \Exception("Entity is not defined in Fixture " . get_class($this) . "!");
         }
     }
 
-    public function setData(){
-        foreach($this->data as $elelemnts){
-            $enetityObj = new $this->enetity();
-            $idetikatorUid = $enetityObj instanceof IdentifierUid;
+    public function setData()
+    {
+        foreach ($this->data as $elements) {
+            $entityObj = new $this->entity();
+            $identifierUid = $entityObj instanceof IdentifierUid;
 
-            if($idetikatorUid){
-                $enetityObj?->setId(Uuid::v4());
+            if ($identifierUid) {
+                $entityObj->setId(Uuid::uuid4());
             }
-            
-            foreach($elelemnts as $field => $value){
 
-                    $setMethod = "set" . ucfirst($field);
+            foreach ($elements as $field => $value) {
+                $setMethod = "set" . ucfirst($field);
 
-                    if (method_exists($this, "on" . ucfirst($field) . "Set")) {
-                        $onMethodSet = "on" . ucfirst($field) . "Set";
-                        $value = $this->$onMethodSet($value, $enetityObj);
-                    }
+                if (method_exists($this, "on" . ucfirst($field) . "Set")) {
+                    $onMethodSet = "on" . ucfirst($field) . "Set";
+                    $value = $this->$onMethodSet($value, $entityObj);
+                }
 
-                    $enetityObj?->$setMethod($value);
+                $entityObj->$setMethod($value);
             }
-            
-            $this->objectManager->persist($enetityObj);
-            $this->objectManager->flush();
-            
+
+            $this->objectManager->persist($entityObj);
         }
+
+        $this->objectManager->flush();
     }
 }

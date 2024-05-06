@@ -26,7 +26,7 @@ class PublisherDTO implements DTO
     public ?GeneralInformationDTO  $generalInformation = null;
 
     /**
-     * @var EditorsDTO[]
+     * @var EditorDTO[]
      * @Assert\Valid
      * @Assert\NotNull
      * @Assert\Valid()
@@ -57,7 +57,7 @@ class PublisherDTO implements DTO
 
         if (isset($data['editors'])) {
             foreach ($data['editors'] as $key => $editor) {
-                $this->editors[$key] = new EditorsDTO();
+                $this->editors[$key] = new EditorDTO($editor['id']);
                 $this->editors[$key]->id = $editor['id'];
             }
         }

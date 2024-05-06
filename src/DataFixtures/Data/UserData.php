@@ -10,15 +10,15 @@ use App\Roles\RolePublisherCreator;
 use App\Generic\Components\AbstractDataFixture;
 
 class UserData extends AbstractDataFixture{
-    protected ?string $enetity = User::class;
+    protected ?string $entity = User::class;
     protected array $data = [
         [
-          'email' => 'user@qwe.com',
-          'roles' => [
-            RoleSuperAdmin::NAME,
-            RoleUser::NAME
-          ],
-          'password' => '123'
+            'email' => 'user@qwe.com',
+            'roles' => [
+                RoleSuperAdmin::NAME,
+                RoleUser::NAME
+            ],
+            'password' => '123'
         ],
         [
             'email' => 'kot123@dot.com',

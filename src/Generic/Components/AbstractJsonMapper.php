@@ -21,7 +21,7 @@ abstract class AbstractJsonMapper
         }
 
         if($maper === false){
-            throw new \Exception("Invalid Json !");
+            throw new \Exception("Invalid Json in ".get_class($this)."!");
         }
 
         return true;
@@ -44,13 +44,14 @@ abstract class AbstractJsonMapper
 
     private function validMapper(array $value): void
     {
+
         foreach ($value as $jEl => $key) {
             if (!isset($this->jsonSchema()[$jEl])) {
-                throw new \Exception("Invalid Json field  ".$jEl." not Exist !");
+                throw new \Exception("Invalid Json field  ".$jEl." not Exist in ".get_class($this)." !");
             }
 
             if (!$this->validType($this->jsonSchema()[$jEl], $key)) {
-                throw new \Exception("Invalid Json type for ".$jEl." valid is ".$this->jsonSchema()[$jEl]." given ".$key."  !");
+                throw new \Exception("Invalid Json type for ".$jEl." valid is ".$this->jsonSchema()[$jEl]." given ".$key." in ".get_class($this)."!");
             }
         }
     }
@@ -58,7 +59,7 @@ abstract class AbstractJsonMapper
     private function validType(string $type, mixed $value): bool
     {
         if($type === ""){
-            throw new \Exception("Invalid type !");
+            throw new \Exception("Invalid type in ".get_class($this)."!");
         }
 
         return match ($type) {

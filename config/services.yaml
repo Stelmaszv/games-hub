@@ -32,6 +32,11 @@ services:
         arguments:
             $requestStack: '@request_stack'
             $jwtService: '@App\Generic\Auth\JWT'
+            
+    App\DataFixtures\MainFixture:
+        arguments:
+            $passwordHasher: '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
+            $managerRegistry: '@doctrine'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
