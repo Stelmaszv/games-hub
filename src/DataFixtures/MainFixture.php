@@ -4,6 +4,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Developer;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\Data\DeveloperData;
 use App\DataFixtures\Data\PublisherData;
@@ -21,17 +22,19 @@ class MainFixture extends Fixture
 
     protected ManagerRegistry $managerRegistry;
     protected UserPasswordHasherInterface $passwordEncoder;
+    protected EntityManager $entityManager;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, ManagerRegistry $managerRegistry)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, ManagerRegistry $managerRegistry,EntityManager $entityManager)
     {
         $this->passwordEncoder = $passwordHasher;
         $this->managerRegistry = $managerRegistry;
+        $this->entityManager = $entityManager;
     }
     
     public function load(ObjectManager $manager)
     {
       foreach($this->data as $fixture){
-        $fixture = new $fixture($this->passwordEncoder,$manager,$this->managerRegistry);
+        $fixture = new $fixture($this->passwordEncoder,$manager,$this->managerRegistry,$this->entityManager);
         $fixture->setData();
       }
     }
