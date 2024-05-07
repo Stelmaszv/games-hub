@@ -31,6 +31,10 @@ abstract class AbstractDataFixture
 
     public function setData()
     {
+        if (empty($this->data)) {
+            throw new \Exception("No data provided to setData() method.");
+        }
+
         foreach ($this->data as $elements) {
             $entityObj = new $this->entity();
             $identifierUid = $entityObj instanceof IdentifierUid;
