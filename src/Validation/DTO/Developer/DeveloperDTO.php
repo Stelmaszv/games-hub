@@ -24,7 +24,7 @@ class DeveloperDTO implements DTO
     public ?GeneralInformationDTO  $generalInformation = null;
 
     /**
-     * @var EditorsDTO[]
+     * @var EditorDTO[]
      * @Assert\Valid
      * @Assert\NotNull
      * @Assert\Valid()
@@ -66,7 +66,7 @@ class DeveloperDTO implements DTO
 
         if (isset($data['editors'])) {
             foreach ($data['editors'] as $key => $editor) {
-                $this->editors[$key] = new EditorsDTO();
+                $this->editors[$key] = new EditorDTO();
                 $this->editors[$key]->id = $editor['id'];
             }
         }

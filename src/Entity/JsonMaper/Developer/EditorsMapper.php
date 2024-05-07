@@ -12,7 +12,7 @@ class EditorsMapper  extends AbstractJsonMapper
     public function jsonSchema(): array
     {
         return [
-            "id" => 'string',
+            "id" => 'int',
         ];
     }
 

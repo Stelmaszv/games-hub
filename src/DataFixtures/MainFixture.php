@@ -3,7 +3,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Developer;
 use Doctrine\Persistence\ObjectManager;
+use App\DataFixtures\Data\DeveloperData;
 use App\DataFixtures\Data\PublisherData;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,7 +15,8 @@ class MainFixture extends Fixture
 {
     private array  $data = [
         UserData::class,
-        PublisherData::class
+        PublisherData::class,
+        DeveloperData::class
     ];
 
     protected ManagerRegistry $managerRegistry;
