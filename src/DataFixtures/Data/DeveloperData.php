@@ -12,7 +12,9 @@ use App\Validation\DTO\Developer\EditorDTO;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Components\AbstractDataFixture;
 use App\Validation\DTO\Developer\DescriptionsDTO;
+use App\Service\WebScraber\Publisher\PublisherScraper;
 use App\Validation\DTO\Developer\GeneralInformationDTO;
+use App\Service\WebScraber\Publisher\PublisherDescriptionsScraper;
 
 class DeveloperData extends AbstractDataFixture
 {
@@ -20,7 +22,7 @@ class DeveloperData extends AbstractDataFixture
 
     protected function initRelations(ApiInterface $entityObj) : void 
     {
-      $this->addRelation('Publisher',$entityObj,$this->getPublisher('EA'));
+      $this->addRelation('Publisher',$entityObj,$this->getPublisher('Electronic Arts'));
     } 
 
     private function getPublisher(string $publisherName) : ?ApiInterface 
@@ -58,24 +60,45 @@ class DeveloperData extends AbstractDataFixture
       return new DateTime();
     }
 
-    function onGeneralInformationSet(mixed $value,object $entity) : GeneralInformationDTO
-    {
-      return  new GeneralInformationDTO([
-        'name' => 'EA',
-        'founded' => 'dqqf',
-        'headquarter' => 'LA',
-        'origin' => 'USA',
-        'website' => 'www.ea.pl'
+    function onGeneralInformationSet(mixed $value,object $entity){
+      $publisherScraber = new PublisherScraper('https://en.wikipedia.org/wiki/DICE_(company)');
+
+      return  new GeneralInformationDTO($publisherScraber->getGeneralInformation());
+    }
+
+    function onDescriptionsSet(mixed $value,object $entity){
+
+      $description = $this->setDescription([
+        [
+          'lng' => 'pl',
+          'url' => 'https://pl.wikipedia.org/wiki/EA_DICE'
+        ],
+        [
+          'lng' => 'eng',
+          'url' => 'https://en.wikipedia.org/wiki/DICE_(company)'
+        ],
+        [
+          'lng' => 'fr',
+          'url' => 'https://fr.wikipedia.org/wiki/DICE_(studio)'
+        ]
+      ]);
+
+      return  new DescriptionsDTO([
+        "pl" => $description->getDescription()['pl'],
+        "eng" => $description->getDescription()['eng'],
+        "fr" => $description->getDescription()['fr']
       ]);
     }
 
-    function onDescriptionsSet(mixed $value,object $entity) : DescriptionsDTO
+    private function setDescription(array $descriptions) : PublisherDescriptionsScraper
     {
-      return  new DescriptionsDTO([
-        "pl" => 'fqef',
-        "eng" => 'fqef',
-        "fr" => 'qefeqf'
-      ]);
+        $publisherScraber = new PublisherDescriptionsScraper();
+
+        foreach($descriptions as $description){
+            $publisherScraber->addDescription($description);
+        }
+
+        return $publisherScraber;
     }
 
     function onEditorsSet(mixed $value,object $entity) : array 
