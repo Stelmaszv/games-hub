@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Validation\Validator\Cumman;
 
 use Symfony\Component\Validator\Constraint;

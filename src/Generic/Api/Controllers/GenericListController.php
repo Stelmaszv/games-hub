@@ -2,19 +2,18 @@
 
 namespace App\Generic\Api\Controllers;
 
-use ReflectionClass;
+use App\Generic\Api\Trait\Security as SecurityTrait;
 use App\Generic\Auth\JWT;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use App\Generic\Api\Trait\Security as SecurityTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GenericListController extends AbstractController
 {
@@ -35,33 +34,30 @@ class GenericListController extends AbstractController
 
     public function __construct(
         ManagerRegistry $doctrine,
-        SerializerInterface $serializer, 
+        SerializerInterface $serializer,
         PaginatorInterface $paginator,
         Security $security
-        )
-    {
-        $this->initialize($doctrine, $serializer, $paginator,$security);
+    ) {
+        $this->initialize($doctrine, $serializer, $paginator, $security);
     }
 
     public function __invoke(
         Request $request,
         JWT $jwt,
-        ) : JsonResponse
-    {   
+    ): JsonResponse {
         $this->request = $request;
         $this->attributes = $request->attributes;
         $this->query = $request->query;
-        
-        return $this->setSecurityView('listAction',$jwt);
+
+        return $this->setSecurityView('listAction', $jwt);
     }
 
     protected function initialize(
-        ManagerRegistry $doctrine, 
-        SerializerInterface $serializer, 
+        ManagerRegistry $doctrine,
+        SerializerInterface $serializer,
         PaginatorInterface $paginator,
         Security $security
-        ) : void
-    {
+    ): void {
         $this->managerRegistry = $doctrine;
         $this->serializer = $serializer;
         $this->paginator = $paginator;
@@ -69,25 +65,29 @@ class GenericListController extends AbstractController
         $this->repository = $this->managerRegistry->getRepository($this->entity);
     }
 
-    protected function beforeQuery() : void {}
+    protected function beforeQuery(): void
+    {
+    }
 
-    protected function afterQuery() : void {}
+    protected function afterQuery(): void
+    {
+    }
 
-    protected function onQuerySet() : mixed
+    protected function onQuerySet(): mixed
     {
         return $this->repository->findAll();
     }
 
-    private function listAction() : JsonResponse
+    private function listAction(): JsonResponse
     {
-        if(!$this->entity) {
-            throw new \Exception("Entity is not define in controller ".get_class($this)."!");
+        if (!$this->entity) {
+            throw new \Exception('Entity is not define in controller '.get_class($this).'!');
         }
 
         $this->beforeQuery();
         $respane = $this->getResponse();
         $this->afterQuery();
- 
+
         return new JsonResponse($respane, JsonResponse::HTTP_OK);
     }
 
@@ -95,7 +95,7 @@ class GenericListController extends AbstractController
     {
         return [
             'results' => $this->prepareQuerySet($this->getQuery()),
-            'paginatorData' => $this->paginatorData
+            'paginatorData' => $this->paginatorData,
         ];
     }
 
@@ -108,7 +108,7 @@ class GenericListController extends AbstractController
     {
         $data = $this->setData($query);
 
-        if($this->perPage){
+        if ($this->perPage) {
             $paginator = $this->paginator->paginate(
                 new ArrayCollection($data),
                 $this->request->query->getInt('page', 1),
@@ -124,43 +124,41 @@ class GenericListController extends AbstractController
                 'current' => $paginationData['current'],
                 'pageCount' => $paginationData['pageCount'],
                 'previous' => $paginationData['previous'] ?? null,
-                'next' => $paginationData['next'] ?? null
+                'next' => $paginationData['next'] ?? null,
             ];
         }
 
         return $data;
     }
 
-    private function setData(mixed $query) : array
+    private function setData(mixed $query): array
     {
-        $entity = ($this->entityLiteration === null)?  $this->entity : $this->entityLiteration;
-        $reflection = new ReflectionClass($entity);
-        
+        $entity = (null === $this->entityLiteration) ? $this->entity : $this->entityLiteration;
+        $reflection = new \ReflectionClass($entity);
+
         $results = [];
 
         foreach ($query as $el) {
             $entity = [];
 
-            if(is_array($el)){
+            if (is_array($el)) {
                 $results[] = $el;
                 continue;
             }
 
-            foreach($reflection->getProperties() as $property){
-                if(
-                    count($this->columns) == 0 || (
-                        in_array($property->getName() ,$this->columns) && 
-                        in_array($property->getName() ,$this->columns)) 
-                    ){
-
-                    $method = 'get' . ucfirst($property->getName());   
+            foreach ($reflection->getProperties() as $property) {
+                if (
+                    0 == count($this->columns) || (
+                        in_array($property->getName(), $this->columns)
+                        && in_array($property->getName(), $this->columns))
+                ) {
+                    $method = 'get'.ucfirst($property->getName());
                     $entity[$property->getName()] = $el->$method();
                 }
             }
             $results[] = $entity;
         }
-        
+
         return $results;
     }
-
 }

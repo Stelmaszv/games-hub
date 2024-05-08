@@ -13,36 +13,39 @@ class DescriptionsScraper
 
     private array $description;
 
-    function getLang(string $key) : string {
+    public function getLang(string $key): string
+    {
         return $this->description[$key];
     }
 
-    function getDescription(){
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    function addDescription($description): void 
+    public function addDescription($description): void
     {
         $this->setUrl($description['url']);
-    
+
         $key = $description['lng'];
         $paragraphs = $this->crawler->filter('p');
-    
+
         $desc = '';
-    
+
         $paragraphs->each(function (Crawler $node) use (&$desc) {
-            if ($node->text() !== '') {
-                $desc .= $node->text() . "\n";
+            if ('' !== $node->text()) {
+                $desc .= $node->text()."\n";
             }
         });
-    
+
         $this->description[$key] = $desc;
     }
 
-    private function setUrl(string $url){
+    private function setUrl(string $url)
+    {
         $client = new Client([
             'base_uri' => $url,
-            'timeout'  => 2.0,
+            'timeout' => 2.0,
         ]);
 
         $response = $client->request('GET', '');

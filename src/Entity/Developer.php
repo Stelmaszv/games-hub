@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\DeveloperRepository;
+use App\Entity\JsonMaper\Developer\DescriptionsMapper;
+use App\Entity\JsonMaper\Developer\EditorsMapper;
+use App\Entity\JsonMaper\Developer\GeneralInformationMapper;
+use App\Generic\Api\Identifier\Interfaces\IdentifierId;
+use App\Generic\Api\Identifier\Trait\IdentifierById;
+use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Trait\EntityApiGeneric;
 use App\Generic\Api\Trait\JsonMapValidator;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use App\Generic\Api\Interfaces\ApiInterface;
-use App\Generic\Api\Identifier\Trait\IdentifierById;
-use App\Generic\Api\Identifier\Interfaces\IdentifierId;
+use App\Repository\DeveloperRepository;
 use App\Validation\DTO\Developer\DescriptionsDTO;
 use App\Validation\DTO\Developer\GeneralInformationDTO;
-use App\Entity\JsonMaper\Developer\DescriptionsMapper;
-use App\Entity\JsonMaper\Developer\GeneralInformationMapper;
-use App\Entity\JsonMaper\Developer\EditorsMapper;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DeveloperRepository::class)]
-class Developer  implements ApiInterface,IdentifierId
+class Developer implements ApiInterface, IdentifierId
 {
     use EntityApiGeneric;
     use IdentifierById;
@@ -55,7 +55,7 @@ class Developer  implements ApiInterface,IdentifierId
 
     public function setGeneralInformation(GeneralInformationDTO $generalInformation): static
     {
-        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation),GeneralInformationMapper::class);
+        $this->generalInformation = $this->jsonValidate(get_object_vars($generalInformation), GeneralInformationMapper::class);
 
         return $this;
     }
@@ -67,7 +67,7 @@ class Developer  implements ApiInterface,IdentifierId
 
     public function setDescriptions(DescriptionsDTO $descriptions): static
     {
-        $this->descriptions = $this->jsonValidate(get_object_vars($descriptions),DescriptionsMapper::class);
+        $this->descriptions = $this->jsonValidate(get_object_vars($descriptions), DescriptionsMapper::class);
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Developer  implements ApiInterface,IdentifierId
 
     public function setEditors(array $editors): static
     {
-        $this->editors = $this->jsonValidate($editors,EditorsMapper::class);
+        $this->editors = $this->jsonValidate($editors, EditorsMapper::class);
 
         return $this;
     }
@@ -113,7 +113,7 @@ class Developer  implements ApiInterface,IdentifierId
      */
     public function getPublisher(): array
     {
-        return $this->setApiGroupMany(new Publisher,$this->publisher);
+        return $this->setApiGroupMany(new Publisher(), $this->publisher);
     }
 
     public function addPublisher(Publisher $publisher): static

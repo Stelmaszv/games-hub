@@ -15,6 +15,6 @@ class RolePublisherEditor
         Atribute::CAN_DELETE_PUBLISHER,
         Atribute::CAN_ADD_DEVELOPER,
         Atribute::CAN_EDIT_DEVELOPER.
-        Atribute::CAN_DELETE_DEVELOPER
+        Atribute::CAN_DELETE_DEVELOPER,
     ];
 }

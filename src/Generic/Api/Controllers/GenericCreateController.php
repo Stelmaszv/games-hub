@@ -3,22 +3,22 @@
 namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
+use App\Generic\Api\Interfaces\ApiInterface;
+use App\Generic\Api\Interfaces\GenricInterface;
+use App\Generic\Api\Interfaces\ProcessEntity;
+use App\Generic\Api\Trait\GenericJSONResponse;
+use App\Generic\Api\Trait\GenericProcessEntity;
+use App\Generic\Api\Trait\GenericValidation;
+use App\Generic\Api\Trait\Security as SecurityTrait;
 use App\Generic\Auth\JWT;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Generic\Api\Interfaces\ApiInterface;
-use App\Generic\Api\Trait\GenericValidation;
-use App\Generic\Api\Interfaces\ProcessEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
-use App\Generic\Api\Trait\GenericJSONResponse;
-use App\Generic\Api\Interfaces\GenricInterface;
-use App\Generic\Api\Trait\GenericProcessEntity;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Generic\Api\Trait\Security as SecurityTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GenericCreateController extends AbstractController implements GenricInterface, ProcessEntity
 {
@@ -34,29 +34,27 @@ class GenericCreateController extends AbstractController implements GenricInterf
     protected ParameterBag $query;
 
     public function __invoke(
-        Request $request, 
-        SerializerInterface $serializer, 
-        ValidatorInterface $validator, 
+        Request $request,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator,
         ManagerRegistry $managerRegistry,
         Security $security,
         JWT $jwt,
-        ): JsonResponse
-    {
-        $this->initialize($request, $serializer, $validator, $managerRegistry,$security);
+    ): JsonResponse {
+        $this->initialize($request, $serializer, $validator, $managerRegistry, $security);
         $this->checkData();
         $this->jwt = $jwt;
 
-        return $this->setSecurityView('createAction',$jwt);
+        return $this->setSecurityView('createAction', $jwt);
     }
 
     protected function initialize(
-        Request $request, 
-        SerializerInterface $serializer, 
-        ValidatorInterface $validator, 
+        Request $request,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator,
         ManagerRegistry $managerRegistry,
         Security $security
-        ): void
-    {
+    ): void {
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->security = $security;
@@ -64,7 +62,6 @@ class GenericCreateController extends AbstractController implements GenricInterf
         $this->request = $request;
         $this->attributes = $request->attributes;
         $this->query = $request->query;
-
     }
 
     private function createAction(): JsonResponse
@@ -78,13 +75,13 @@ class GenericCreateController extends AbstractController implements GenricInterf
         $JWTtokken = $this->jwt->decode($this->jwt->getJWTFromHeader());
         $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
 
-        $dto = new $this->dto(json_decode($data,true));
-        
+        $dto = new $this->dto(json_decode($data, true));
+
         $dto->setComponnetsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
             'userId' => $user->getId(),
-            'edit' => false
+            'edit' => false,
         ]);
 
         $this->beforeValidation();
@@ -102,7 +99,8 @@ class GenericCreateController extends AbstractController implements GenricInterf
         return $this->respondWithSuccess(JsonResponse::HTTP_CREATED);
     }
 
-    public function getEntity() : ApiInterface {
+    public function getEntity(): ApiInterface
+    {
         return new $this->entity();
     }
 }

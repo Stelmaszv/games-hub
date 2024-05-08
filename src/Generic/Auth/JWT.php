@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Generic\Auth;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class JWT
 {
@@ -12,7 +11,7 @@ class JWT
 
     private RequestStack $requestStack;
 
-    public function __construct(RequestStack $requestStack,string $appSecret)
+    public function __construct(RequestStack $requestStack, string $appSecret)
     {
         $this->appSecret = $appSecret;
         $this->requestStack = $requestStack;
@@ -36,7 +35,7 @@ class JWT
         $expectedSignature = base64_encode($expectedSignature);
 
         if ($signature !== $expectedSignature) {
-            throw new \Exception("Invalid token signature");
+            throw new \Exception('Invalid token signature');
         }
 
         return $data;
@@ -45,14 +44,15 @@ class JWT
     public function getJWTFromHeader(): ?string
     {
         $request = $this->requestStack->getCurrentRequest();
-        
+
         if ($request instanceof Request) {
             $authorizationHeader = $request->headers->get('Authorization');
 
-            if (strpos($authorizationHeader, 'Bearer ') === 0) {
+            if (0 === strpos($authorizationHeader, 'Bearer ')) {
                 return substr($authorizationHeader, 7);
             }
         }
+
         return null;
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Generic\Web\Controllers;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Generic\Web\Trait\GenericGetTrait;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class GenericListController extends AbstractController
 {
@@ -25,6 +25,7 @@ class GenericListController extends AbstractController
     public function __invoke(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $this->initialize($request, $entityManager, $paginator);
+
         return $this->listAction();
     }
 
@@ -35,7 +36,7 @@ class GenericListController extends AbstractController
         $this->entityManager = $entityManager;
         $this->paginator = $paginator;
         $this->repository = $this->entityManager->getRepository($this->entity);
-        $this->paginate = ($this->perPage !== null && $this->perPage !== 0);
+        $this->paginate = (null !== $this->perPage && 0 !== $this->perPage);
     }
 
     protected function onQuerySet(): mixed
@@ -52,7 +53,7 @@ class GenericListController extends AbstractController
 
         $this->paginatorData = $pagination->getPaginationData();
 
-        return ($this->perPage !== null && $this->perPage !== 0) ? $pagination : $queryBuilder;
+        return (null !== $this->perPage && 0 !== $this->perPage) ? $pagination : $queryBuilder;
     }
 
     private function getAttributes(): array

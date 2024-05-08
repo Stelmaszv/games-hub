@@ -23,7 +23,7 @@ class Scraper
     {
         $client = new Client([
             'base_uri' => $this->url,
-            'timeout'  => 2.0,
+            'timeout' => 2.0,
         ]);
 
         $response = $client->request('GET', '');
@@ -53,7 +53,7 @@ class Scraper
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
-            if (strpos($row->text(), 'Founded') !== false) {
+            if (false !== strpos($row->text(), 'Founded')) {
                 $pattern = '/\((\d{4}-\d{2}-\d{2})\)/';
                 if (preg_match($pattern, $row->text(), $matches)) {
                     $date = $matches[1];
@@ -67,8 +67,8 @@ class Scraper
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
-            if (strpos($row->text(), 'Website') !== false) {
-                $this->data['general-information']['website'] = str_replace("Website", "", $row->text());
+            if (false !== strpos($row->text(), 'Website')) {
+                $this->data['general-information']['website'] = str_replace('Website', '', $row->text());
             }
         });
     }
@@ -77,14 +77,14 @@ class Scraper
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
-            if (strpos($row->text(), 'Headquarters') !== false) {
+            if (false !== strpos($row->text(), 'Headquarters')) {
                 $parts = explode(',', $row->text());
                 $city = trim($parts[0]);
                 $origin = implode(',', array_slice($parts, 1));
                 $originWithoutDigitsAndBrackets = preg_replace('/\[\d+\]/', '', $origin);
 
                 $this->data['general-information']['origin'] = $originWithoutDigitsAndBrackets;
-                $this->data['general-information']['headquarters'] = str_replace("Headquarters", "", $city);
+                $this->data['general-information']['headquarters'] = str_replace('Headquarters', '', $city);
             }
         });
     }

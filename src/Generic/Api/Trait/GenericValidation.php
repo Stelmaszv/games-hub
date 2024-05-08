@@ -7,9 +7,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait GenericValidation
 {
-    protected function beforeValidation(): void {}
+    protected function beforeValidation(): void
+    {
+    }
 
-    protected function afterValidation(): void {}
+    protected function afterValidation(): void
+    {
+    }
 
     private function deserializeDto(string $data)
     {
@@ -27,6 +31,7 @@ trait GenericValidation
         foreach ($errors as $error) {
             $errorMessages[$error->getPropertyPath()] = $error->getMessage();
         }
+
         return new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
     }
 }

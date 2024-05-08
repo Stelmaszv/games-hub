@@ -10,6 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('api/users/list', name: 'users_list', methods: ['GET'])]
 class UsersListController extends GenericListController
-{   
+{
     protected ?string $entity = User::class;
 }

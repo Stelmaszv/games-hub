@@ -1,10 +1,10 @@
 <?php
 
-
 namespace App\Generic\Components;
+
 abstract class AbstractJsonMapper
 {
-	protected bool $multi = false;
+    protected bool $multi = false;
 
     public function isValid(mixed $value): bool
     {
@@ -20,8 +20,8 @@ abstract class AbstractJsonMapper
             $maper = true;
         }
 
-        if($maper === false){
-            throw new \Exception("Invalid Json in ".get_class($this)."!");
+        if (false === $maper) {
+            throw new \Exception('Invalid Json in '.get_class($this).'!');
         }
 
         return true;
@@ -32,6 +32,7 @@ abstract class AbstractJsonMapper
         if (is_array($array) && count($array) > 0) {
             return is_array(array_shift($array));
         }
+
         return false;
     }
 
@@ -44,22 +45,21 @@ abstract class AbstractJsonMapper
 
     private function validMapper(array $value): void
     {
-
         foreach ($value as $jEl => $key) {
             if (!isset($this->jsonSchema()[$jEl])) {
-                throw new \Exception("Invalid Json field  ".$jEl." not Exist in ".get_class($this)." !");
+                throw new \Exception('Invalid Json field  '.$jEl.' not Exist in '.get_class($this).' !');
             }
 
             if (!$this->validType($this->jsonSchema()[$jEl], $key)) {
-                throw new \Exception("Invalid Json type for ".$jEl." valid is ".$this->jsonSchema()[$jEl]." given ".$key." in ".get_class($this)."!");
+                throw new \Exception('Invalid Json type for '.$jEl.' valid is '.$this->jsonSchema()[$jEl].' given '.$key.' in '.get_class($this).'!');
             }
         }
     }
 
     private function validType(string $type, mixed $value): bool
     {
-        if($type === ""){
-            throw new \Exception("Invalid type in ".get_class($this)."!");
+        if ('' === $type) {
+            throw new \Exception('Invalid type in '.get_class($this).'!');
         }
 
         return match ($type) {
@@ -69,8 +69,7 @@ abstract class AbstractJsonMapper
         };
     }
 
-    abstract function jsonSchema(): array;
+    abstract public function jsonSchema(): array;
 
-    abstract function defaultValue(): array;
-
+    abstract public function defaultValue(): array;
 }

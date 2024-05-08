@@ -6,7 +6,7 @@ namespace App\Validation\DTO\Developer;
 
 use App\Generic\Api\Interfaces\DTO;
 
-class DescriptionsDTO  implements DTO
+class DescriptionsDTO implements DTO
 {
     /**
      * @Assert\NotNull
@@ -14,21 +14,23 @@ class DescriptionsDTO  implements DTO
     public string $eng = '';
 
     /**
-    * @Assert\NotNull
-    */
+     * @Assert\NotNull
+     */
     public string $pl = '';
 
-      /**
-    * @Assert\NotNull
-    */
+    /**
+     * @Assert\NotNull
+     */
     public string $fr = '';
 
-    function __construct(array $data = [])
+    public function __construct(array $data = [])
     {
-        $this->eng = $data['pc'] ?? '' ;
+        $this->eng = $data['pc'] ?? '';
         $this->pl = $data['eng'] ?? '';
         $this->fr = $data['fr'] ?? '';
     }
 
-    function setComponnetsData(array $componnets){}
+    public function setComponnetsData(array $componnets)
+    {
+    }
 }

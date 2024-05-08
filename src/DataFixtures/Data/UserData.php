@@ -3,13 +3,14 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\Roles\RoleUser;
-use App\Roles\RoleSuperAdmin;
-use App\Roles\RolePublisherEditor;
-use App\Roles\RolePublisherCreator;
 use App\Generic\Components\AbstractDataFixture;
+use App\Roles\RolePublisherCreator;
+use App\Roles\RolePublisherEditor;
+use App\Roles\RoleSuperAdmin;
+use App\Roles\RoleUser;
 
-class UserData extends AbstractDataFixture{
+class UserData extends AbstractDataFixture
+{
     protected ?string $entity = User::class;
     protected array $data = [
         [
@@ -17,9 +18,9 @@ class UserData extends AbstractDataFixture{
             'email' => 'user@qwe.com',
             'roles' => [
                 RoleSuperAdmin::NAME,
-                RoleUser::NAME
+                RoleUser::NAME,
             ],
-            'password' => '123'
+            'password' => '123',
         ],
         [
             'outputMessage' => 'Kot123',
@@ -27,22 +28,23 @@ class UserData extends AbstractDataFixture{
             'roles' => [
                 RoleUser::NAME,
                 RolePublisherCreator::NAME,
-                RolePublisherEditor::NAME
+                RolePublisherEditor::NAME,
             ],
-            'password' => 'qwe'
+            'password' => 'qwe',
         ],
         [
             'outputMessage' => 'Pani',
             'email' => 'pani@wp.pl',
             'roles' => [
                 RoleUser::NAME,
-                RolePublisherEditor::NAME
+                RolePublisherEditor::NAME,
             ],
-            'password' => 'vbn'
-        ]
+            'password' => 'vbn',
+        ],
     ];
 
-    public function onPasswordSet(mixed $value,object $entity){
+    public function onPasswordSet(mixed $value, object $entity)
+    {
         return $this->passwordEncoder->hashPassword(
             $entity,
             $value

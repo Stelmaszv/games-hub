@@ -2,11 +2,11 @@
 
 namespace App\Generic\Web\Controllers;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Generic\Web\Trait\GenericGetTrait;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class GenericDetailController extends AbstractController
 {
@@ -17,13 +17,14 @@ class GenericDetailController extends AbstractController
     protected ServiceEntityRepository $repository;
     protected object $item;
 
-    public function __invoke(EntityManagerInterface $entityManager,int $id): Response
+    public function __invoke(EntityManagerInterface $entityManager, int $id): Response
     {
         $this->initialize($entityManager, $id);
+
         return $this->showAction();
     }
 
-    protected function initialize(EntityManagerInterface $entityManager,int $id): void
+    protected function initialize(EntityManagerInterface $entityManager, int $id): void
     {
         $this->checkData();
         $this->entityManager = $entityManager;
@@ -50,7 +51,7 @@ class GenericDetailController extends AbstractController
     {
         $this->item = $this->getQuery();
         $attributes['object'] = $this->item;
-        
+
         return array_merge($attributes, $this->onSetAttribute());
     }
 

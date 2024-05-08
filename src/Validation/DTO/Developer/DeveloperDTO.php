@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Validation\DTO\Developer;
 
-use DateTime;
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,35 +14,36 @@ class DeveloperDTO implements DTO
 
     public ?int $createdBy = null;
 
-    public DateTime $creationDate;
+    public \DateTime $creationDate;
 
     /**
-     * @var GeneralInformationDTO
      * @Assert\Valid
      */
-    public ?GeneralInformationDTO  $generalInformation = null;
+    public ?GeneralInformationDTO $generalInformation = null;
 
     /**
      * @var EditorDTO[]
-     * @Assert\Valid
-     * @Assert\NotNull
-     * @Assert\Valid()
      *
+     * @Assert\Valid
+     *
+     * @Assert\NotNull
+     *
+     * @Assert\Valid()
      */
     public array $editors = [];
 
-
     /**
      * @var PublisherDTO[]
-     * @Assert\Valid
-     * @Assert\NotNull
-     * @Assert\Valid()
      *
+     * @Assert\Valid
+     *
+     * @Assert\NotNull
+     *
+     * @Assert\Valid()
      */
     public array $publishers = [];
 
     /**
-     * @var DescriptionsDTO
      * @Assert\NotNull
      */
     public ?DescriptionsDTO $descriptions = null;
@@ -56,11 +56,11 @@ class DeveloperDTO implements DTO
 
     public function __construct(array $data = [])
     {
-        $this->creationDate = new DateTime();
+        $this->creationDate = new \DateTime();
         $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
- 
+
         $this->editors = $data['editors'] ?? [];
-        $this->publishers  = $data['publishers'] ?? [];
+        $this->publishers = $data['publishers'] ?? [];
         $this->verified = $data['verified'] ?? false;
         $this->descriptions = new DescriptionsDTO($data['descriptions']);
 
@@ -77,7 +77,6 @@ class DeveloperDTO implements DTO
                 $this->publishers[$key]->id = $editor['id'];
             }
         }
-
     }
 
     public function setComponnetsData(array $componnets): void

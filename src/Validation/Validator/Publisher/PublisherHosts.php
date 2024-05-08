@@ -9,6 +9,6 @@ class PublisherHosts
     public const HOST = [
         'en.wikipedia.org',
         'pl.wikipedia.org',
-        'fr.wikipedia.org'
+        'fr.wikipedia.org',
     ];
 }
