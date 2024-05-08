@@ -22,6 +22,7 @@ class DeveloperData extends AbstractDataFixture
     protected array $data = [
         [
             'outputMessage' => 'EA_DICE',
+            'createdBy' => 'pani@wp.pl',
             'generalInformation' => 'https://en.wikipedia.org/wiki/DICE_(company)',
             'descriptions' => [
                 [
@@ -42,6 +43,13 @@ class DeveloperData extends AbstractDataFixture
             'verified' => true,
         ],
     ];
+
+    public function onCreatedBySet(mixed $value, object $entity)
+    {
+        $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $value]);
+
+        return $user;
+    }
 
     protected function initRelations(ApiInterface $entityObj): void
     {

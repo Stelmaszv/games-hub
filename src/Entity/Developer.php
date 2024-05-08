@@ -43,6 +43,9 @@ class Developer implements ApiInterface, IdentifierId
     #[ORM\ManyToMany(targetEntity: Publisher::class, inversedBy: 'developers')]
     private Collection $publisher;
 
+    #[ORM\ManyToOne(inversedBy: 'developers')]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->publisher = new ArrayCollection();
@@ -128,6 +131,18 @@ class Developer implements ApiInterface, IdentifierId
     public function removePublisher(Publisher $publisher): static
     {
         $this->publisher->removeElement($publisher);
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
