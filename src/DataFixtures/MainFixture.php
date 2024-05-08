@@ -1,15 +1,12 @@
 <?php
-
-
 namespace App\DataFixtures;
 
-use App\Entity\Developer;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
 use App\DataFixtures\Data\DeveloperData;
 use App\DataFixtures\Data\PublisherData;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class MainFixture extends Fixture
@@ -24,7 +21,11 @@ class MainFixture extends Fixture
     protected UserPasswordHasherInterface $passwordEncoder;
     protected EntityManager $entityManager;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, ManagerRegistry $managerRegistry,EntityManager $entityManager)
+    public function __construct(
+      UserPasswordHasherInterface $passwordHasher, 
+      ManagerRegistry $managerRegistry,
+      EntityManager $entityManager
+      )
     {
         $this->passwordEncoder = $passwordHasher;
         $this->managerRegistry = $managerRegistry;
@@ -32,7 +33,7 @@ class MainFixture extends Fixture
     }
     
     public function load(ObjectManager $manager)
-    {
+    {  
       foreach($this->data as $fixture){
         $fixture = new $fixture($this->passwordEncoder,$manager,$this->managerRegistry,$this->entityManager);
         $fixture->setData();

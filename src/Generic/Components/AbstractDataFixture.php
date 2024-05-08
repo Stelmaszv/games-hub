@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Generic\Components;
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Uid\Uuid;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 abstract class AbstractDataFixture
@@ -18,11 +19,15 @@ abstract class AbstractDataFixture
     protected ObjectManager $objectManager;
     protected ManagerRegistry $managerRegistry;
     protected EntityManager $entityManager;
-    
     protected ?string $entity = null;
     protected array $data = [];
 
-    public function __construct(UserPasswordHasherInterface $passwordEncoder, ObjectManager $objectManager, ManagerRegistry $managerRegistry, EntityManager $entityManager)
+    public function __construct(
+        UserPasswordHasherInterface $passwordEncoder, 
+        ObjectManager $objectManager, 
+        ManagerRegistry $managerRegistry, 
+        EntityManager $entityManager
+        )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->objectManager = $objectManager;
@@ -49,6 +54,13 @@ abstract class AbstractDataFixture
             }
 
             foreach ($elements as $field => $value) {
+                if($field === 'outputMessage'){
+                    $output = new ConsoleOutput();
+                    $output->writeln('Adding ... '.get_class($entityObj).' - ' .$value);
+                    continue;
+                }
+
+
                 $setMethod = "set" . ucfirst($field);
 
                 if (method_exists($this, "on" . ucfirst($field) . "Set")) {

@@ -13,6 +13,7 @@ class UserData extends AbstractDataFixture{
     protected ?string $entity = User::class;
     protected array $data = [
         [
+            'outputMessage' => 'User',
             'email' => 'user@qwe.com',
             'roles' => [
                 RoleSuperAdmin::NAME,
@@ -21,6 +22,7 @@ class UserData extends AbstractDataFixture{
             'password' => '123'
         ],
         [
+            'outputMessage' => 'Kot123',
             'email' => 'kot123@dot.com',
             'roles' => [
                 RoleUser::NAME,
@@ -30,6 +32,7 @@ class UserData extends AbstractDataFixture{
             'password' => 'qwe'
         ],
         [
+            'outputMessage' => 'Pani',
             'email' => 'pani@wp.pl',
             'roles' => [
                 RoleUser::NAME,

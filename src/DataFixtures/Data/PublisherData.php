@@ -8,20 +8,34 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\Publisher;
 use App\Validation\DTO\Publisher\EditorDTO;
+use App\Service\WebScraber\Publisher\Scraper;
 use App\Generic\Components\AbstractDataFixture;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
-use App\Service\WebScraber\Publisher\PublisherScraper;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
-use App\Service\WebScraber\Publisher\PublisherDescriptionsScraper;
+use App\Service\WebScraber\Publisher\DescriptionsScraper;
 
 class PublisherData extends AbstractDataFixture
 {
     protected ?string $entity = Publisher::class;
     protected array $data = [
       [
+        'outputMessage' => 'EA',
         'createdBy' => 'pani@wp.pl',
-        'generalInformation' => null,
-        'descriptions' => null,
+        'generalInformation' => 'https://en.wikipedia.org/wiki/Electronic_Arts',
+        'descriptions' => [
+          [
+            'lng' => 'pl',
+            'url' => 'https://pl.wikipedia.org/wiki/Electronic_Arts'
+          ],
+          [
+            'lng' => 'eng',
+            'url' => 'https://en.wikipedia.org/wiki/Electronic_Arts'
+          ],
+          [
+            'lng' => 'fr',
+            'url' => 'https://fr.wikipedia.org/wiki/Electronic_Arts'
+          ]
+        ] ,
         'creationDate' => null,
         'editors' => ['kot123@dot.com','user@qwe.com'],
         'verified' => true 
@@ -30,6 +44,7 @@ class PublisherData extends AbstractDataFixture
 
     function onCreatedBySet(mixed $value,object $entity){
       $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $value]);
+
       return $user;
     }
 
@@ -38,44 +53,27 @@ class PublisherData extends AbstractDataFixture
     }
 
     function onGeneralInformationSet(mixed $value,object $entity){
-      $publisherScraber = new PublisherScraper('https://en.wikipedia.org/wiki/Electronic_Arts');
+      $publisherScraber = new Scraper($value);
 
       return  new GeneralInformationDTO($publisherScraber->getGeneralInformation());
     }
 
     function onDescriptionsSet(mixed $value,object $entity){
 
-      $description = $this->setDescription([
-        [
-          'lng' => 'pl',
-          'url' => 'https://pl.wikipedia.org/wiki/Electronic_Arts'
-        ],
-        [
-          'lng' => 'eng',
-          'url' => 'https://en.wikipedia.org/wiki/Electronic_Arts'
-        ],
-        [
-          'lng' => 'fr',
-          'url' => 'https://fr.wikipedia.org/wiki/Electronic_Arts'
-        ]
-      ]);
+      $description = $this->setDescription($value);
 
-      return  new DescriptionsDTO([
-        "pl" => $description->getDescription()['pl'],
-        "eng" => $description->getDescription()['eng'],
-        "fr" => $description->getDescription()['fr']
-      ]);
+      return  new DescriptionsDTO($description->getDescription());
     }
 
-    private function setDescription(array $descriptions) : PublisherDescriptionsScraper
+    private function setDescription(array $descriptions) : DescriptionsScraper
     {
-        $publisherScraber = new PublisherDescriptionsScraper();
+      $publisherScraber = new DescriptionsScraper();
 
-        foreach($descriptions as $description){
-            $publisherScraber->addDescription($description);
-        }
+      foreach($descriptions as $description){
+        $publisherScraber->addDescription($description);
+      }
 
-        return $publisherScraber;
+      return $publisherScraber;
     }
 
     function onEditorsSet(mixed $value,object $entity){

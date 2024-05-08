@@ -7,7 +7,7 @@ namespace App\Service\WebScraber\Publisher;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-class PublisherDescriptionsScraper
+class DescriptionsScraper
 {
     private Crawler $crawler;
 

@@ -2,10 +2,10 @@
 
 namespace App\Generic\Components;
 
-use Symfony\Component\Uid\Uuid;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 abstract class AbstractFixtureGeneric  extends Fixture
