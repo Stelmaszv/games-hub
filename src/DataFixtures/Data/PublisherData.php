@@ -7,12 +7,12 @@ namespace App\DataFixtures\Data;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Publisher;
-use App\Validation\DTO\Publisher\EditorDTO;
-use App\Service\WebScraber\Publisher\Scraper;
 use App\Generic\Components\AbstractDataFixture;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
+use App\Validation\DTO\Publisher\EditorDTO;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
 use App\Service\WebScraber\Publisher\DescriptionsScraper;
+use App\Service\WebScraber\Publisher\Scraper;
 
 class PublisherData extends AbstractDataFixture
 {

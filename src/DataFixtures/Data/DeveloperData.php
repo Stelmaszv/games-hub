@@ -8,13 +8,13 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\Developer;
 use App\Entity\Publisher;
-use App\Validation\DTO\Developer\EditorDTO;
 use App\Generic\Api\Interfaces\ApiInterface;
-use App\Service\WebScraber\Publisher\Scraper;
 use App\Generic\Components\AbstractDataFixture;
 use App\Validation\DTO\Developer\DescriptionsDTO;
+use App\Validation\DTO\Developer\EditorDTO;
 use App\Validation\DTO\Developer\GeneralInformationDTO;
 use App\Service\WebScraber\Publisher\DescriptionsScraper;
+use App\Service\WebScraber\Publisher\Scraper;
 
 class DeveloperData extends AbstractDataFixture
 {
