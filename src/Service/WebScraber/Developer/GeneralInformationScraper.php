@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WebScraber\Publisher;
+namespace App\Service\WebScraber\Developer;
 
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-class PublisherScraper
+class GeneralInformationScraper
 {
     private string $url;
     private Crawler $crawler;
@@ -23,7 +23,7 @@ class PublisherScraper
     {
         $client = new Client([
             'base_uri' => $this->url,
-            'timeout'  => 2.0,
+            'timeout' => 2.0,
         ]);
 
         $response = $client->request('GET', '');
@@ -31,21 +31,21 @@ class PublisherScraper
         $this->crawler = new Crawler($htmlContent);
     }
 
-    public function getGeneralInformation()
+    public function getData()
     {
         $this->getName();
         $this->getFounded();
         $this->getWebsite();
         $this->getHeadquarters();
 
-        return $this->data['general-information'];
+        return $this->data;
     }
 
     private function getName()
     {
         $elements = $this->crawler->filter('.mw-page-title-main');
         $elements->each(function (Crawler $node, $i) {
-            $this->data['general-information']['name'] = $node->text();
+            $this->data['name'] = $node->text();
         });
     }
 
@@ -53,22 +53,33 @@ class PublisherScraper
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
-            if (strpos($row->text(), 'Founded') !== false) {
-                $pattern = '/\((\d{4}-\d{2}-\d{2})\)/';
-                if (preg_match($pattern, $row->text(), $matches)) {
-                    $date = $matches[1];
-                    $this->data['general-information']['founded'] = $date;
+            if (false !== strpos($row->text(), 'Founded')) {
+                $string = str_replace('Founded', '', $row->text());
+                $foundedDate = $this->extractFoundedDate($string);
+                if (!empty($foundedDate)) {
+                    $this->data['founded'] = $foundedDate;
                 }
             }
         });
+    }
+
+    private function extractFoundedDate($string)
+    {
+        if (preg_match("/\((\d{4}-\d{2})\)/", $string, $matches)) {
+            return $matches[1].'-01';
+        } elseif (preg_match("/\((\d{4})\)/", $string, $matches)) {
+            return $matches[1].'-01-01';
+        }
+
+        return null;
     }
 
     private function getWebsite()
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
-            if (strpos($row->text(), 'Website') !== false) {
-                $this->data['general-information']['website'] = str_replace("Website", "", $row->text());
+            if (false !== strpos($row->text(), 'Website')) {
+                $this->data['website'] = str_replace('Website', '', $row->text());
             }
         });
     }
@@ -77,14 +88,14 @@ class PublisherScraper
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
-            if (strpos($row->text(), 'Headquarters') !== false) {
+            if (false !== strpos($row->text(), 'Headquarters')) {
                 $parts = explode(',', $row->text());
                 $city = trim($parts[0]);
                 $origin = implode(',', array_slice($parts, 1));
                 $originWithoutDigitsAndBrackets = preg_replace('/\[\d+\]/', '', $origin);
 
-                $this->data['general-information']['origin'] = $originWithoutDigitsAndBrackets;
-                $this->data['general-information']['headquarters'] = str_replace("Headquarters", "", $city);
+                $this->data['origin'] = $originWithoutDigitsAndBrackets;
+                $this->data['headquarter'] = str_replace('Headquarters', '', $city);
             }
         });
     }

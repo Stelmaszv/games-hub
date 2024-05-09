@@ -8,5 +8,5 @@ class RoleAdmin
 {
     public const NAME = 'ROLE_ADMIN';
 
-	public const ROLES = [];
+    public const ROLES = [];
 }

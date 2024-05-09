@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Validation\DTO\Publisher;
 
-use DateTime;
 use App\Entity\Publisher;
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
@@ -13,29 +12,29 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PublisherDTO implements DTO
 {
-    public ?string $id = null;
+    public ?int $id = null;
 
-    public ?string $createdBy = null;
+    public ?int $createdBy = null;
 
-    public DateTime $creationDate; 
-    
+    public \DateTime $creationDate;
+
     /**
-     * @var GeneralInformationDTO
      * @Assert\Valid
      */
-    public ?GeneralInformationDTO  $generalInformation = null;
+    public ?GeneralInformationDTO $generalInformation = null;
 
     /**
-     * @var EditorsDTO[]
-     * @Assert\Valid
-     * @Assert\NotNull
-     * @Assert\Valid()
+     * @var EditorDTO[]
      *
+     * @Assert\Valid
+     *
+     * @Assert\NotNull
+     *
+     * @Assert\Valid()
      */
     public array $editors = [];
 
     /**
-     * @var DescriptionsDTO
      * @Assert\NotNull
      */
     public ?DescriptionsDTO $descriptions = null;
@@ -44,26 +43,24 @@ class PublisherDTO implements DTO
 
     public bool $edit = false;
 
-    public function __construct(
-            GeneralInformationDTO $eneralInformation,
-            DescriptionsDTO $descriptions,
-            array $editors = [],
-            bool $verified = false,
-        )
-    {
-        $this->creationDate = new DateTime();
-        $this->generalInformation = $eneralInformation;
-        $this->editors = $editors;
-        $this->descriptions = $descriptions;
-        $this->verified = $verified;
+    private ManagerRegistry $managerRegistry;
 
-        foreach ($editors as $key => $editor) {
-            $this->editors[$key] = new EditorsDTO();
-            $this->editors[$key]->uid = $editor['uid'];
+    public function __construct(array $data = [])
+    {
+        $this->creationDate = new \DateTime();
+        $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
+
+        $this->editors = $data['editors'] ?? [];
+        $this->descriptions = new DescriptionsDTO($data['descriptions']);
+        $this->verified = $data['verified'] ?? false;
+
+        if (isset($data['editors'])) {
+            foreach ($data['editors'] as $key => $editor) {
+                $this->editors[$key] = new EditorDTO($editor['id']);
+                $this->editors[$key]->id = $editor['id'];
+            }
         }
     }
-
-    private ManagerRegistry $managerRegistry;
 
     public function setComponnetsData(array $componnets): void
     {
@@ -72,23 +69,32 @@ class PublisherDTO implements DTO
         $this->edit = $componnets['edit'];
     }
 
-     /**
+    /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if($this->edit === true){
-            return false;
+        if (true === $this->edit) {
+            return; // Jeśli edit jest ustawione na true, pomijamy walidację
         }
 
+        if (null === $this->managerRegistry) {
+            throw new \RuntimeException('ManagerRegistry is not set.');
+        }
+
+        // Sprawdzamy, czy użytkownik istnieje
         $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
 
-        if($user !== null){
+        if (null !== $user) {
             $context
-            ->buildViolation('A user can only add one publisher.')
-            ->atPath('createdBy')
-            ->addViolation();   
+                ->buildViolation('A user can only add one publisher.')
+                ->atPath('createdBy')
+                ->addViolation();
         }
+    }
 
+    public function __toString()
+    {
+        return get_class($this);
     }
 }

@@ -22,7 +22,6 @@ trait AuthenticationEntity
     {
         return $this->email;
     }
-    
 
     public function setEmail(string $email): self
     {

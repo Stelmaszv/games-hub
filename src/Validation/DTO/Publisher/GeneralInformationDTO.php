@@ -5,36 +5,39 @@ declare(strict_types=1);
 namespace App\Validation\DTO\Publisher;
 
 use App\Generic\Api\Interfaces\DTO;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Validation\Validator\Cumman as CustomAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class GeneralInformationDTO  implements DTO
-{   
+class GeneralInformationDTO implements DTO
+{
     /**
-    * @Assert\NotBlank
-    */
+     * @Assert\NotBlank
+     */
     public ?string $name = null;
 
-    public ?string $founded = null;
+    public string $founded = '';
 
-    public ?string $headquarter = null;
+    public string $headquarter = '';
 
-    public ?string $origin = null;
+    public string $origin = '';
 
-     /**
+    /**
      * @CustomAssert\Url
+     *
+     * @Assert\NotBlank
      */
-    public ?string $website = null;
+    public ?string $website = '';
 
-    function __construct(?string $name, ?string $founded, ?string $headquarter, ?string $origin, ?string $website){
-        $this->name = $name;
-        $this->founded = $founded;
-        $this->headquarter = $headquarter;
-        $this->origin = $origin;
-        $this->website = $website;
+    public function __construct(array $data = [])
+    {
+        $this->name = isset($data['name']) ? $data['name'] : $this->name;
+        $this->founded = isset($data['founded']) ? $data['founded'] : $this->founded;
+        $this->headquarter = isset($data['headquarter']) ? $data['headquarter'] : $this->headquarter;
+        $this->origin = isset($data['origin']) ? $data['origin'] : $this->origin;
+        $this->website = isset($data['website']) ? $data['website'] : $this->website;
     }
 
-    function setComponnetsData(array $componnets){
-
+    public function setComponnetsData(array $componnets)
+    {
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Generic\Components;
 
-use Symfony\Component\Uid\Uuid;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Uid\Uuid;
 
-abstract class AbstractFixtureGeneric  extends Fixture
+abstract class AbstractFixtureGeneric extends Fixture
 {
     protected UserPasswordHasherInterface $passwordEncoder;
     protected ?string $enetity = null;
@@ -18,37 +18,34 @@ abstract class AbstractFixtureGeneric  extends Fixture
     {
         $this->passwordEncoder = $userPasswordHasher;
 
-        if($this->enetity === null){
-            throw new \Exception("Entity is not define in Fixture ".get_class($this)."!");
+        if (null === $this->enetity) {
+            throw new \Exception('Entity is not define in Fixture '.get_class($this).'!');
         }
     }
-    
+
     public function load(ObjectManager $manager): void
     {
-        foreach($this->data as $elelemnts){
+        foreach ($this->data as $elelemnts) {
             $enetityObj = new $this->enetity();
             $idetikatorUid = $enetityObj instanceof IdentifierUid;
 
-            if($idetikatorUid){
+            if ($idetikatorUid) {
                 $enetityObj?->setId(Uuid::v4());
             }
-            
-            foreach($elelemnts as $field => $value){
 
-                    $setMethod = "set" . ucfirst($field);
+            foreach ($elelemnts as $field => $value) {
+                $setMethod = 'set'.ucfirst($field);
 
-                    if (method_exists($this, "on" . ucfirst($field) . "Set")) {
-                        $onMethodSet = "on" . ucfirst($field) . "Set";
-                        $value = $this->$onMethodSet($value, $enetityObj);
-                    }
+                if (method_exists($this, 'on'.ucfirst($field).'Set')) {
+                    $onMethodSet = 'on'.ucfirst($field).'Set';
+                    $value = $this->$onMethodSet($value, $enetityObj);
+                }
 
-                    $enetityObj?->$setMethod($value);
+                $enetityObj?->$setMethod($value);
             }
-            
+
             $manager->persist($enetityObj);
             $manager->flush();
-            
         }
- 
     }
 }

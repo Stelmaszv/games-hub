@@ -29,8 +29,8 @@ trait GenericForm
         return $this->setForm($this->item)->createView();
     }
 
-    private function setForm(object $entetiy) : mixed 
-    {        
+    private function setForm(object $entetiy): mixed
+    {
         $form = $this->formFactory->create($this->form, $entetiy);
 
         $form->handleRequest($this->request);
@@ -38,15 +38,27 @@ trait GenericForm
         return $form;
     }
 
-    protected function onSubmittedTrue(): void {}
+    protected function onSubmittedTrue(): void
+    {
+    }
 
-    protected function onSubmittedFalse(): void {}
+    protected function onSubmittedFalse(): void
+    {
+    }
 
-    protected function onValid(): void {}
+    protected function onValid(): void
+    {
+    }
 
-    protected function onInvalid(): void {}
+    protected function onInvalid(): void
+    {
+    }
 
-    protected function onBeforeValid(): void {}
+    protected function onBeforeValid(): void
+    {
+    }
 
-    protected function onAfterValid(): void {}
+    protected function onAfterValid(): void
+    {
+    }
 }

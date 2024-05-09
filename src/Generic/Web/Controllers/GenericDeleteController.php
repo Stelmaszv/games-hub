@@ -2,10 +2,10 @@
 
 namespace App\Generic\Web\Controllers;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class GenericDeleteController extends AbstractController
 {
@@ -19,6 +19,7 @@ class GenericDeleteController extends AbstractController
     public function __invoke(EntityManagerInterface $entityManager, int $id): Response
     {
         $this->initialize($entityManager, $id);
+
         return $this->deleteAction();
     }
 
@@ -30,10 +31,21 @@ class GenericDeleteController extends AbstractController
         $this->checkData();
     }
 
-    protected function beforeDelete(): void {}
-    protected function afterDelete(): void {}
-    protected function setRedirect(): void {}
-    protected function setFlashMessage(): void {}
+    protected function beforeDelete(): void
+    {
+    }
+
+    protected function afterDelete(): void
+    {
+    }
+
+    protected function setRedirect(): void
+    {
+    }
+
+    protected function setFlashMessage(): void
+    {
+    }
 
     private function deleteAction(): Response
     {
@@ -55,13 +67,13 @@ class GenericDeleteController extends AbstractController
         $item = $this->entityManager->getRepository($this->entity)->find($this->id);
 
         if (!$item) {
-            throw $this->createNotFoundException('Not found with id: ' . $this->id);
+            throw $this->createNotFoundException('Not found with id: '.$this->id);
         }
 
         $this->item = $item;
 
         if (!$this->entity) {
-            throw new \Exception("Entity is not defined in controller " . get_class($this) . "!");
+            throw new \Exception('Entity is not defined in controller '.get_class($this).'!');
         }
     }
 }

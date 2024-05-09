@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Generic\Api\Identifier\Trait;
 
 use Doctrine\ORM\Mapping as ORM;

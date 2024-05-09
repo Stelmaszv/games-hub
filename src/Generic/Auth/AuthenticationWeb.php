@@ -1,17 +1,18 @@
 <?php
+
 namespace App\Generic\Auth;
 
 use App\Entity\User;
+use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use App\Roles\RoleUser;
-use Symfony\Component\Uid\Uuid;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Uid\Uuid;
 
 trait AuthenticationWeb
 {
@@ -23,8 +24,8 @@ trait AuthenticationWeb
     }
 
     #[Route(path: '/login', name: 'app_login')]
-    public function loginAction(AuthenticationUtils $authenticationUtils){
-
+    public function loginAction(AuthenticationUtils $authenticationUtils)
+    {
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -41,7 +42,7 @@ trait AuthenticationWeb
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(ManagerRegistry $managerRegistry,Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function register(ManagerRegistry $managerRegistry, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $authenticationEntity = new User();
         $idetikatorUid = $authenticationEntity instanceof IdentifierUid;
@@ -50,13 +51,12 @@ trait AuthenticationWeb
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $hashedPassword = $userPasswordHasher->hashPassword(
                 $authenticationEntity,
                 $form->get('password')->getData()
             );
 
-            if($idetikatorUid){
+            if ($idetikatorUid) {
                 $authenticationEntity->setId(Uuid::v4());
             }
 

@@ -4,16 +4,16 @@ namespace App\Generic\Web\Controllers;
 
 use App\Generic\Web\Trait\GenericForm;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GenericCreateController extends AbstractController
 {
     use GenericForm;
-    
-    private ManagerRegistry $doctrine; 
+
+    private ManagerRegistry $doctrine;
     protected ?string $entity = null;
     protected object $item;
 
@@ -25,7 +25,8 @@ class GenericCreateController extends AbstractController
         return $this->createAction();
     }
 
-    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request){
+    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request)
+    {
         $this->doctrine = $doctrine;
         $this->request = $request;
         $this->formFactory = $formFactory;
@@ -34,15 +35,15 @@ class GenericCreateController extends AbstractController
     private function checkData(): void
     {
         if (!$this->form) {
-            throw new \Exception("Form is not defined in controller " . get_class($this) . "!");
+            throw new \Exception('Form is not defined in controller '.get_class($this).'!');
         }
 
         if (!$this->entity) {
-            throw new \Exception("Entity is not defined in controller " . get_class($this) . "!");
+            throw new \Exception('Entity is not defined in controller '.get_class($this).'!');
         }
 
         if (!$this->twig) {
-            throw new \Exception("Twig is not defined in controller " . get_class($this) . "!");
+            throw new \Exception('Twig is not defined in controller '.get_class($this).'!');
         }
     }
 
@@ -50,8 +51,8 @@ class GenericCreateController extends AbstractController
     {
         $entity = new $this->entity();
         $form = $this->setForm($entity);
-        $this->item = $entity; 
-        
+        $this->item = $entity;
+
         if ($this->request->isMethod('POST')) {
             if ($form->isSubmitted()) {
                 $this->onSubmittedTrue();
@@ -71,9 +72,10 @@ class GenericCreateController extends AbstractController
         return $this->render($this->twig, $this->getAttributes());
     }
 
-    private function save() : void {
+    private function save(): void
+    {
         $entityManager = $this->doctrine->getManager();
         $entityManager->persist($this->item);
         $entityManager->flush();
-    } 
+    }
 }

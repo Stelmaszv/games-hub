@@ -3,20 +3,20 @@
 declare(strict_types=1);
 
 namespace App\Controller\Publisher;
-use DateTime;
-use App\Entity\User;
-use App\Entity\Publisher;
-use App\Security\Atribute;
-use Symfony\Component\Uid\UuidV4;
-use App\Validation\DTO\Publisher\PublisherDTO;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Validation\DTO\Publisher\DescriptionsDTO;
-use App\Generic\Api\Controllers\GenericPostController;
-use App\Service\WebScraber\Publisher\PublisherScraper;
-use App\Validation\DTO\Publisher\GeneralInformationDTO;
-use App\Validation\DTO\Publisher\PublisherWebScraberDTO;
 
-#[Route("api/publisher/web-scraber/add/", name: "publisher_add_web_scraber", methods: ["POST"])]
+use App\Entity\Publisher;
+use App\Entity\User;
+use App\Generic\Api\Controllers\GenericPostController;
+use App\Security\Atribute;
+use App\Service\WebScraber\Publisher\PublisherScraper;
+use App\Validation\DTO\Publisher\DescriptionsDTO;
+use App\Validation\DTO\Publisher\GeneralInformationDTO;
+use App\Validation\DTO\Publisher\PublisherDTO;
+use App\Validation\DTO\Publisher\PublisherWebScraberDTO;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\UuidV4;
+
+#[Route('api/publisher/web-scraber/add/', name: 'publisher_add_web_scraber', methods: ['POST'])]
 class AddPublisherWebScraberController extends GenericPostController
 {
     protected ?string $dto = PublisherWebScraberDTO::class;
@@ -27,12 +27,12 @@ class AddPublisherWebScraberController extends GenericPostController
         $publisherDTO = $this->setPublisherDTO();
         $this->validationDTO($publisherDTO);
 
-        if($this->actionJsonData === null){
+        if (null === $this->actionJsonData) {
             $this->savePublisher($publisherDTO);
         }
     }
 
-    private function setGenaralInformation(array $publisherGenaralInformation) : GeneralInformationDTO 
+    private function setGenaralInformation(array $publisherGenaralInformation): GeneralInformationDTO
     {
         return new GeneralInformationDTO(
             $publisherGenaralInformation['name'] ?? null,
@@ -42,27 +42,27 @@ class AddPublisherWebScraberController extends GenericPostController
             $publisherGenaralInformation['website'] ?? null
         );
     }
-    
-    private function setPublisherDTO() : PublisherDTO
+
+    private function setPublisherDTO(): PublisherDTO
     {
         $data = json_decode($this->request->getContent(), true);
         $publisherScraber = new PublisherScraper($data['url']);
 
         return new PublisherDTO(
             $this->setGenaralInformation($publisherScraber->getGeneralInformation()),
-            new DescriptionsDTO('','',''),
+            new DescriptionsDTO('', '', ''),
             [],
         );
     }
 
-    private function savePublisher(PublisherDTO $publisherDTO) :void 
+    private function savePublisher(PublisherDTO $publisherDTO): void
     {
         $uuidObject = new UuidV4();
         $uuidString = $uuidObject->toRfc4122();
 
         $publisher = new Publisher();
         $publisher->setId($uuidString);
-        $publisher->setCreationDate(new DateTime());
+        $publisher->setCreationDate(new \DateTime());
         $publisher->setEditors($publisherDTO->editors);
         $publisher->setGeneralInformation($publisherDTO->generalInformation);
         $publisher->setDescriptions($publisherDTO->descriptions);

@@ -6,23 +6,23 @@ namespace App\Entity\JsonMaper\Publisher;
 
 use App\Generic\Components\AbstractJsonMapper;
 
-class PublisherDescriptionsMapper  extends AbstractJsonMapper
+class DescriptionsMapper extends AbstractJsonMapper
 {
     public function jsonSchema(): array
     {
         return [
-            "eng" => "string",
-            "pl" =>"string",
-            "fr" => "string"
+            'eng' => 'string',
+            'pl' => 'string',
+            'fr' => 'string',
         ];
     }
 
     public function defaultValue(): array
     {
         return [
-            "eng" => "",
-            "pl" =>"",
-            "fr" =>""
+            'eng' => '',
+            'pl' => '',
+            'fr' => '',
         ];
     }
 }

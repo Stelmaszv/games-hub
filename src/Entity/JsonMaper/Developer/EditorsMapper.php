@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\JsonMaper\Publisher;
+namespace App\Entity\JsonMaper\Developer;
 
 use App\Generic\Components\AbstractJsonMapper;
 
-class PublisherEditorsMapper  extends AbstractJsonMapper
+class EditorsMapper extends AbstractJsonMapper
 {
-    protected bool $multi = true ;
+    protected bool $multi = true;
+
     public function jsonSchema(): array
     {
         return [
-            "uid" => 'string',
+            'id' => 'int',
         ];
     }
 

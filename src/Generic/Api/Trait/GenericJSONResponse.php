@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Generic\Api\Trait;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait GenericJSONResponse
 {
-    private null|int|string $insertId = null;
-    protected function onSuccessResponseMessage() : array {
+    private int|string|null $insertId = null;
+
+    protected function onSuccessResponseMessage(): array
+    {
         return [];
     }
 
@@ -17,8 +20,8 @@ trait GenericJSONResponse
 
     private function respondWithSuccess(int $statusCode): JsonResponse
     {
-        $responseData = ['success' => true,'id' => $this->insertId];
-        $responseData = array_merge($responseData,$this->onSuccessResponseMessage());
+        $responseData = ['success' => true, 'id' => $this->insertId];
+        $responseData = array_merge($responseData, $this->onSuccessResponseMessage());
 
         return new JsonResponse($responseData, $statusCode);
     }

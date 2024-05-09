@@ -7,7 +7,7 @@ namespace App\Validation\DTO\Publisher;
 use App\Generic\Api\Interfaces\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class DescriptionsDTO  implements DTO
+class DescriptionsDTO implements DTO
 {
     /**
      * @Assert\NotNull
@@ -15,21 +15,23 @@ class DescriptionsDTO  implements DTO
     public string $eng = '';
 
     /**
-    * @Assert\NotNull
-    */
+     * @Assert\NotNull
+     */
     public string $pl = '';
 
-      /**
-    * @Assert\NotNull
-    */
+    /**
+     * @Assert\NotNull
+     */
     public string $fr = '';
 
-    function __construct(string $eng, string $pl, string $fr)
+    public function __construct(array $data = [])
     {
-        $this->eng = $eng;
-        $this->pl = $pl;
-        $this->fr = $fr;
+        $this->eng = $data['pl'] ?? '';
+        $this->pl = $data['eng'] ?? '';
+        $this->fr = $data['fr'] ?? '';
     }
 
-    function setComponnetsData(array $componnets){}
+    public function setComponnetsData(array $componnets)
+    {
+    }
 }
