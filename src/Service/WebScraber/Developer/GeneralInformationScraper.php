@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WebScraber\Publisher;
+namespace App\Service\WebScraber\Developer;
 
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
@@ -54,13 +54,24 @@ class GeneralInformationScraper
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
             if (false !== strpos($row->text(), 'Founded')) {
-                $pattern = '/\((\d{4}-\d{2}-\d{2})\)/';
-                if (preg_match($pattern, $row->text(), $matches)) {
-                    $date = $matches[1];
-                    $this->data['founded'] = $date;
+                $string = str_replace('Founded', '', $row->text());
+                $foundedDate = $this->extractFoundedDate($string);
+                if (!empty($foundedDate)) {
+                    $this->data['founded'] = $foundedDate;
                 }
             }
         });
+    }
+
+    private function extractFoundedDate($string)
+    {
+        if (preg_match("/\((\d{4}-\d{2})\)/", $string, $matches)) {
+            return $matches[1].'-01';
+        } elseif (preg_match("/\((\d{4})\)/", $string, $matches)) {
+            return $matches[1].'-01-01';
+        }
+
+        return null;
     }
 
     private function getWebsite()

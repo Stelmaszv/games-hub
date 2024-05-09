@@ -9,8 +9,8 @@ use App\Entity\Publisher;
 use App\Entity\User;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Components\AbstractDataFixture;
-use App\Service\WebScraber\Publisher\DescriptionsScraper;
-use App\Service\WebScraber\Publisher\GeneralInformationScraper;
+use App\Service\WebScraber\Developer\DescriptionsScraper;
+use App\Service\WebScraber\Developer\GeneralInformationScraper;
 use App\Service\WebScraber\WebSraberDescriptionFactory;
 use App\Validation\DTO\Developer\DescriptionsDTO;
 use App\Validation\DTO\Developer\EditorDTO;
@@ -24,7 +24,7 @@ class DeveloperData extends AbstractDataFixture
         [
             'outputMessage' => 'EA_DICE',
             'createdBy' => 'pani@wp.pl',
-            'generalInformation' => 'https://en.wikipedia.org/wiki/DICE_(company)',
+            'generalInformation' => 'https://en.wikipedia.org/wiki/Naughty_Dog',
             'descriptions' => [
                 [
                     'lng' => 'pl',
