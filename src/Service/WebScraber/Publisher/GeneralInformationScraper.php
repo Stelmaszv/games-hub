@@ -7,7 +7,7 @@ namespace App\Service\WebScraber\Publisher;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Scraper
+class GeneralInformationScraper
 {
     private string $url;
     private Crawler $crawler;
@@ -31,7 +31,7 @@ class Scraper
         $this->crawler = new Crawler($htmlContent);
     }
 
-    public function getGeneralInformation()
+    public function getData()
     {
         $this->getName();
         $this->getFounded();

@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\Data;
 
-use App\Entity\Publisher;
 use App\Entity\User;
-use App\Generic\Components\AbstractDataFixture;
-use App\Service\WebScraber\Publisher\DescriptionsScraper;
-use App\Service\WebScraber\Publisher\Scraper;
-use App\Validation\DTO\Publisher\DescriptionsDTO;
+use App\Entity\Publisher;
 use App\Validation\DTO\Publisher\EditorDTO;
+use App\Generic\Components\AbstractDataFixture;
+use App\Validation\DTO\Publisher\DescriptionsDTO;
+use App\Service\WebScraber\WebSraberDescriptionFactory;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
+use App\Service\WebScraber\Publisher\DescriptionsScraper;
+use App\Service\WebScraber\Publisher\GeneralInformationScraper;
 
 class PublisherData extends AbstractDataFixture
 {
@@ -55,27 +56,17 @@ class PublisherData extends AbstractDataFixture
 
     public function onGeneralInformationSet(mixed $value, object $entity)
     {
-        $publisherScraber = new Scraper($value);
+        $publisherScraber = new GeneralInformationScraper($value);
 
-        return new GeneralInformationDTO($publisherScraber->getGeneralInformation());
+        return new GeneralInformationDTO($publisherScraber->getData());
     }
 
     public function onDescriptionsSet(mixed $value, object $entity)
     {
-        $description = $this->setDescription($value);
+        $webSraberFactory = new WebSraberDescriptionFactory(new DescriptionsScraper);
+        $webSraberFactory->setDescription($value);
 
-        return new DescriptionsDTO($description->getDescription());
-    }
-
-    private function setDescription(array $descriptions): DescriptionsScraper
-    {
-        $publisherScraber = new DescriptionsScraper();
-
-        foreach ($descriptions as $description) {
-            $publisherScraber->addDescription($description);
-        }
-
-        return $publisherScraber;
+        return new DescriptionsDTO($webSraberFactory->getDescription());
     }
 
     public function onEditorsSet(mixed $value, object $entity)
