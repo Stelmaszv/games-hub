@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\Data;
 
 use App\Entity\User;
 use App\Generic\Components\AbstractDataFixture;
