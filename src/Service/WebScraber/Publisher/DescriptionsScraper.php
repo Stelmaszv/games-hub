@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\WebScraber\Publisher;
 
+use App\Service\WebScraber\DescriptionScraperInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
-use App\Service\WebScraber\DescriptionScraperInterface;
 
 class DescriptionsScraper implements DescriptionScraperInterface
 {
@@ -19,7 +19,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
         return $this->description[$key];
     }
 
-    public function getDescription() : array
+    public function getDescription(): array
     {
         return $this->description;
     }

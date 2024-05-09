@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\Data;
 
-use App\Entity\User;
 use App\Entity\Publisher;
-use App\Validation\DTO\Publisher\EditorDTO;
+use App\Entity\User;
 use App\Generic\Components\AbstractDataFixture;
-use App\Validation\DTO\Publisher\DescriptionsDTO;
-use App\Service\WebScraber\WebSraberDescriptionFactory;
-use App\Validation\DTO\Publisher\GeneralInformationDTO;
 use App\Service\WebScraber\Publisher\DescriptionsScraper;
 use App\Service\WebScraber\Publisher\GeneralInformationScraper;
+use App\Service\WebScraber\WebSraberDescriptionFactory;
+use App\Validation\DTO\Publisher\DescriptionsDTO;
+use App\Validation\DTO\Publisher\EditorDTO;
+use App\Validation\DTO\Publisher\GeneralInformationDTO;
 
 class PublisherData extends AbstractDataFixture
 {
@@ -63,7 +63,7 @@ class PublisherData extends AbstractDataFixture
 
     public function onDescriptionsSet(mixed $value, object $entity)
     {
-        $webSraberFactory = new WebSraberDescriptionFactory(new DescriptionsScraper);
+        $webSraberFactory = new WebSraberDescriptionFactory(new DescriptionsScraper());
         $webSraberFactory->setDescription($value);
 
         return new DescriptionsDTO($webSraberFactory->getDescription());

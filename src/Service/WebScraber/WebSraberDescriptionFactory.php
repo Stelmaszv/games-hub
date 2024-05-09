@@ -10,7 +10,7 @@ class WebSraberDescriptionFactory
 
     public function __construct(DescriptionScraperInterface $descriptionScraper)
     {
-        $this->descriptionScraper =  $descriptionScraper;
+        $this->descriptionScraper = $descriptionScraper;
     }
 
     public function setDescription(array $descriptions): void
@@ -20,7 +20,7 @@ class WebSraberDescriptionFactory
         }
     }
 
-    public function getDescription() : array
+    public function getDescription(): array
     {
         return $this->descriptionScraper->getDescription();
     }
