@@ -14,6 +14,8 @@ export class HttpServiceService {
 
     const token = this.authService.getToken();
 
+    console.log(token);
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -24,13 +26,12 @@ export class HttpServiceService {
   postData(url: string, data: any): Observable<any> {
     const token = this.authService.getToken();
 
-    // Utwórz nagłówek z tokenem JWT
+    console.log(this.authService.getExpirationTimeRemaining())
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json' // Ustawienie typu zawartości jako JSON
+      'Content-Type': 'application/json'
     });
 
-    // Wyślij żądanie POST z danymi i nagłówkiem
     return this.http.post<any>(url, data, { headers });
   }
 }

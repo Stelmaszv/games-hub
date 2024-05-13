@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PublishersComponent } from '../app/components/sections/publishers/publishers.component'; // Importuj komponenty, które będą wykorzystywane w trasach
+import { PublishersComponent } from '../app/components/sections/publishers/publishers.component';
 
 const routes: Routes = [
   { path: '', component: PublishersComponent },
