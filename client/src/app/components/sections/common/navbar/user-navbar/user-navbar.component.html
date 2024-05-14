@@ -1,0 +1,15 @@
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <li class="nav-item navbar-icon">
+      <div class="circle-icon" [ngClass]="{'circle-icon-not-active': !userNotyfication}" [ngClass]="{'circle-icon-active': userNotyfication}">
+        <i class="fa-sharp fa-solid fa-bell "></i>
+        <span *ngIf="userNotyfication" class="message-count" >{{ userNotyfication }}</span>
+      </div>
+      <div class="circle-icon" [ngClass]="{'circle-icon-not-active': !userMessage}" [ngClass]="{'circle-icon-active': userMessage}">
+        <i class="fa-solid fa-message"></i>
+        <span *ngIf="userMessage" class="message-count">{{ userMessage }}</span>
+      </div>
+      <div class="circle-icon circle-icon-not-active">
+        <i class="fas fa-user"></i>
+      </div>
+    </li>
+  </ul>

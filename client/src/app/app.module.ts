@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { PublishersComponent } from './components/sections/publishers/publishers.component';
 import { LeftMenuComponent } from './components/sections/common/left-menu/left-menu.component';
 import { NavbarComponent } from './components/sections/common/navbar/navbar.component';
+import { UserNavbarComponent } from './components/sections/common/navbar/user-navbar/user-navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PublishersComponent,
     LeftMenuComponent,
-    NavbarComponent
+    NavbarComponent,
+    UserNavbarComponent
   ],
   imports: [
     BrowserModule,
