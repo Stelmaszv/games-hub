@@ -1,0 +1,50 @@
+.navbar-style {
+    background-color: rgb(58, 60, 214);
+    border-bottom: 5px solid rgb(237, 241, 11);
+    margin-bottom: 10px;
+  }
+
+  .navbar-style .navbar-brand {
+    color: white;
+    font-weight: bold;
+  }
+
+  .navbar-style .navbar-nav .nav-link {
+    color: white;
+  }
+
+  .navbar-style .navbar-nav .nav-link:hover {
+    color: rgb(237, 241, 11);
+  }
+
+  .navbar-style .btn-outline-success {
+    color: white;
+    border-color: white;
+  }
+
+  .navbar-style .btn-outline-success:hover {
+    background-color: white;
+    color: rgb(58, 60, 214);
+    transform: scale(0.1);
+  }
+
+  .navbar-style .dropdown-menu {
+    background-color: rgb(58, 60, 214);
+  }
+
+  .navbar-style .dropdown-menu .dropdown-item {
+    color: white;
+  }
+
+  .navbar-style .dropdown-menu .dropdown-item:hover {
+    background-color: rgb(58, 60, 214);
+    color: rgb(237, 241, 11);
+  }
+
+  /* Dodaj większy rozmiar czcionki dla linków */
+  .games-link,
+  .publishers-link,
+  .developers-link,
+  .login-link {
+    font-size: 20px;
+  }

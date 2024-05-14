@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../app/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +6,17 @@ import { AuthService } from '../app/services/auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'client';
+  isVisibleLeftMenu: boolean = true;
+  isVisibleRightMenu: boolean = true;
 
-  constructor(private authService : AuthService) { }
-
-  ngOnInit(): void {
-    this.authService.isTokenExpired()
-    console.log('ol')
+  toggleLeftMenu() {
+    this.isVisibleLeftMenu = !this.isVisibleLeftMenu;
   }
+
+  toggleRightMenu() {
+    this.isVisibleRightMenu = !this.isVisibleRightMenu;
+  }
+
 }

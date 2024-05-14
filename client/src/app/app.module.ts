@@ -6,11 +6,15 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { PublishersComponent } from './components/sections/publishers/publishers.component';
+import { LeftMenuComponent } from './components/sections/common/left-menu/left-menu.component';
+import { NavbarComponent } from './components/sections/common/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PublishersComponent
+    PublishersComponent,
+    LeftMenuComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

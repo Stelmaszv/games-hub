@@ -302,12 +302,22 @@
   }
 </style>
 
-<nav>
-  <a routerLink="/">Home</a> <!-- Link do komponentu HomeComponent -->
-  <a routerLink="/about">About</a> <!-- Link do komponentu AboutComponent -->
-</nav>
-
-<router-outlet></router-outlet>
+<app-navbar></app-navbar>
+<div class="container text-center">
+  <button (click)="toggleLeftMenu()">Toggle Menu</button>
+  <button (click)="toggleRightMenu()">Toggle Menu</button>
+  <div class="row">
+    <div class="col left menu" [ngClass]="{'hidden': !isVisibleLeftMenu}">
+      <app-left-menu></app-left-menu>
+    </div>
+    <div class="col routerOutlet">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col right menu" [ngClass]="{'hidden': !isVisibleRightMenu}">
+      <app-left-menu></app-left-menu>
+    </div>
+  </div>
+</div>
 <!--
 <div class="toolbar" role="banner">
   <img
