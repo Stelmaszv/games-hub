@@ -1,0 +1,41 @@
+.circle-icon:hover {
+    background-color: #007bff; /* Kolor tła kółka po najechaniu myszą */
+    color: #ffffff; /* Kolor ikony wewnątrz kółka po najechaniu myszą */
+    transform: scale(1.1);
+    transition: transform 1s ease, color 1s ease; /* Dodaj animację */
+  }
+
+.circle-icon-active{
+    background-color: #007bff; /* Kolor tła kółka po najechaniu myszą */
+    color: #ffffff; /* Kolor ikony wewnątrz kółka po najechaniu myszą */
+    transform: scale(1.1);
+}
+  
+.circle-icon {
+    margin-left: 5px;
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 46px;
+    text-align: center;
+    border-radius: 50%;
+}
+  /* Styl dla ikony Font Awesome */
+  .circle-icon i {
+    position: relative;
+    z-index: 1;
+    font-size: 24px; /* Rozmiar ikony */
+  }
+  
+  /* Styl dla numeru wewnątrz kółka */
+  .message-count {
+    color: red;
+    font-weight: 1000; /* Użyj wartości numerycznej dla pogrubienia */
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-size: 16px;
+  }

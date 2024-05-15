@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class JWT
 {
     private string $appSecret;
-
     private RequestStack $requestStack;
+    private int $expirationTime = 7*24 * 60 * 60; 
 
     public function __construct(RequestStack $requestStack, string $appSecret)
     {
@@ -19,8 +19,11 @@ class JWT
 
     public function encode(array $data)
     {
+        $currentTime = time();
+        $expirationTime = $currentTime + $this->expirationTime;
+
         $header = base64_encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
-        $payload = base64_encode(json_encode($data));
+        $payload = base64_encode(json_encode(array_merge($data, ['exp' => $expirationTime])));
         $signature = hash_hmac('sha256', "$header.$payload", $this->appSecret, true);
         $signature = base64_encode($signature);
 
@@ -31,6 +34,11 @@ class JWT
     {
         list($header, $payload, $signature) = explode('.', $token);
         $data = json_decode(base64_decode($payload), true);
+
+        if (isset($data['exp']) && $data['exp'] < time()) {
+            throw new \Exception('Token has expired');
+        }
+
         $expectedSignature = hash_hmac('sha256', "$header.$payload", $this->appSecret, true);
         $expectedSignature = base64_encode($expectedSignature);
 

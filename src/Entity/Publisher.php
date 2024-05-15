@@ -114,7 +114,7 @@ class Publisher implements ApiInterface, IdentifierId
     public function isEditor(string $user): bool
     {
         foreach ($this->getEditors() as $editor) {
-            if ($editor['uid'] === $user) {
+            if ($editor['id'] === $user) {
                 return true;
             }
         }

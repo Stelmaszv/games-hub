@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\Data\DeveloperData;
 use App\DataFixtures\Data\PublisherData;
+use App\DataFixtures\Data\UserData;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;

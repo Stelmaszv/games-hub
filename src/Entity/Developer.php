@@ -135,9 +135,9 @@ class Developer implements ApiInterface, IdentifierId
         return $this;
     }
 
-    public function getCreatedBy(): ?User
+    public function getCreatedBy(): array
     {
-        return $this->createdBy;
+        return $this->setApiGroup(new User(), 'createdBy');
     }
 
     public function setCreatedBy(?User $createdBy): static

@@ -1,0 +1,53 @@
+@import "../../../../../../src/styles";
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.navbar-style {
+  background-color: $main-color;
+  border-bottom: $border-bottom;
+  margin-bottom: 10px;
+}
+
+.navbar-style .navbar-brand {
+  color: $navbar-font-color;
+  font-weight: bold;
+}
+
+.navbar-style .navbar-nav .nav-link {
+  color: $navbar-font-color;
+  letter-spacing:2px;
+  margin-right: 20px;
+  padding-right: 10px;
+  transition: transform 0.3s ease, color 1s ease; /* Dodaj animację */
+}
+
+.navbar-style .navbar-nav .nav-link:hover {
+  color: $navbar-hover;
+  transform: scale(1.1);
+  transition: transform 0.3s ease, color 1s ease; /* Dodaj animację */
+}
+
+.navbar-style .btn-outline-success {
+  color: $navbar-font-color;
+}
+
+.navbar-style .dropdown-menu {
+  background-color: $main-color;
+}
+
+.navbar-style .dropdown-menu .dropdown-item {
+  color: $navbar-font-color;
+}
+
+.dropdown-menu {
+  background-color: blue;
+  margin-top: 20px; /* Możesz dostosować tę wartość według potrzeb */
+}
+
+.games-link,
+.publishers-link,
+.developers-link{
+  font-size: 20px;
+}
