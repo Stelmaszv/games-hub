@@ -7,7 +7,7 @@
 .navbar-style {
   background-color: $main-color;
   border-bottom: $border-bottom;
-  margin-bottom: 10px;
+  height: 60px;
 }
 
 .navbar-style .navbar-brand {
@@ -16,6 +16,7 @@
 }
 
 .navbar-style .navbar-nav .nav-link {
+  line-height: 80px;
   color: $navbar-font-color;
   letter-spacing:2px;
   margin-right: 20px;
@@ -39,11 +40,6 @@
 
 .navbar-style .dropdown-menu .dropdown-item {
   color: $navbar-font-color;
-}
-
-.dropdown-menu {
-  background-color: blue;
-  margin-top: 20px; /* Możesz dostosować tę wartość według potrzeb */
 }
 
 .games-link,
