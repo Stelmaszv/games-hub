@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslationService } from 'src/app/services/translation/translation.service';
 
 @Component({
   selector: 'user-navbar',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-navbar.component.scss']
 })
 export class UserNavbarComponent {
+  constructor(public translationService: TranslationService) {}
   userMessage:number = 4;
-  userNotyfication:number = 0;
+  userNotification:number = 0;
 }
