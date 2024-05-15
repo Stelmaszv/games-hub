@@ -14,8 +14,7 @@ export class PublishersComponent {
 
   ngOnInit(): void {
     this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher", "id": 65 });
-
-    // Przenieś console.log() do metody subscribe()
+    
     this.isGrantedService.responseData.subscribe((el) => {
       this.isGranted = el
     });

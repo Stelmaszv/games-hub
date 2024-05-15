@@ -6,17 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
   title = 'client';
-  isVisibleLeftMenu: boolean = true;
-  isVisibleRightMenu: boolean = true;
-
-  toggleLeftMenu() {
-    this.isVisibleLeftMenu = !this.isVisibleLeftMenu;
-  }
-
-  toggleRightMenu() {
-    this.isVisibleRightMenu = !this.isVisibleRightMenu;
-  }
-
 }
