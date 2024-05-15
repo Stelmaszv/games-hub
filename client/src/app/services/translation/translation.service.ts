@@ -8,7 +8,16 @@ export class TranslationService {
   private translations: { [key: string]: string } = {};
 
   constructor(private http: HttpClient) {
-    this.loadTranslations('pl');
+    const preferredLanguage = navigator.language || navigator.language;
+    const supportedLanguages = ['en', 'pl'];
+
+    if (supportedLanguages.includes(preferredLanguage)) {
+        document.documentElement.lang = preferredLanguage;
+    } else {
+        document.documentElement.lang = 'en';
+    }
+
+    this.loadTranslations(document.documentElement.lang);
   }
 
   private loadTranslations(lang: string): void {
