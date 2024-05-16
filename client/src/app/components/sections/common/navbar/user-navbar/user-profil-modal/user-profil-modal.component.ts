@@ -21,7 +21,8 @@ export class UserProfilModalComponent implements OnInit {
     this.title = this.translationService.translate(tittle);
   }
 
-  extendSession(){
-    this.authService.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAyLCJlbWFpbCI6InVzZXJAcXdlLmNvbSIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiZXhwIjoxNzE2NDY4OTkzfQ==.VOj08qSIWOCIuIV9GlXFqllbKGFQddi+InTfmPG9qbA=');
+  logOut(){
+    this.authService.removeToken();
   }
+
 }

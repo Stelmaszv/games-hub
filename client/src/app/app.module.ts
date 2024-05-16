@@ -12,6 +12,8 @@ import { UserNavbarComponent } from './components/sections/common/navbar/user-na
 import { UserProfilModalComponent } from './components/sections/common/navbar/user-navbar/user-profil-modal/user-profil-modal.component';
 import { MessagegesModelComponent } from './components/sections/common/navbar/user-navbar/messageges-model/messageges-model.component';
 import { NotificationModelComponent } from './components/sections/common/navbar/user-navbar/notification-model/notification-model.component';
+import { LoginComponent } from './components/sections/auth/login/login.component';
+import { AuthNavbarComponent } from './components/sections/common/navbar/auth-navbar/auth-navbar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { NotificationModelComponent } from './components/sections/common/navbar/
     UserNavbarComponent,
     UserProfilModalComponent,
     MessagegesModelComponent,
-    NotificationModelComponent
+    NotificationModelComponent,
+    LoginComponent,
+    AuthNavbarComponent
   ],
   imports: [
     BrowserModule,

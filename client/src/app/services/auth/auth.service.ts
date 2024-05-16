@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TranslationService } from '../translation/translation.service';
-import { HttpServiceService } from '../http-service/http-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +44,7 @@ export class AuthService {
     if (!token) return null;
 
     const decodedData = this.decodeToken(token);
+
     return decodedData;
   }
 
@@ -98,14 +98,15 @@ export class AuthService {
   private decodeToken(token: string): any {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
     return JSON.parse(atob(base64));
   }
 
   private formatDate(date: Date): string {
     const translation = this.TranslationService.translate('sesionExpirationLeft',{'days':String(this.getDaysUntilDate(date))});
     const month = this.TranslationService.translateMonth(date.getMonth())
-
     const formattedDate = `${date.getDate()} - ${month} - ${date.getFullYear()} (${translation})`;
+
     return formattedDate;
   }
 
@@ -113,6 +114,7 @@ export class AuthService {
     const currentDate = new Date();
     const differenceInTime = targetDate.getTime() - currentDate.getTime();
     const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+
     return differenceInDays;
   }
 }
