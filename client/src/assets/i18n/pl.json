@@ -8,5 +8,9 @@
     "sesion" : "Sesja",
     "sesionExpirationIn" : "Sesja wygasnie",
     "sesionExpirationLeft" : "zostało {{days}} dni",
-    "sesionInformationTitle" :"Informacjie o sesji"
+    "sesionInformationTitle" :"Informacjie o sesji",
+    "month" : [
+        "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
+        "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
+    ]
 }

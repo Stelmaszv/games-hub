@@ -21,11 +21,7 @@ export class AuthService {
 
     const expirationDate = new Date(Date.now() + this.expirationTimeRemaining);
 
-    if(this.getDaysUntilDate(expirationDate) < 2){
-      return true;
-    }
-
-    return false;
+    return (this.getDaysUntilDate(expirationDate) < 2)
   }
 
   public setToken(token: string): void {
@@ -107,8 +103,9 @@ export class AuthService {
 
   private formatDate(date: Date): string {
     const translation = this.TranslationService.translate('sesionExpirationLeft',{'days':String(this.getDaysUntilDate(date))});
+    const month = this.TranslationService.translateMonth(date.getMonth())
 
-    const formattedDate = `${date.getDate()} - ${this.getMonthName(date.getMonth())} - ${date.getFullYear()} (${translation})`;
+    const formattedDate = `${date.getDate()} - ${month} - ${date.getFullYear()} (${translation})`;
     return formattedDate;
   }
 
@@ -117,13 +114,5 @@ export class AuthService {
     const differenceInTime = targetDate.getTime() - currentDate.getTime();
     const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
-  }
-
-  private getMonthName(month: number): string {
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
-    return months[month] || "Invalid month";
   }
 }

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TranslationService {
   private translations: { [key: string]: string } = {};
+  private lang : string | null = null; 
 
   constructor(private http: HttpClient) {
     const preferredLanguage = navigator.language || navigator.language;
@@ -18,6 +19,7 @@ export class TranslationService {
     }
 
     this.loadTranslations(document.documentElement.lang);
+    this.lang = document.documentElement.lang
   }
 
   private loadTranslations(lang: string): void {
@@ -30,7 +32,14 @@ export class TranslationService {
     });
   }
 
-  translate(key: string, variables?: { [key: string]: string }): string {
+  public translateMonth(monthNumber: number){
+    const months = this.translate('month');
+    if(Array.isArray(months)){
+        return months[monthNumber];
+    }
+}
+
+  public translate(key: string, variables?: { [key: string]: string }): string {
     let translatedText = this.translations[key] && this.translations[key] ? this.translations[key] : key;
     if (variables) {
       for (const variable in variables) {

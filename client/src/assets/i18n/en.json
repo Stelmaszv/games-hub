@@ -8,5 +8,9 @@
     "sesion" : "Sesion",
     "sesionExpirationIn" : "Sesion Expiration In",
     "sesionExpirationLeft" : "left {{days}} days",
-    "sesionInformationTitle" :"Sesion Information"
+    "sesionInformationTitle" :"Sesion Information",
+    "month" : [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ]
 }
