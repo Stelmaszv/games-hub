@@ -14,8 +14,6 @@ export class HttpServiceService {
 
     const token = this.authService.getToken();
 
-    console.log(token);
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -25,8 +23,7 @@ export class HttpServiceService {
 
   postData(url: string, data: any): Observable<any> {
     const token = this.authService.getToken();
-
-    console.log(this.authService.getExpirationTimeRemaining())
+    
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'

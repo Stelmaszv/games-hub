@@ -4,5 +4,9 @@
     "developers" : "Developers",
     "profil" : "Profil",
     "messages" : "Messages",
-    "notifications" : "Notifications"
+    "notifications" : "Notifications",
+    "sesion" : "Sesion",
+    "sesionExpirationIn" : "Sesion Expiration In",
+    "sesionExpirationLeft" : "left {{days}} days",
+    "sesionInformationTitle" :"Sesion Information"
 }

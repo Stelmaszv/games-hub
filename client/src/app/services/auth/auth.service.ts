@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { TranslationService } from '../translation/translation.service';
+import { HttpServiceService } from '../http-service/http-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +9,23 @@ export class AuthService {
   private token: string | null = null;
   private expirationTimeRemaining: number | null = null;
 
-  constructor() {
+  constructor(public TranslationService : TranslationService) {
     this.token = this.getTokenFromLocalStorage();
     this.calculateExpirationTimeRemaining();
+  }
+
+  public isTokenNeedRefresh() : boolean{
+    if (this.expirationTimeRemaining === null) {
+      return false;
+    }
+
+    const expirationDate = new Date(Date.now() + this.expirationTimeRemaining);
+
+    if(this.getDaysUntilDate(expirationDate) < 2){
+      return true;
+    }
+
+    return false;
   }
 
   public setToken(token: string): void {
@@ -90,7 +106,9 @@ export class AuthService {
   }
 
   private formatDate(date: Date): string {
-    const formattedDate = `${date.getDate()} - ${this.getMonthName(date.getMonth())} - ${date.getFullYear()} (left ${this.getDaysUntilDate(date)} days)`;
+    const translation = this.TranslationService.translate('sesionExpirationLeft',{'days':String(this.getDaysUntilDate(date))});
+
+    const formattedDate = `${date.getDate()} - ${this.getMonthName(date.getMonth())} - ${date.getFullYear()} (${translation})`;
     return formattedDate;
   }
 

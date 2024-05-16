@@ -4,5 +4,9 @@
     "developers" : "Twórcy",
     "profil" : "Profil Użytkownika",
     "messages" : "Wiadomości",
-    "notifications" : "Powiadomienia"
+    "notifications" : "Powiadomienia",
+    "sesion" : "Sesja",
+    "sesionExpirationIn" : "Sesja wygasnie",
+    "sesionExpirationLeft" : "zostało {{days}} dni",
+    "sesionInformationTitle" :"Informacjie o sesji"
 }

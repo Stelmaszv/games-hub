@@ -30,6 +30,21 @@ class JWT
         return "$header.$payload.$signature";
     }
 
+    public function refreshToken(string $refreshToken,array $data): ?string
+    {
+        $refreshTokenData = $this->decode($refreshToken);
+
+        if ($refreshTokenData === null || !isset($refreshTokenData['id'])) {
+            throw new \Exception('Invalid refresh token');
+        }
+
+        if (isset($refreshTokenData['exp']) && $refreshTokenData['exp'] < time()) {
+            throw new \Exception('Refresh token has expired');
+        }
+
+        return $this->encode($data);
+    }
+
     public function decode(string $token)
     {
         list($header, $payload, $signature) = explode('.', $token);

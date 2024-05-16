@@ -93,7 +93,7 @@ trait AuthenticationAPi
         $entityManager->flush();
 
         return new JsonResponse([
-            'token' => $this->generateToken($authenticationEntity),
+            'token' => $this->jwt->encode($this->generateToken($authenticationEntity)),
         ]);
     }
 
@@ -102,16 +102,26 @@ trait AuthenticationAPi
         return password_verify($password, $user->getPassword());
     }
 
-    private function generateToken(UserInterface $user): string
+    private function generateToken(UserInterface $user): array
     {
-        $userPayload = [
+        return [
             'id' => $user->getId(),
             'email' => $user->getEmail(),
             'roles' => $user->getRoles(),
         ];
-
-        return $this->jwt->encode($userPayload);
     }
+
+    #[Route(path: 'api/refresh-tokken/{id}', name: 'refresh_tokken')]
+    public function refreshTokken(int $id,ManagerRegistry $doctrine){
+        $userEntity = $doctrine?->getRepository(User::class)?->findOneBy(['id' => $id]);
+        $jwt = $this->jwt->getJWTFromHeader();
+
+        return new JsonResponse([
+            'token' => $this->jwt->refreshToken($jwt,$this->generateToken($userEntity)),
+        ]);
+    }
+
+
 
     #[Route(path: '/login', name: 'app_login')]
     public function loginAction(AuthenticationUtils $authenticationUtils)
