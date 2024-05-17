@@ -9,6 +9,11 @@
     "sesionExpirationIn" : "Sesja wygasnie",
     "sesionExpirationLeft" : "zostało {{days}} dni",
     "sesionInformationTitle" :"Informacjie o sesji",
+    "loginIn" : "Login",
+    "password" : "Hasło",
+    "login": "Zaloguj się",
+    "register" :"Rejestracjia",
+    "forgetpassword": "Zapomniałes hasła ?",
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"

@@ -9,6 +9,11 @@
     "sesionExpirationIn" : "Sesion Expiration In",
     "sesionExpirationLeft" : "left {{days}} days",
     "sesionInformationTitle" :"Sesion Information",
+    "loginIn" : "Login",
+    "password" : "Password",
+    "login": "Login",
+    "register" :"Register",
+    "forgetpassword": "Forget Password ?",
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

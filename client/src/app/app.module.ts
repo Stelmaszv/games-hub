@@ -2,6 +2,7 @@ import { NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importuj moduły formularzy
 
 import { TranslationService } from './services/translation/translation.service';
 
@@ -30,7 +31,9 @@ import { AuthNavbarComponent } from './components/sections/common/navbar/auth-na
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule, 
+    ReactiveFormsModule
   ],
   providers: [TranslationService],
   bootstrap: [AppComponent]

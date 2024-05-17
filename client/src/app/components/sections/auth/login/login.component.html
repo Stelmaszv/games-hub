@@ -1,1 +1,19 @@
-<p>login works!</p>
+<h2 class="text-center mb-4">{{ translationService.translate('login') }}</h2>
+<form class="form">
+  <div class="mb-3">
+    <input type="email" class="form-control" id="login" placeholder="{{ translationService.translate('loginIn') }}">
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" id="password" placeholder="{{ translationService.translate('password') }}">
+  </div>
+
+  <a routerLink="/login">
+    <button type="submit" class="btn btn-lg">{{ translationService.translate('login') }}</button>
+  </a>
+  <a routerLink="/login">
+    <button type="submit" class="btn btn-lg">{{ translationService.translate('forgetpassword') }}</button>
+  </a>
+  <a routerLink="/register">
+    <button type="submit" class="btn btn-lg">{{ translationService.translate('register') }}</button>
+  </a>
+</form>
