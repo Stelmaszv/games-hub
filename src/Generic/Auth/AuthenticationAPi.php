@@ -36,21 +36,21 @@ trait AuthenticationAPi
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
-            return new JsonResponse(['message' => 'Invalid data Login'], JsonResponse::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['message' => 'invalidDataLogin'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $user = $doctrine?->getRepository(User::class)?->findOneBy(['email' => $data['email']]);
 
         if (!$user) {
-            return new JsonResponse(['message' => 'Invalid data Login'], JsonResponse::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['message' => 'invalidDataLogin'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         if (!password_verify($data['password'], $user->getPassword())) {
-            return new JsonResponse(['message' => 'Invalid data Login or password'], JsonResponse::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['message' => 'invalidLoginOrPassword'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         return new JsonResponse([
-            'token' => $this->generateToken($user),
+            'token' => $this->jwt->encode($this->generateToken($user)),
         ]);
     }
 

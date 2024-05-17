@@ -23,6 +23,7 @@ export class UserProfilModalComponent implements OnInit {
 
   logOut(){
     this.authService.removeToken();
+    location.reload();
   }
 
 }

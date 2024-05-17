@@ -15,6 +15,8 @@ import { MessagegesModelComponent } from './components/sections/common/navbar/us
 import { NotificationModelComponent } from './components/sections/common/navbar/user-navbar/notification-model/notification-model.component';
 import { LoginComponent } from './components/sections/auth/login/login.component';
 import { AuthNavbarComponent } from './components/sections/common/navbar/auth-navbar/auth-navbar.component';
+import { ForgotPasswordComponent } from './components/sections/auth/forgot-password/forgot-password.component';
+import { RegisterComponent } from './components/sections/auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { AuthNavbarComponent } from './components/sections/common/navbar/auth-na
     MessagegesModelComponent,
     NotificationModelComponent,
     LoginComponent,
-    AuthNavbarComponent
+    AuthNavbarComponent,
+    ForgotPasswordComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

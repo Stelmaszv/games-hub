@@ -11,9 +11,11 @@
     "sesionInformationTitle" :"Sesion Information",
     "loginIn" : "Login",
     "password" : "Password",
+    "invalidDataLogin" : "Invalid Data Login",
+    "invalidLoginOrPassword" : "Invalid Login Or Password",
     "login": "Login",
     "register" :"Register",
-    "forgetpassword": "Forget Password ?",
+    "forgotPassword": "Forget Password ?",
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
