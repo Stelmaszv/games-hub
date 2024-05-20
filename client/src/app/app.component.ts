@@ -10,7 +10,7 @@ import { ActivatedRouteSnapshot, Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title:string = 'client';
+  title:string = 'Gamers Hub';
   auth:boolean = false; 
 
   constructor(public authService: AuthService, private HttpServiceService : HttpServiceService, private authGuard: AuthGuard, private router: Router){}
