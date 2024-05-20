@@ -16,6 +16,9 @@
     "login": "Login",
     "register" :"Register",
     "forgotPassword": "Forget Password ?",
+    "chooseLang" : "Choose language",
+    "saveModal" : "Zapisz",
+    "languages" : ["pl","eng"],
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

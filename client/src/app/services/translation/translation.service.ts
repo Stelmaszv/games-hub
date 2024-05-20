@@ -6,20 +6,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TranslationService {
   private translations: { [key: string]: string } = {};
-  private lang : string | null = null; 
+  private languagesList = [{"lang":"pl","name":"Polski"},{"lang":"en","name":"English"}]
+  public lang : string | null = null; 
 
   constructor(private http: HttpClient) {
-    const preferredLanguage = navigator.language || navigator.language;
-    const supportedLanguages = ['en', 'pl'];
+    const long = localStorage.getItem('lang')
+    if(long !== null){
+      this.loadTranslations(long );
+      this.lang = long;
+    }else{
+      const preferredLanguage = navigator.language || navigator.language;
+      const supportedLanguages = ['en', 'pl'];
 
-    if (supportedLanguages.includes(preferredLanguage)) {
-        document.documentElement.lang = preferredLanguage;
-    } else {
-        document.documentElement.lang = 'en';
+      if (supportedLanguages.includes(preferredLanguage)) {
+          document.documentElement.lang = preferredLanguage;
+      } else {
+          document.documentElement.lang = 'en';
+      }
+
+      this.loadTranslations(document.documentElement.lang);
+      this.lang = document.documentElement.lang
     }
-
-    this.loadTranslations(document.documentElement.lang);
-    this.lang = document.documentElement.lang
   }
 
   private loadTranslations(lang: string): void {
@@ -32,12 +39,39 @@ export class TranslationService {
     });
   }
 
+  public setLang(lang: string|null): void{
+    if(lang === null){
+      return;
+    }
+
+    localStorage.setItem('lang',lang)
+  }
+
+  public getLang(){
+    return this.lang
+  }
+
+  public getlanguagesList(){
+    return this.languagesList.map(el => el.lang);
+  }
+
   public translateMonth(monthNumber: number){
     const months = this.translate('month');
     if(Array.isArray(months)){
         return months[monthNumber];
     }
-}
+  }
+
+  public translateLanguage(lang: string){
+    const found = this.languagesList.find(element => element.lang === lang);
+    
+    if(found !== undefined){
+        return found.name;
+    }
+
+    return '';
+    
+  }
 
   public translate(key: string, variables?: { [key: string]: string }): string {
     let translatedText = this.translations[key] && this.translations[key] ? this.translations[key] : key;

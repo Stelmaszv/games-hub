@@ -16,6 +16,8 @@
     "login": "Zaloguj się",
     "register" :"Rejestracjia",
     "forgotPassword": "Zapomniałes hasła ?",
+    "chooseLang" : "Wybierz język",
+    "saveModal" : "Zapisz",
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"

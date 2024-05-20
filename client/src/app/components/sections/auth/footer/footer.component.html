@@ -1,0 +1,24 @@
+<div class="footer">
+  <img src="../../../../../assets/flags/pl.png" class="flag" data-bs-toggle="modal" data-bs-target="#exampleModal">
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ translationService.translate('chooseLang') }}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="lang-list">
+          <li *ngFor="let lang of languages" (click)="langChoosed(lang)" [ngClass]="{ 'choosedOpacity': isChoosed(lang) }" [ngClass]="{ 'NotChoosedOpacity': !isChoosed(lang) }" >
+            <img src="../../../../../assets/flags/{{lang}}.png">{{ translationService.translateLanguage(lang) }}
+          </li>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="langSaved()" type="button" class="btn btn-primary">{{ translationService.translate('saveModal') }}</button>
+      </div>
+    </div>
+  </div>
+</div>

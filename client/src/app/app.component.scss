@@ -1,23 +1,42 @@
+@import '../styles.scss';
+
 $section-bg-color : rgb(154, 175, 182);
 $border-color : rgb(62, 123, 245);
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  
-  .section {
-    background-color: #f8f9fa; 
-    padding: 20px;
-    border-radius: 5px; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  }
-  
-  .img-fluid {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: -200px;
+}
+
+.section {
+  color: white;
+  background-color: $main-color;
+  border: $border-bottom;
+  padding: 20px;
+  border-radius: 25px; // Zaokrąglenie rogów o wartość 10px (możesz dostosować według potrzeb)
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.col-md-6 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.d-flex.justify-content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}

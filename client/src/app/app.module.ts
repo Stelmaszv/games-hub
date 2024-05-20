@@ -17,6 +17,7 @@ import { LoginComponent } from './components/sections/auth/login/login.component
 import { AuthNavbarComponent } from './components/sections/common/navbar/auth-navbar/auth-navbar.component';
 import { ForgotPasswordComponent } from './components/sections/auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from './components/sections/auth/register/register.component';
+import { FooterComponent } from './components/sections/auth/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { RegisterComponent } from './components/sections/auth/register/register.
     LoginComponent,
     AuthNavbarComponent,
     ForgotPasswordComponent,
-    RegisterComponent
+    RegisterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
