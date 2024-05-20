@@ -1,6 +1,7 @@
 $main-color : rgb(110, 136, 144);
-$border-bottom : 5px solid rgb(62, 123, 245);
-$navbar-hover: rgb(255, 255, 255);
+$bottom-color : #FFB130;
+$border-bottom : 5px solid $bottom-color;
+$navbar-hover: #840028;
 $navbar-font-color: rgba(255, 255, 255, 0.714);
 
 .dropdown-toggle::after {

@@ -1,0 +1,18 @@
+.actions{
+  .btn {
+      margin-left: 10px;
+      background-color: rgba(62, 142, 168, 0.474);
+      color: white;
+      transition: transform 0.3s ease, background-color 0.3s ease; /* Dodajemy animację dla transformacji i zmiany koloru tła */
+  }
+
+  a{
+    text-decoration: none;
+  }
+    
+  .btn:hover {
+    border-color: #FFB130;
+    transform: scale(1.1);
+    background-color: #840028;
+  }
+}
