@@ -7,10 +7,54 @@
 
 <div *ngIf="auth">
   <auth-navbar></auth-navbar>
-  <div class="container text-center">
-    <div class="section">
-      <router-outlet></router-outlet>
+  <div class="container mt-4">
+    <div class="row d-flex align-items-center">
+      <div class="col-md-6 mb-4 mb-md-0 d-flex justify-content-center">
+        <img src="assets/logs/gamers-hub-high-resolution-logo-transparent.png" class="img-fluid" alt="Gamers Hub Logo">
+      </div>
+      <div class="col-md-6 section">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </div>
+<style>
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 200px;
+}
+
+/* Sekcja z tłem, paddingiem i cieniem */
+.section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Dodatkowy margines, aby oddzielić od góry */
+}
+
+/* Obraz logo responsywny i wyśrodkowany */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Margines pomiędzy kolumnami */
+.col-md-6 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Wyśrodkowanie logo pionowo i poziomo */
+.d-flex.justify-content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
+
 
