@@ -23,9 +23,11 @@ trait AuthenticationAPi
 {
     private JWT $security;
 
-    public function __construct(JWT $jwt)
+    public function __construct(JWT $jwt,ManagerRegistry $doctrine,ValidatorInterface $validator,Request $request)
     {
         $this->jwt = $jwt;
+        $this->managerRegistry = $doctrine;
+        $this->validator = $validator;
     }
 
     #[Route('/api/logout', name: 'app_logout')]
@@ -35,7 +37,7 @@ trait AuthenticationAPi
     }
 
     #[Route('/api/login', name: 'login', methods: ['POST'])]
-    public function login(Request $request, ManagerRegistry $doctrine): JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -43,7 +45,7 @@ trait AuthenticationAPi
             return new JsonResponse(['message' => 'invalidDataLogin'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $user = $doctrine?->getRepository(User::class)?->findOneBy(['email' => $data['email']]);
+        $user = $this->managerRegistry?->getRepository(User::class)?->findOneBy(['email' => $data['email']]);
 
         if (!$user) {
             return new JsonResponse(['message' => 'invalidDataLogin'], JsonResponse::HTTP_UNAUTHORIZED);
@@ -60,15 +62,11 @@ trait AuthenticationAPi
 
     #[Route('/api/register', name: 'register', methods: ['POST'])]
     public function register(
-        Request $request, 
-        ManagerRegistry $doctrine, 
-        UserPasswordHasherInterface $userPasswordHasher,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator): JsonResponse
+            Request $request,  
+            UserPasswordHasherInterface $userPasswordHasher,
+        ): JsonResponse
     {
-        $this->managerRegistry = $doctrine;
         $this->request = $request;
-        $this->validator = $validator;
 
         $data = json_decode($request->getContent(), true);
         $issetData = isset($data['email']) && isset($data['password']) && isset($data['repeatpassword']);
@@ -105,7 +103,7 @@ trait AuthenticationAPi
             $authenticationEntity->setPassword($hashedPassword);
             $authenticationEntity->setRoles([RoleUser::NAME]);
 
-            $entityManager = $doctrine->getManager();
+            $entityManager = $this->getManager();
             $entityManager->persist($authenticationEntity);
             $entityManager->flush();
 
@@ -119,6 +117,7 @@ trait AuthenticationAPi
 
     }
 
+    //Dublicate CODE  !!! GenericPostController
     protected function validationDTO(DTO $DTO): void
     {
         $DTO = $this->setDTO($DTO);
@@ -180,8 +179,6 @@ trait AuthenticationAPi
             'token' => $this->jwt->refreshToken($jwt,$this->generateToken($userEntity)),
         ]);
     }
-
-
 
     #[Route(path: '/login', name: 'app_login')]
     public function loginAction(AuthenticationUtils $authenticationUtils)
