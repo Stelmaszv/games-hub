@@ -3,42 +3,67 @@
   </div>
   
   <h2 class="text-center mb-4">{{ translationService.translate('register') }}</h2>
-  <form class="form" (ngSubmit)="onSubmit()" #registerForm="ngForm">
+  <form class="form" (ngSubmit)="onSubmit()" #registerForm="ngForm" id="registerForm">
     <div class="mb-3">
-      <input 
-          type="email" 
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="emailGroupPrepend">@</span>
+        <input 
+          type="text" 
           class="form-control" 
-          id="login" 
-          placeholder="{{ translationService.translate('loginIn') }}" 
-          name="email" 
+          id="email" 
+          aria-describedby="emailGroupPrepend emailFeedback" 
           [(ngModel)]="email" 
+          placeholder="{{ translationService.translate('loginIn') }}"  
+          name="email"     
           required>
+        <div id="emailFeedback" class="invalid-feedback mt-3"></div>
+      </div>
     </div>
     <div class="mb-3">
-      <input 
-          type="password" 
-          class="form-control" 
-          id="password" 
-          placeholder="{{ translationService.translate('password') }}" 
-          name="password" 
-          [(ngModel)]="password" 
-          required>
-    </div>
-
-    <div class="mb-3">
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="passwordShow"><i class="fa-solid fa-eye"></i><i class="fa-sharp fa-solid fa-eye-slash"></i></span>
         <input 
             type="password" 
             class="form-control" 
-            id="passwordRepeat" 
-            placeholder="{{ translationService.translate('passwordRepeat') }}" 
-            name="passwordRepeat" 
-            [(ngModel)]="passwordRepeat" 
+            id="password" 
+            aria-describedby="passwordShow passwordFeedback" 
+            placeholder="{{ translationService.translate('password') }}" 
+            name="password" 
+            [(ngModel)]="password" 
             required>
+          <div id="passwordFeedback" class="invalid-feedback"></div>
       </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="input-group has-validation">
+
+        <span class="input-group-text" id="repartPasswordShow">
+          <i class="fa-solid fa-eye"></i>
+          <i class="fa-sharp fa-solid fa-eye-slash"></i>
+        </span>
+
+        <input 
+            type="password" 
+            class="form-control" 
+            id="repartPassword" 
+            placeholder="{{ translationService.translate('repartPassword') }}" 
+            aria-describedby="repartPasswordShow repartPasswordFeedback" 
+            name="repartPassword" 
+            [(ngModel)]="repartPassword" 
+            required
+          >
+            <div id="repartPasswordFeedback" class="invalid-feedback"></div>
+      </div>
+      
+    </div>
   
     <div class="actions">
-      <button type="submit" class="btn btn-primary btn-lg w-100">{{ translationService.translate('login') }}</button>
+      <button type="submit" class="btn btn-primary btn-lg w-100">{{ translationService.translate('register') }}</button>
       <a routerLink="/forgot-password" class="btn btn-link mt-3">{{ translationService.translate('forgotPassword') }}</a>
-      <a routerLink="/register" class="btn btn-link mt-3">{{ translationService.translate('register') }}</a>
+      <a routerLink="/login" class="btn btn-link mt-3">{{ translationService.translate('login') }}</a>
     </div>
   </form>
+
+  <style>
+  </style>

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { HttpServiceService } from 'src/app/services/http-service/http-service.service';
-import { TranslationService } from 'src/app/services/translation/translation.service';
+import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
+import { AuthService } from 'src/app/services/common/auth/auth.service';
+import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 
 @Component({
   selector: 'app-register',
@@ -12,30 +13,33 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class RegisterComponent {
 
   public errorMessage: string = '';
-  public email: string | null = 'user@qwe.com';
-  public password: string | null = '123';
-  public passwordRepeat: string | null = '123';
+  public email: string | null = '';
+  public password: string | null = '';
+  public repartPassword: string | null = '';
   public registerFailed: boolean  | null = false;
 
   constructor(
     public translationService: TranslationService, 
     private httpServiceService: HttpServiceService, 
-    private authService : AuthService
+    private authService : AuthService,
+    private formValidatorService: FormValidatorService
   ) {}
 
   onSubmit() {
-    this.httpServiceService.postData('http://localhost/api/login',{ 
+    this.httpServiceService.postData('http://localhost/api/register',{ 
       'email' : this.email,
-      'password':this.password
+      'password':this.password,
+      'repartPassword':this.repartPassword
     }).subscribe({
       next: (response) => {
         this.registerFailed = false;
         this.authService.setToken(response.token)
         location.reload(); 
       },
-      error: (error: HttpErrorResponse) => {
-        this.registerFailed = true;
-        this.errorMessage = error.error.message || 'An unknown error occurred';
+      error: (errorList: HttpErrorResponse) => {
+        this.formValidatorService.setForm('registerForm')
+        this.formValidatorService.showErrors(errorList.error.errors)
+        this.formValidatorService.restNotUseInputs(errorList.error.errors)
       }
     });
   }

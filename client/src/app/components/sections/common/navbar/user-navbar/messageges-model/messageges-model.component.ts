@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslationService } from 'src/app/services/translation/translation.service';
+import { TranslationService } from 'src/app/services/common/translation/translation.service';
 
 @Component({
   selector: 'messageges-model',

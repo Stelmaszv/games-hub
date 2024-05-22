@@ -1,6 +1,6 @@
 @import '../styles.scss';
 
-$section-bg-color : rgb(154, 175, 182);
+$section-bg-color : rgb(196, 203, 205);
 $border-color : rgb(62, 123, 245);
 
 .row {
@@ -10,10 +10,9 @@ $border-color : rgb(62, 123, 245);
   margin-top: -200px;
 }
 
-
 .section {
-  color: white;
-  background-color: $main-color;
+  color: Black;
+  background-color: $section-bg-color;
   border: $border-bottom;
   padding: 20px;
   border-radius: 25px; // Zaokrąglenie rogów o wartość 10px (możesz dostosować według potrzeb)

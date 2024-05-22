@@ -1,8 +1,8 @@
 import { Component,OnInit } from '@angular/core';
-import { AuthService } from './services/auth/auth.service';
-import { HttpServiceService } from './services/http-service/http-service.service';
 import { AuthGuard } from './gards/auth-guard';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { HttpServiceService } from './services/common/http-service/http-service.service';
+import { AuthService } from './services/common/auth/auth.service';
 
 @Component({
   selector: 'app-root',

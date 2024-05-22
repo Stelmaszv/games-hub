@@ -11,14 +11,14 @@
     "sesionInformationTitle" :"Sesion Information",
     "loginIn" : "Login",
     "password" : "Password",
+    "repartPassword" : "Repeat Password",
     "invalidDataLogin" : "Invalid Data Login",
     "invalidLoginOrPassword" : "Invalid Login Or Password",
     "login": "Login",
     "register" :"Register",
     "forgotPassword": "Forget Password ?",
     "chooseLang" : "Choose language",
-    "saveModal" : "Zapisz",
-    "languages" : ["pl","eng"],
+    "saveModal" : "Save",
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

@@ -1,6 +1,6 @@
 import { Component, OnInit  } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { TranslationService } from 'src/app/services/translation/translation.service';
+import { AuthService } from 'src/app/services/common/auth/auth.service';
+import { TranslationService } from 'src/app/services/common/translation/translation.service';
 
 @Component({
   selector: 'user-profil-modal',

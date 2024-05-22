@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpServiceService } from 'src/app/services/http-service/http-service.service';
-import { TranslationService } from 'src/app/services/translation/translation.service';
+import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/app/services/common/auth/auth.service';
+import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 
 @Component({
   selector: 'app-login',

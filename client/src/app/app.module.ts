@@ -4,8 +4,6 @@ import { HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importuj moduły formularzy
 
-import { TranslationService } from './services/translation/translation.service';
-
 import { AppComponent } from './app.component';
 import { PublishersComponent } from './components/sections/publishers/publishers.component';
 import { NavbarComponent } from './components/sections/common/navbar/navbar.component';
@@ -18,6 +16,7 @@ import { AuthNavbarComponent } from './components/sections/common/navbar/auth-na
 import { ForgotPasswordComponent } from './components/sections/auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from './components/sections/auth/register/register.component';
 import { FooterComponent } from './components/sections/auth/footer/footer.component';
+import { TranslationService } from './services/common/translation/translation.service';
 
 @NgModule({
   declarations: [

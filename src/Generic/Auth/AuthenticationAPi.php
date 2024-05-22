@@ -23,7 +23,7 @@ trait AuthenticationAPi
 {
     private JWT $security;
 
-    public function __construct(JWT $jwt,ManagerRegistry $doctrine,ValidatorInterface $validator,Request $request)
+    public function __construct(JWT $jwt,ManagerRegistry $doctrine,ValidatorInterface $validator)
     {
         $this->jwt = $jwt;
         $this->managerRegistry = $doctrine;
@@ -69,7 +69,8 @@ trait AuthenticationAPi
         $this->request = $request;
 
         $data = json_decode($request->getContent(), true);
-        $issetData = isset($data['email']) && isset($data['password']) && isset($data['repeatpassword']);
+        $issetData = isset($data['email']) && isset($data['password']) && isset($data['repartPassword']);
+
 
         if (!$issetData) {
             return new JsonResponse(['message' => 'No data provided'], JsonResponse::HTTP_UNAUTHORIZED);
@@ -81,7 +82,7 @@ trait AuthenticationAPi
             new UserDTO(
                 $data['email'],
                 $data['password'],
-                $data['repeatpassword']
+                $data['repartPassword']
             )
         );
 
