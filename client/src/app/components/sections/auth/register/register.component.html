@@ -21,7 +21,7 @@
     </div>
     <div class="mb-3">
       <div class="input-group has-validation">
-        <span class="input-group-text" id="passwordShow"><i class="fa-solid fa-eye"></i><i class="fa-sharp fa-solid fa-eye-slash"></i></span>
+        <span class="input-group-text" id="passwordShow" (click)="showPassword()"><i class="{{showPasswordIcon}}"></i></span>
         <input 
             type="password" 
             class="form-control" 
@@ -38,9 +38,8 @@
     <div class="mb-3">
       <div class="input-group has-validation">
 
-        <span class="input-group-text" id="repartPasswordShow">
-          <i class="fa-solid fa-eye"></i>
-          <i class="fa-sharp fa-solid fa-eye-slash"></i>
+        <span class="input-group-text" id="repartPasswordShow" (click)="showRepartPassword()">
+          <i class="{{showPasswordRepartIcon}}"></i>
         </span>
 
         <input 
