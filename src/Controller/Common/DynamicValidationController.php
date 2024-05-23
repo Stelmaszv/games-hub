@@ -6,6 +6,7 @@ namespace App\Controller\Common;
 
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\Validation\PasswordChecker;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,5 +27,13 @@ class DynamicValidationController extends AbstractController
             'available' => ($user) ? false : true,
         ]);
 
+    }
+
+    #[Route('/api/dynamic-validation/password-strength/{password}', name: 'password-strength', methods: ['GET'])]
+    public function validationPasswordStrength(PasswordChecker $passwordChecker,string $password): JsonResponse
+    {
+        return new JsonResponse([
+            'password' => $passwordChecker->checkPasswordStrength($password)
+        ]);
     }
 }

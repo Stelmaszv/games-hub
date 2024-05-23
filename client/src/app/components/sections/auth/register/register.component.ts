@@ -51,6 +51,28 @@ export class RegisterComponent {
     inputElement.type = (inputElement.type === 'password') ? 'text' : 'password';
   }
 
+  public passwordStrength(): void {
+    this.httpServiceService.getData(`http://localhost/api/dynamic-validation/password-strength/${this.password}`).subscribe({
+      next: (response) => {
+        const inputElement = document.querySelector<HTMLInputElement>('#password');
+        if (inputElement) {
+          inputElement.classList.remove('form-success', 'form-warning', 'form-danger');
+  
+          switch(response.password){
+            case "strong":
+              inputElement.classList.add('form-success');
+              break;
+            case "medium":
+              inputElement.classList.add('form-warning');
+              break;
+            case "weak":
+              inputElement.classList.add('form-danger');
+              break;
+          }
+        }
+      }
+    });
+  }
   public validLogin(): void {
     this.httpServiceService.getData(`http://localhost/api/dynamic-validation/login/${this.email}`).subscribe({
       next: (response) => {
@@ -86,7 +108,7 @@ export class RegisterComponent {
     const feedbackElement = this.getElement('#emailFeedback');
 
     if (response.available === false) {
-      this.applyInvalidStyles(emailInput, feedbackElement, 'emailNotAvailable');
+      this.applyInvalidStyles(emailInput, feedbackElement, 'userExist');
     } else {
       this.applyValidStyles(emailInput);
     }

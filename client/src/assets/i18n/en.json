@@ -19,6 +19,12 @@
     "forgotPassword": "Forget Password ?",
     "chooseLang" : "Choose language",
     "saveModal" : "Save",
+    "emptyField": "This field cannot be empty!",
+    "fieldLength": "This field is too short. Required length is {{length}} characters!",
+    "invalidEmail": "Invalid email address!",
+    "passwordsNotMatch": "Passwords do not match!",
+    "userExist": "This email address is already taken!",
+    "passwordIsWeak": "This password is too weak!",
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

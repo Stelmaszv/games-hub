@@ -7,6 +7,7 @@ namespace App\Validation\DTO\User;
 use App\Entity\User;
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\Validation\PasswordChecker;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -20,16 +21,15 @@ class UserDTO   implements DTO
 
     /**
      * @Assert\NotBlank(message="emptyField")
-     * @Assert\Length(min=8,minMessage="fieldLenght lenght:8")
      */
     public $password;
 
     /**
      * @Assert\NotBlank(message="emptyField")
-     * @Assert\Length(min=8,minMessage="fieldLenght lenght:8")
      */
     public $repartPassword;
     private ManagerRegistry $managerRegistry;
+    private PasswordChecker $passwordChecker;
 
     public function __construct(string $email, string $password, string $repartPassword)
     {
@@ -43,6 +43,14 @@ class UserDTO   implements DTO
      */
     public function validatePasswords(ExecutionContextInterface $context, $payload)
     {
+        $passwordStrenght = $this->passwordChecker->checkPasswordStrength($this->password);
+
+        if($passwordStrenght === "weak"){
+            $context->buildViolation('passwordsIsWeak')
+            ->atPath('repartPassword')
+            ->addViolation();
+        }
+
         if ($this->password !== $this->repartPassword) {
             $context->buildViolation('passwordsNotMatch')
                 ->atPath('repartPassword')
@@ -62,5 +70,6 @@ class UserDTO   implements DTO
     public function setComponnetsData(array $componnets): void
     {
         $this->managerRegistry = $componnets['managerRegistry'];
+        $this->passwordChecker = $componnets['passwordChecker'];
     }
 }

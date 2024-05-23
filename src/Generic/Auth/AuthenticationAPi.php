@@ -9,6 +9,7 @@ use Symfony\Component\Uid\Uuid;
 use App\Generic\Api\Interfaces\DTO;
 use App\Validation\DTO\User\UserDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\Validation\PasswordChecker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 trait AuthenticationAPi
 {
     private JWT $security;
+    private passwordChecker $passwordChecker;
 
     public function __construct(JWT $jwt,ManagerRegistry $doctrine,ValidatorInterface $validator)
     {
@@ -63,9 +65,11 @@ trait AuthenticationAPi
     public function register(
             Request $request,  
             UserPasswordHasherInterface $userPasswordHasher,
+            PasswordChecker $passwordChecker
         ): JsonResponse
     {
         $this->request = $request;
+        $this->passwordChecker = $passwordChecker;
 
         $data = json_decode($request->getContent(), true);
         $issetData = isset($data['email']) && isset($data['password']) && isset($data['repartPassword']);
@@ -88,14 +92,14 @@ trait AuthenticationAPi
         if($this->actionJsonData === null){
 
             $authenticationEntity = new User();
-            $IdentifierUid = $authenticationEntity instanceof IdentifierUid;
+            $identifierUid = $authenticationEntity instanceof IdentifierUid;
 
             $hashedPassword = $userPasswordHasher->hashPassword(
                 $authenticationEntity,
                 $data['password']
             );
 
-            if ($IdentifierUid) {
+            if ($identifierUid) {
                 $authenticationEntity->setId(Uuid::v4());
             }
 
@@ -103,7 +107,7 @@ trait AuthenticationAPi
             $authenticationEntity->setPassword($hashedPassword);
             $authenticationEntity->setRoles([RoleUser::NAME]);
 
-            $entityManager = $this->getManager();
+            $entityManager = $this->managerRegistry->getManager();
             $entityManager->persist($authenticationEntity);
             $entityManager->flush();
 
@@ -146,6 +150,7 @@ trait AuthenticationAPi
         return [
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
+            'passwordChecker' => $this->passwordChecker
         ];
     }
 

@@ -30,6 +30,7 @@
             aria-describedby="passwordShow passwordFeedback" 
             placeholder="{{ translationService.translate('password') }}" 
             name="password" 
+            (keyup) ="passwordStrength()"
             [(ngModel)]="password" 
             required>
           <div id="passwordFeedback" class="invalid-feedback"></div>

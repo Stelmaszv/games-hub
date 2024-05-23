@@ -23,6 +23,8 @@
     "fieldLenght" :"To pole jest za któtkie wymagana ilosc znaków to {{lenght}} !",
     "invalidEmail" : "Nie poprawny Email !",
     "passwordsNotMatch": "Hasła nie sa takie same !",
+    "userExist" :"Tej Email jest już zajety",
+    "passwordsIsWeak" :"To hasło jest za słabe",
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
