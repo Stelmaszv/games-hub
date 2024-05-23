@@ -19,6 +19,10 @@
     "forgotPassword": "Zapomniałes hasła ?",
     "chooseLang" : "Wybierz język",
     "saveModal" : "Zapisz",
+    "emptyField" :"To pole nie może być puste !",
+    "fieldLenght" :"To pole jest za któtkie wymagana ilosc znaków to {{lenght}} !",
+    "invalidEmail" : "Nie poprawny Email !",
+    "passwordsNotMatch": "Hasła nie sa takie same !",
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"

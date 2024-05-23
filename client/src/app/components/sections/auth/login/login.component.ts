@@ -21,7 +21,7 @@ export class LoginComponent {
     private httpServiceService: HttpServiceService, 
     private authService : AuthService
   ) {}
-
+  
   onSubmit() {
     this.httpServiceService.postData('http://localhost/api/login',{ 
       'email' : this.email,

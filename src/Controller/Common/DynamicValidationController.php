@@ -17,6 +17,10 @@ class DynamicValidationController extends AbstractController
     {
         $user = $doctrine?->getRepository(User::class)?->findOneBy(['email' => $email]);
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return new JsonResponse(['message' => 'invalidEmail'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
         return new JsonResponse([
             'user' => $email,
             'available' => ($user) ? false : true,

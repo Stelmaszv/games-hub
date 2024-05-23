@@ -15,19 +15,19 @@ export class RegisterComponent {
   public showPasswordIcon :string = 'fa-solid fa-eye' // fa-sharp fa-solid fa-eye-slash
   public showPasswordRepartIcon :string = 'fa-solid fa-eye' // fa-sharp fa-solid fa-eye-slash
   public errorMessage: string = '';
-  public email: string | null = '';
-  public password: string | null = '';
-  public repartPassword: string | null = '';
+  public email: string  = '';
+  public password: string = '';
+  public repartPassword: string  = '';
   public registerFailed: boolean  | null = false;
 
-  constructor(
+  public constructor(
     public translationService: TranslationService, 
     private httpServiceService: HttpServiceService, 
     private authService : AuthService,
     private formValidatorService: FormValidatorService
   ) {}
 
-  showPassword(): void {
+  public showPassword(): void {
     const inputElement = document.querySelector<HTMLInputElement>('#password');
   
     if (!inputElement) {
@@ -39,7 +39,7 @@ export class RegisterComponent {
     inputElement.type = (inputElement.type === 'password') ? 'text' : 'password';
   }
   
-  showRepartPassword(): void {
+  public showRepartPassword(): void {
     const inputElement = document.querySelector<HTMLInputElement>('#repartPassword');
   
     if (!inputElement) {
@@ -51,7 +51,18 @@ export class RegisterComponent {
     inputElement.type = (inputElement.type === 'password') ? 'text' : 'password';
   }
 
-  onSubmit() {
+  public validLogin(): void {
+    this.httpServiceService.getData(`http://localhost/api/dynamic-validation/login/${this.email}`).subscribe({
+      next: (response) => {
+        this.handleSuccessResponse(response);
+      },
+      error: (errorList: HttpErrorResponse) => {
+        this.handleErrorResponse(errorList);
+      }
+    });
+  }
+
+  public onSubmit() {
     this.httpServiceService.postData('http://localhost/api/register',{ 
       'email' : this.email,
       'password':this.password,
@@ -68,5 +79,38 @@ export class RegisterComponent {
         this.formValidatorService.restNotUseInputs(errorList.error.errors)
       }
     });
+  }
+
+  private handleSuccessResponse(response: any): void {
+    const emailInput = this.getElement('#email');
+    const feedbackElement = this.getElement('#emailFeedback');
+
+    if (response.available === false) {
+      this.applyInvalidStyles(emailInput, feedbackElement, 'emailNotAvailable');
+    } else {
+      this.applyValidStyles(emailInput);
+    }
+  }
+
+  private handleErrorResponse(errorList: HttpErrorResponse): void {
+    const emailInput = this.getElement('#email');
+    const feedbackElement = this.getElement('#emailFeedback');
+
+    this.applyInvalidStyles(emailInput, feedbackElement, errorList.error.message);
+  }
+
+  private getElement(selector: string): HTMLInputElement | null {
+    return document.querySelector<HTMLInputElement>(selector);
+  }
+
+  private applyInvalidStyles(element: HTMLInputElement | null, feedbackElement: HTMLInputElement | null, message: string): void {
+    element?.classList.add('is-invalid', 'form-danger');
+    element?.classList.remove('form-success');
+    if (feedbackElement) feedbackElement.innerHTML = this.translationService.translate(message);
+  }
+
+  private applyValidStyles(element: HTMLInputElement | null): void {
+    element?.classList.remove('is-invalid', 'form-danger');
+    element?.classList.add('form-success');
   }
 }

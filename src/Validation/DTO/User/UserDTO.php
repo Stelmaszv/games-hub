@@ -13,20 +13,20 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class UserDTO   implements DTO
 {
     /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(message="emptyField")
+     * @Assert\Email(message="invalidEmail")
      */
     public $email;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8)
+     * @Assert\NotBlank(message="emptyField")
+     * @Assert\Length(min=8,minMessage="fieldLenght lenght:8")
      */
     public $password;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8)
+     * @Assert\NotBlank(message="emptyField")
+     * @Assert\Length(min=8,minMessage="fieldLenght lenght:8")
      */
     public $repartPassword;
     private ManagerRegistry $managerRegistry;
@@ -44,7 +44,7 @@ class UserDTO   implements DTO
     public function validatePasswords(ExecutionContextInterface $context, $payload)
     {
         if ($this->password !== $this->repartPassword) {
-            $context->buildViolation('Passwords must match.')
+            $context->buildViolation('passwordsNotMatch')
                 ->atPath('repartPassword')
                 ->addViolation();
         }
@@ -53,7 +53,7 @@ class UserDTO   implements DTO
 
 
         if ($user !== null) {
-            $context->buildViolation('User Exist!')
+            $context->buildViolation('userExist')
                 ->atPath('email')
                 ->addViolation();
         }

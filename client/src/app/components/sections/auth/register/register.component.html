@@ -13,6 +13,7 @@
           id="email" 
           aria-describedby="emailGroupPrepend emailFeedback" 
           [(ngModel)]="email" 
+          (keyup) ="validLogin()"
           placeholder="{{ translationService.translate('loginIn') }}"  
           name="email"     
           required>
