@@ -1,0 +1,60 @@
+<h2 class="text-center mb-4">{{ translationService.translate('register') }}</h2>
+<form class="form" (ngSubmit)="onSubmit()" #registerForm="ngForm" id="registerForm">
+  <div class="mb-3">
+    <div class="input-group has-validation">
+      <span class="input-group-text" id="emailGroupPrepend">@</span>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="email" 
+        aria-describedby="emailGroupPrepend emailFeedback" 
+        [(ngModel)]="email" 
+        (keyup) ="validLogin()"
+        placeholder="{{ translationService.translate('loginIn') }}"  
+        name="email"     
+        required>
+      <div id="emailFeedback" class="invalid-feedback mt-3"></div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="input-group has-validation">
+      <span class="input-group-text" id="passwordShow" (click)="showPassword()"><i class="{{showPasswordIcon}}"></i></span>
+      <input 
+        type="password" 
+        class="form-control" 
+        id="password" 
+        aria-describedby="passwordShow passwordFeedback" 
+        placeholder="{{ translationService.translate('password') }}" 
+        name="password" 
+        (keyup) ="passwordStrength()"
+        [(ngModel)]="password" 
+        required
+      >
+      <div id="passwordFeedback" class="invalid-feedback"></div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="input-group has-validation">
+        <span class="input-group-text" id="repartPasswordShow" (click)="showRepartPassword()">
+          <i class="{{showPasswordRepartIcon}}"></i>
+        </span>
+
+        <input 
+          type="password" 
+          class="form-control" 
+          id="repartPassword" 
+          placeholder="{{ translationService.translate('repartPassword') }}" 
+          aria-describedby="repartPasswordShow repartPasswordFeedback" 
+          name="repartPassword" 
+          [(ngModel)]="repartPassword" 
+          required
+        >
+          <div id="repartPasswordFeedback" class="invalid-feedback"></div>
+    </div>
+  </div>
+  <div class="actions">
+    <button type="submit" class="btn btn-primary btn-lg w-100">{{ translationService.translate('register') }}</button>
+    <a routerLink="/forgot-password" class="btn btn-link mt-3">{{ translationService.translate('forgotPassword') }}</a>
+    <a routerLink="/login" class="btn btn-link mt-3">{{ translationService.translate('login') }}</a>
+  </div>
+</form>

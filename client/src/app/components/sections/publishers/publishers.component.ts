@@ -1,6 +1,6 @@
 import { Component, Input  } from '@angular/core';
-import { HttpServiceService } from '../../../../app/services/http-service/http-service.service'
-import { IsGrantedService } from '../../../../app/services/is-granted/is-granted.service'
+import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
+import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.service';
 
 @Component({
   selector: 'app-publishers',

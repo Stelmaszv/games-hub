@@ -1,13 +1,16 @@
+@import '../../../../../../styles.scss';
+
+
 .circle-icon:hover {
-    background-color: #007bff; /* Kolor tła kółka po najechaniu myszą */
-    color: #ffffff; /* Kolor ikony wewnątrz kółka po najechaniu myszą */
+    background-color: $bottom-color;
+    color: white; 
     transform: scale(1.1);
-    transition: transform 1s ease, color 1s ease; /* Dodaj animację */
+    transition: transform 1s ease, color 1s ease; 
   }
 
 .circle-icon-active{
-    background-color: #007bff; /* Kolor tła kółka po najechaniu myszą */
-    color: #ffffff; /* Kolor ikony wewnątrz kółka po najechaniu myszą */
+    background-color: $bottom-color; 
+    color: white; 
     transform: scale(1.1);
 }
   
@@ -21,17 +24,17 @@
     text-align: center;
     border-radius: 50%;
 }
-  /* Styl dla ikony Font Awesome */
+
   .circle-icon i {
     position: relative;
     z-index: 1;
-    font-size: 24px; /* Rozmiar ikony */
+    font-size: 24px; 
   }
   
-  /* Styl dla numeru wewnątrz kółka */
+
   .message-count {
-    color: red;
-    font-weight: 1000; /* Użyj wartości numerycznej dla pogrubienia */
+    color: $navbar-hover;
+    font-weight: 1000; 
     position: absolute;
     top: 45%;
     left: 50%;

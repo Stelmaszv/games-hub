@@ -107,6 +107,7 @@ abstract class GenericPostController extends AbstractController
         return $this->managerRegistry->getRepository($entity);
     }
 
+//DTO 
     protected function validationDTO(DTO $DTO): void
     {
         $DTO = $this->setDTO($DTO);

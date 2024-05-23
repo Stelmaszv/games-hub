@@ -1,5 +1,24 @@
-<navbar></navbar>
-<div class="container text-center">
-  <router-outlet></router-outlet>
-</div>
+
+  <div *ngIf="!auth">
+    <navbar></navbar>
+    <div class="container text-center">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <div *ngIf="auth" class="d-flex flex-column min-vh-100">
+    <auth-navbar></auth-navbar>
+    <div class="container d-flex flex-column justify-content-center align-items-center flex-grow-1">
+      <div class="row w-100 d-flex align-items-center justify-content-center">
+        <div class="col-md-6 mb-4 mb-md-0 d-flex justify-content-center">
+          <img src="assets/logs/gamers-hub-full.png" class="img-fluid" alt="Gamers Hub Logo">
+        </div>
+        <div class="col-md-6 section">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+    <footer class="mt-auto"></footer>
+  </div>
+
 

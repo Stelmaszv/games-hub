@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslationService } from '../translation/translation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,19 @@ export class AuthService {
   private token: string | null = null;
   private expirationTimeRemaining: number | null = null;
 
-  constructor() {
+  constructor(public TranslationService : TranslationService) {
     this.token = this.getTokenFromLocalStorage();
     this.calculateExpirationTimeRemaining();
+  }
+
+  public isTokenNeedRefresh() : boolean{
+    if (this.expirationTimeRemaining === null) {
+      return false;
+    }
+
+    const expirationDate = new Date(Date.now() + this.expirationTimeRemaining);
+
+    return (this.getDaysUntilDate(expirationDate) < 2)
   }
 
   public setToken(token: string): void {
@@ -33,6 +44,7 @@ export class AuthService {
     if (!token) return null;
 
     const decodedData = this.decodeToken(token);
+
     return decodedData;
   }
 
@@ -86,11 +98,15 @@ export class AuthService {
   private decodeToken(token: string): any {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
     return JSON.parse(atob(base64));
   }
 
   private formatDate(date: Date): string {
-    const formattedDate = `${date.getDate()} - ${this.getMonthName(date.getMonth())} - ${date.getFullYear()} (left ${this.getDaysUntilDate(date)} days)`;
+    const translation = this.TranslationService.translate('sesionExpirationLeft',{'days':String(this.getDaysUntilDate(date))});
+    const month = this.TranslationService.translateMonth(date.getMonth())
+    const formattedDate = `${date.getDate()} - ${month} - ${date.getFullYear()} (${translation})`;
+
     return formattedDate;
   }
 
@@ -98,14 +114,7 @@ export class AuthService {
     const currentDate = new Date();
     const differenceInTime = targetDate.getTime() - currentDate.getTime();
     const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
-    return differenceInDays;
-  }
 
-  private getMonthName(month: number): string {
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
-    return months[month] || "Invalid month";
+    return differenceInDays;
   }
 }
