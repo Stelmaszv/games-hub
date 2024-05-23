@@ -12,12 +12,12 @@ import { FormValidatorService } from 'src/app/services/common/form-validator/for
 })
 export class RegisterComponent {
 
-  public showPasswordIcon :string = 'fa-solid fa-eye' // fa-sharp fa-solid fa-eye-slash
-  public showPasswordRepartIcon :string = 'fa-solid fa-eye' // fa-sharp fa-solid fa-eye-slash
-  public errorMessage: string = '';
-  public email: string  = '';
+  public showPasswordIcon :string = 'fa-solid fa-eye'
+  public showPasswordRepartIcon :string = 'fa-solid fa-eye'
+  public errorMessage: string  = '';
+  public email: string = '';
   public password: string = '';
-  public repartPassword: string  = '';
+  public repartPassword: string = '';
   public registerFailed: boolean  | null = false;
 
   public constructor(
