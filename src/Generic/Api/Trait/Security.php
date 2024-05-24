@@ -9,11 +9,24 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 trait Security
 {
     protected ?string $voterAtribute = null;
-    protected ?string $voterSubject = null;
+    protected mixed $voterSubject;
+
+    private bool $access = false; 
 
     private function setSecurityView(string $action, JWT $jwt): JsonResponse
     {
-        $subject = (null !== $this->voterSubject) ? new $this->voterSubject() : null;
+        if($this->voterSubject != null){
+            $subject = null;
+
+            if(is_string($this->voterSubject)){ 
+                $subject = new $this->voterSubject();
+            }
+
+            if(is_object($this->voterSubject)){ 
+                $subject = $this->voterSubject;
+            }
+        }
+
 
         if (null === $this->voterAtribute && null === $subject) {
             return $this->$action();
@@ -37,13 +50,15 @@ trait Security
             foreach ($JWTtokken['roles'] as $role) {
                 if (Roles::checkAtribute($role, $this->voterAtribute)) {
                     $vote = $this->security->isGranted($this->voterAtribute, $subject);
-
+ 
                     if ($vote) {
-                        if (null !== $subject) {
-                            return $this->$action();
-                        }
-
+                      if (null !== $subject) {
+                        $this->access = true;
                         return $this->$action();
+                      }
+
+                      $this->access = true;
+                      return $this->$action();
                     }
                 }
             }

@@ -25,6 +25,7 @@
     "passwordsNotMatch": "Hasła nie sa takie same !",
     "userExist" :"Tej Email jest już zajety",
     "passwordsIsWeak" :"To hasło jest za słabe",
+    "addPublishers" :"Dodaj Wydawę",
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"

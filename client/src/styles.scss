@@ -6,7 +6,8 @@
 @import "../node_modules/bootstrap/scss/maps";
 @import "../node_modules/bootstrap/scss/mixins";
 @import "../node_modules/bootstrap/scss/utilities";
-
+$section-bg-color : rgb(196, 203, 205);
+$border-color : rgb(62, 123, 245);
 @import "scss/actions";
 @import "scss/navbar";
 @import "scss/forms";

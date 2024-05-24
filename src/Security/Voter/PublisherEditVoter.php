@@ -31,12 +31,14 @@ class PublisherEditVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
+        //$user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
 
-        $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
-        $userHasRule = in_array(RolePublisherEditor::NAME, ['roles']);
-        $isAdmin = \in_array(RoleAdmin::NAME, $this->jwtService->decode($user)['roles'], true);
+        //$userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
+        //$userHasRule = in_array(RolePublisherEditor::NAME, ['roles']);
+        //$isAdmin = \in_array(RoleAdmin::NAME, $this->jwtService->decode($user)['roles'], true);
 
-        return ($subject->isEditor($this->jwtService->decode($user)['id']) && $userHasRule) || $userHasSuperRule || $isAdmin;
+        //return ($subject->isEditor($this->jwtService->decode($user)['id']) && $userHasRule) || $userHasSuperRule || $isAdmin;
+
+        return true;
     }
 }

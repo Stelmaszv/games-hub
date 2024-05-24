@@ -25,6 +25,7 @@
     "passwordsNotMatch": "Passwords do not match!",
     "userExist": "This email address is already taken!",
     "passwordsIsWeak": "This password is too weak!",
+    "addPublishers" :"Add Publishers",
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

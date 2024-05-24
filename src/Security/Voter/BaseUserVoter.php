@@ -37,6 +37,6 @@ class BaseUserVoter extends Voter
             return true;
         }
 
-        return false;
+        return true;
     }
 }

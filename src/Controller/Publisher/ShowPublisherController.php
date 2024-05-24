@@ -14,5 +14,5 @@ class ShowPublisherController extends GenericDetailController
 {
     protected ?string $entity = Publisher::class;
     protected ?string $voterAtribute = Atribute::CAN_SHOW_PUBLISHER;
-    protected ?string $voterSubject = Publisher::class;
+    protected mixed $voterSubject = Publisher::class;
 }

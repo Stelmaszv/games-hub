@@ -14,7 +14,7 @@ export class IsGrantedService {
 
   constructor(private httpServiceService: HttpServiceService) { }
 
-  setData(attribute: string, subject: object): void {
+  setData(attribute: string, subject: object | null = null): void {
     this.data = {
       'attribute': attribute,
       'subject': subject
