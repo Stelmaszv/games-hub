@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Voter;
 
+use App\Roles\RoleAdmin;
 use App\Entity\Publisher;
 use App\Generic\Auth\JWT;
-use App\Roles\RoleAdmin;
-use App\Roles\RolePublisherEditor;
-use App\Roles\RoleSuperAdmin;
 use App\Security\Atribute;
+use App\Roles\RoleSuperAdmin;
+use App\Roles\RolePublisherEditor;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class PublisherEditVoter extends Voter
+class PublisherDeleteVoter extends Voter
 {
-    public const EDIT = Atribute::CAN_EDIT_PUBLISHER;
+    public const EDIT = Atribute::CAN_DELETE_PUBLISHER;
     private JWT $jwtService;
     protected RequestStack $requestStack;
 

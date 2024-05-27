@@ -8,8 +8,11 @@ import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.
   styleUrls: ['./publishers-main-list.component.scss']
 })
 export class PublishersMainListComponent {
-  canListPublishers : boolean| undefined;
-  canAddPublishers : boolean| undefined;
+  canListPublishers : boolean | undefined;
+  canAddPublisher : boolean | undefined;
+  canShowPublisher : boolean | undefined;
+  canEditPublisher : boolean | undefined;
+  canDeletePublisher : boolean | undefined;
   constructor(private httpServiceService: HttpServiceService,private isGrantedService : IsGrantedService) { }
 
   ngOnInit(): void {
@@ -22,7 +25,25 @@ export class PublishersMainListComponent {
     this.isGrantedService.setData('CAN_ADD_PUBLISHER', { "entity": "Publisher" });
     
     this.isGrantedService.responseData.subscribe((el) => {
-      this.canAddPublishers = el
+      this.canAddPublisher = el
+    });
+
+    this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher","id":68 });
+    
+    this.isGrantedService.responseData.subscribe((el) => {
+      this.canShowPublisher = el
+    });
+
+    this.isGrantedService.setData('CAN_EDIT_PUBLISHER', { "entity": "Publisher","id":65 });
+    
+    this.isGrantedService.responseData.subscribe((el) => {
+      this.canEditPublisher = el
+    });
+
+    this.isGrantedService.setData('CAN_DELETE_PUBLISHER', { "entity": "Publisher", "id":65 });
+    
+    this.isGrantedService.responseData.subscribe((el) => {
+      this.canDeletePublisher = el
     });
 
   }
