@@ -19,7 +19,7 @@ export class PublishersMainListComponent {
       this.canListPublishers = el
     });
 
-    this.isGrantedService.setData('CAN_ADD_PUBLISHER', { "entity": "", "id":  65});
+    this.isGrantedService.setData('CAN_ADD_PUBLISHER', { "entity": "Publisher" });
     
     this.isGrantedService.responseData.subscribe((el) => {
       this.canAddPublishers = el

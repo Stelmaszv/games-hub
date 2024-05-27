@@ -17,13 +17,16 @@ use Doctrine\Persistence\ManagerRegistry;
 class IsGrantedController extends AbstractController
 {
     private Security $security;
-    private int $id;
+    private ?int $id = null;
     private ManagerRegistry $managerRegistry;
+    protected mixed $voterSubject = null;
 
     use SecurityTrait;
     #[Route('/api/isGranted', name: 'isGranted', methods: ['POST'])]
     public function check(ManagerRegistry $doctrine,Security $security,Request $request, EntityManagerInterface $entityManager,JWT $jwt): JsonResponse
     {
+        $entity = null;
+        $id = null;
         $this->security = $security;
         $this->managerRegistry = $doctrine;
 
@@ -35,14 +38,22 @@ class IsGrantedController extends AbstractController
         }
         
         $this->voterAtribute = $data['attribute'];
+        
+        if(isset($data['subject'])){
+            $entity = $data['subject']['entity'];
 
-        if(isset($data['entity'])){
-            $className = 'App\Entity\\' . $data['entity'];
+            if(isset($data['subject']['id'])){
+                $id = $data['subject']['id'];
+            }
+        }
+
+        if($entity !== null){
+            $className = 'App\Entity\Publisher';
             $this->voterSubject = $className;
         }
 
-        if(isset($data['id'])){
-            $this->id = $data['id'];
+        if($id !== null){
+            $this->id = $id;
         }
 
         return $this->setSecurityView('accessGranted',$jwt);
