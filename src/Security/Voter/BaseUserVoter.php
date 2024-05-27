@@ -26,7 +26,9 @@ class BaseUserVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return \in_array($attribute, RoleUser::ROLES, true);
+        return \in_array($attribute, RoleUser::ROLES, true) ||        
+        \in_array($attribute, RoleSuperAdmin::ROLES, true) || 
+        \in_array($attribute, RoleAdmin::ROLES, true);;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool

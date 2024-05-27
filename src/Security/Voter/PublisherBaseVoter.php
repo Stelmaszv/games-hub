@@ -17,6 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class PublisherBaseVoter extends Voter
 {
+    public const USER = RoleSuperAdmin::NAME;
     public const ATRIBUTES = [
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_DELETE_PUBLISHER,
@@ -34,33 +35,40 @@ class PublisherBaseVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, SElf::ATRIBUTES) && $subject instanceof Publisher;
+        return in_array($attribute, SElf::ATRIBUTES) && $subject instanceof Publisher || 
+              \in_array($attribute, RoleSuperAdmin::ROLES, true) || 
+              \in_array($attribute, RoleAdmin::ROLES, true);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
+        
         $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
         $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
+
+        if($userHasSuperRule || $isAdmin){
+            return true;
+        }
 
         switch($attribute){
             
             case Atribute::CAN_DELETE_PUBLISHER;
                 $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
-            
-                return ($subject->isEditor($user['id']) && $userHasRule) || $userHasSuperRule || $isAdmin;
+
+                return ($subject->isEditor($user['id']) && $userHasRule);
             break;
 
             case Atribute::CAN_ADD_PUBLISHER;
                 $userHasRule = $this->userHasRule($user,RolePublisherCreator::NAME);
             
-                return ($userHasRule || $userHasSuperRule || $isAdmin);
+                return ($userHasRule || $userHasSuperRule);
             break;
 
             case Atribute::CAN_EDIT_PUBLISHER;
                 $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
 
-                return ($subject->isEditor($user['id']) && $userHasRule) || $userHasSuperRule || $isAdmin;
+                return ($subject->isEditor($user['id']) && $userHasRule) || $userHasSuperRule;
             break;
         }   
         
