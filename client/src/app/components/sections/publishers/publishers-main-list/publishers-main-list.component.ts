@@ -9,11 +9,11 @@ import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.
 })
 export class PublishersMainListComponent {
   canListPublishers : boolean | undefined;
-  canAddPublisher : boolean | undefined;
   canShowPublisher : boolean | undefined;
   canEditPublisher : boolean | undefined;
   canDeletePublisher : boolean | undefined;
-  constructor(private httpServiceService: HttpServiceService,private isGrantedService : IsGrantedService) { }
+
+  constructor(private isGrantedService : IsGrantedService) { }
 
   ngOnInit(): void {
     this.isGrantedService.setData('CAN_LIST_PUBLISHERS');
@@ -22,13 +22,7 @@ export class PublishersMainListComponent {
       this.canListPublishers = el
     });
 
-    this.isGrantedService.setData('CAN_ADD_PUBLISHER', { "entity": "Publisher" });
-    
-    this.isGrantedService.responseData.subscribe((el) => {
-      this.canAddPublisher = el
-    });
-
-    this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher","id":68 });
+    this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher","id":65 });
     
     this.isGrantedService.responseData.subscribe((el) => {
       this.canShowPublisher = el
