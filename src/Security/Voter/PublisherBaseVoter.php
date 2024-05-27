@@ -20,8 +20,7 @@ class PublisherBaseVoter extends Voter
     public const ATRIBUTES = [
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_DELETE_PUBLISHER,
-        Atribute::CAN_EDIT_PUBLISHER,
-        Atribute::CAN_SHOW_PUBLISHER
+        Atribute::CAN_EDIT_PUBLISHER
     ];
 
     private JWT $jwtService;
@@ -45,9 +44,10 @@ class PublisherBaseVoter extends Voter
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
 
         switch($attribute){
+            
             case Atribute::CAN_DELETE_PUBLISHER;
                 $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
-
+            
                 return ($subject->isEditor($user['id']) && $userHasRule) || $userHasSuperRule || $isAdmin;
             break;
 
@@ -61,12 +61,6 @@ class PublisherBaseVoter extends Voter
                 $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
 
                 return ($subject->isEditor($user['id']) && $userHasRule) || $userHasSuperRule || $isAdmin;
-            break;
-
-            case Atribute::CAN_SHOW_PUBLISHER;
-                $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
-                
-                return ($subject->getVerified()) || ($userHasSuperRule || $isAdmin);
             break;
         }   
         

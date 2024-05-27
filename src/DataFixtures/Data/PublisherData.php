@@ -20,7 +20,7 @@ class PublisherData extends AbstractDataFixture
     protected array $data = [
         [
             'outputMessage' => 'EA',
-            'createdBy' => 'pani@wp.pl',
+            'createdBy' => 'publisherCreator@dot.com',
             'generalInformation' => 'https://en.wikipedia.org/wiki/Electronic_Arts',
             'descriptions' => [
                 [
@@ -37,7 +37,7 @@ class PublisherData extends AbstractDataFixture
                 ],
             ],
             'creationDate' => null,
-            'editors' => ['kot123@dot.com', 'user@qwe.com'],
+            'editors' => ['publisherEditor@wp.pl','publisherCreator@dot.com'],
             'verified' => true,
         ],
     ];

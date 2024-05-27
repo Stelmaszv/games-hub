@@ -22,19 +22,19 @@ export class PublishersMainListComponent {
       this.canListPublishers = el
     });
 
-    this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher","id":65 });
+    this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher","id":68 });
     
     this.isGrantedService.responseData.subscribe((el) => {
       this.canShowPublisher = el
     });
 
-    this.isGrantedService.setData('CAN_EDIT_PUBLISHER', { "entity": "Publisher","id":65 });
+    this.isGrantedService.setData('CAN_EDIT_PUBLISHER', { "entity": "Publisher","id":68 });
     
     this.isGrantedService.responseData.subscribe((el) => {
       this.canEditPublisher = el
     });
 
-    this.isGrantedService.setData('CAN_DELETE_PUBLISHER', { "entity": "Publisher", "id":65 });
+    this.isGrantedService.setData('CAN_DELETE_PUBLISHER', { "entity": "Publisher", "id":68 });
     
     this.isGrantedService.responseData.subscribe((el) => {
       this.canDeletePublisher = el

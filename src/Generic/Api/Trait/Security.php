@@ -52,7 +52,7 @@ trait Security
             foreach ($JWTtokken['roles'] as $role) {
                 if (Roles::checkAtribute($role, $this->voterAtribute)) {
                     $vote = $this->security->isGranted($this->voterAtribute, $subject);
-
+                    
                     if ($vote) {
                       if (null !== $subject) {
                         $this->access = true;

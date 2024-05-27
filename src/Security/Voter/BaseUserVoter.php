@@ -2,16 +2,20 @@
 
 namespace App\Security\Voter;
 
-use App\Generic\Auth\JWT;
-use App\Roles\RoleAdmin;
-use App\Roles\RoleSuperAdmin;
 use App\Roles\RoleUser;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use App\Roles\RoleAdmin;
+use App\Generic\Auth\JWT;
+use App\Security\Atribute;
+use App\Roles\RoleSuperAdmin;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class BaseUserVoter extends Voter
 {
-    public const USER = 'ROLE_USER';
+    public const ATRIBUTES = [
+        Atribute::CAN_LIST_PUBLISHERS,
+        Atribute::CAN_SHOW_PUBLISHER
+    ];
 
     private JWT $jwtService;
 
@@ -32,11 +36,21 @@ class BaseUserVoter extends Voter
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
         $isEditor = $subject?->isEditor($user['id']);
         $isVerified = $subject?->getVerified();
+        
+        switch($attribute){
 
-        if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin) {
-            return true;
-        }
+            case Atribute::CAN_LIST_PUBLISHERS;
+                return true;
+            break;
 
-        return true;
+            case Atribute::CAN_SHOW_PUBLISHER;
+        
+                if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin) {
+                    return true;
+                }
+            break;
+        }   
+        
+        return false;
     }
 }

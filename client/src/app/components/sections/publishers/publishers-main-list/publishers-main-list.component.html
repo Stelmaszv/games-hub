@@ -4,7 +4,7 @@
   </div>
   <div class="list" *ngIf="canListPublishers">
     <div class="listElemnts">
-        <div class="row list-elment">
+        <div *ngIf="canShowPublisher"class="row list-elment">
           <div class="col-1">
             <img src="../../../../../../assets/media/logo/ea.png" class="logo">
           </div>
@@ -12,7 +12,7 @@
             Electronic Arts
           </div>
           <div class="col-3 list-elment-icons">
-            <i *ngIf="canShowPublisher" class="fa-solid fa-circle-info action-icon"></i>
+            <i class="fa-solid fa-circle-info action-icon"></i>
             <i *ngIf="canEditPublisher" class="fa-sharp fa-solid fa-sliders action-icon"></i>
             <i *ngIf="canEditPublisher" class="fa-solid fa-pen-to-square action-icon"></i>
             <i *ngIf="canDeletePublisher" class="fa-solid fa-trash action-icon"></i>

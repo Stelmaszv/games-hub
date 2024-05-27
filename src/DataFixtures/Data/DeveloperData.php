@@ -23,7 +23,7 @@ class DeveloperData extends AbstractDataFixture
     protected array $data = [
         [
             'outputMessage' => 'EA_DICE',
-            'createdBy' => 'pani@wp.pl',
+            'createdBy' => 'devloperCreator@dot.com',
             'generalInformation' => 'https://en.wikipedia.org/wiki/Naughty_Dog',
             'descriptions' => [
                 [
@@ -40,7 +40,7 @@ class DeveloperData extends AbstractDataFixture
                 ],
             ],
             'creationDate' => null,
-            'editors' => ['kot123@dot.com', 'user@qwe.com'],
+            'editors' => ['devloperCreator@dot.com'],
             'verified' => true,
         ],
     ];
