@@ -16,18 +16,21 @@ export class PublishersMainListComponent {
 
   public constructor(private HttpServiceService : HttpServiceService, private isGrantedService : IsGrantedService) { }
 
-  public ngOnInit() : void {
+  public ngOnInit() : void 
+  {
     this.getList()
     this.setList()
   }
 
-  private getList() : void{
+  private getList() : void
+  {
     this.isGrantedService.getPermisionForList('CAN_LIST_PUBLISHERS').subscribe((isGrantedList: IsGranted) => {
       this.canListPublishers = isGrantedList.success
     });
   }
 
-  private setList() : void{
+  private setList() : void
+  {
     this.HttpServiceService.getData('http://localhost/api/publisher/list')
     .subscribe((data: RespanseList ) => {
       data.results.forEach((element: PublisherListElement) => {
