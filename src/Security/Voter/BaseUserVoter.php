@@ -45,8 +45,7 @@ class BaseUserVoter extends Voter
                 return true;
             break;
 
-            case Atribute::CAN_SHOW_PUBLISHER;
-        
+            case Atribute::CAN_SHOW_PUBLISHER;        
                 if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin) {
                     return true;
                 }

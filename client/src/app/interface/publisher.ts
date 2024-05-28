@@ -1,10 +1,11 @@
-export interface PublisherListElement extends PublisherPermisions {
+export interface PublisherListElement extends Publisher,PublisherPermisions {}
+
+export interface Publisher{
   id: number;
 
   generalInformation: {
     name: string;
   };
-
 }
 
 export interface PublisherPermisions{

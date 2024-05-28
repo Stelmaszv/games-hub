@@ -42,7 +42,7 @@ trait Security
             } catch (\Exception $e) {
                 return new JsonResponse(['success' => false, 'message' => $e->getMessage()], JsonResponse::HTTP_UNAUTHORIZED);
             }
-
+            
             if(property_exists($this, 'id')){
                 if ($this->id !== null && null !== $this->voterSubject) {
                     $subject = $this->managerRegistry->getRepository($this->voterSubject)->find($this->id);
@@ -52,7 +52,7 @@ trait Security
             foreach ($JWTtokken['roles'] as $role) {
                 if (Roles::checkAtribute($role, $this->voterAtribute)) {
                     $vote = $this->security->isGranted($this->voterAtribute, $subject);
-                    
+
                     if ($vote) {
                       if (null !== $subject) {
                         $this->access = true;
