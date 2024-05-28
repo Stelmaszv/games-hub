@@ -9,15 +9,16 @@ import { GamesMainListComponent } from './components/sections/games/games-main-l
 import { PublishersMainListComponent } from './components/sections/publishers/publishers-main-list/publishers-main-list.component';
 import { DeveloperMainListComponent } from './components/sections/devloper/developer-main-list/developer-main-list.component';
 import { ShowPublisherComponent } from './components/sections/publishers/show-publisher/show-publisher.component';
+import { CanShowPublisherGuard } from './gards/section/publisher/can.show.publisher.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponentComponent },
 
   //publishers
   { path: 'publishers/list', component: PublishersMainListComponent },
-  { path: 'publisher/show/:id', component: ShowPublisherComponent },
-  { path: 'publisher/edit/:id', component: ShowPublisherComponent },
-  { path: 'publisher/delete/:id', component: ShowPublisherComponent },
+  { path: 'publisher/show/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
+  { path: 'publisher/edit/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
+  { path: 'publisher/delete/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
 
   //developers
   { path: 'developers/list', component: DeveloperMainListComponent },
