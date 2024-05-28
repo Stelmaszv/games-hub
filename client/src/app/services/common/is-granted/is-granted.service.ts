@@ -31,4 +31,20 @@ export class IsGrantedService {
       subject.next(data);
     });
   }
+
+  public setPermisionForList(permision: string): Observable<any> {
+    this.setData(permision);
+
+    return this.responseData;
+  }
+
+  public setPermision(permision: string, element: any, permisionStringName: string,entity: string ) {
+    this.setData(permision, { "entity": entity, "id": element.id });
+      
+    this.responseData.subscribe((el) => {
+      if (el && 'success' in el) {
+        element[permisionStringName] = el.success;
+      }
+    });
+  }
 }

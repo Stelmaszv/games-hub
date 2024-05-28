@@ -3,8 +3,6 @@
       <add-publishers></add-publishers>
   </div>
 
-
-
   <div class="list" *ngIf="canListPublishers">
     <div class="listElemnts" *ngFor="let publisher of publishers">
         <div *ngIf="publisher.canShowPublisher" class="row list-elment">
@@ -22,4 +20,5 @@
         </div>
     </div>
   </div>
+
 </div>

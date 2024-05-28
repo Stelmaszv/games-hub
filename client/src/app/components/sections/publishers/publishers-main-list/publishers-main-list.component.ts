@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-publishers-main-list',
@@ -14,36 +15,27 @@ export class PublishersMainListComponent {
   constructor(private HttpServiceService : HttpServiceService,private isGrantedService : IsGrantedService) { }
 
   ngOnInit(): void {
+    this.getList()
+    this.setList()
+  }
+
+  private getList(){
+    this.isGrantedService.setPermisionForList('CAN_LIST_PUBLISHERS').subscribe((list: any) => {
+      this.canListPublishers = list
+    });
+  }
+
+  private setList(){
     this.HttpServiceService.getData('http://localhost/api/publisher/list')
     .subscribe((data: any) => {
       data.results.forEach((element: any) => {
 
-        this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher","id":element.id });
-    
-        this.isGrantedService.responseData.subscribe((el) => {
-          element.canShowPublisher = el
-        });
+        this.isGrantedService.setPermision('CAN_SHOW_PUBLISHER', element, 'canShowPublisher', 'Publisher')
+        this.isGrantedService.setPermision('CAN_EDIT_PUBLISHER', element, 'canEditPublisher', 'Publisher' )
+        this.isGrantedService.setPermision('CAN_DELETE_PUBLISHER', element, 'canDeletePublisher', 'Publisher' )
 
-        this.isGrantedService.setData('CAN_EDIT_PUBLISHER', { "entity": "Publisher","id":element.id });
-    
-        this.isGrantedService.responseData.subscribe((el) => {
-          element.canEditPublisher = el
-        });
-
-        this.isGrantedService.setData('CAN_DELETE_PUBLISHER', { "entity": "Publisher","id":element.id });
-    
-        this.isGrantedService.responseData.subscribe((el) => {
-          element.canDeletePublisher = el.success
-        });
-   
         this.publishers.push(element);
       });
-    });
-
-    this.isGrantedService.setData('CAN_LIST_PUBLISHERS');
-    
-    this.isGrantedService.responseData.subscribe((el) => {
-      this.canListPublishers = el
     });
   }
 }
