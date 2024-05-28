@@ -20,8 +20,7 @@ export class ShowPublisherComponent implements OnInit {
 
   private getPublisher(){
     this.route.params.subscribe(params => {
-      this.HttpServiceService.getData('http://localhost/api/publisher/show/'+params['id'])
-      .subscribe((publisher: Publisher ) => {
+      this.HttpServiceService.getData('http://localhost/api/publisher/show/'+params['id']).subscribe((publisher: Publisher ) => {
         this.publisher = publisher
       });
     });

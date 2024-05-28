@@ -25,7 +25,7 @@ export class PublishersMainListComponent {
   private getList() : void
   {
     this.isGrantedService.getPermisionForList('CAN_LIST_PUBLISHERS').subscribe((isGrantedList: IsGranted) => {
-      this.canListPublishers = isGrantedList.success
+      this.canListPublishers = isGrantedList?.success
     });
   }
 
