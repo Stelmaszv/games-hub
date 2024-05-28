@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpServiceService } from '../http-service/http-service.service';
+import { IsGranted } from 'src/app/interface/common';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class IsGrantedService {
     const subject = new BehaviorSubject<any>(null);
     this.responseData = subject.asObservable();
 
-    this.httpServiceService.postData('http://localhost/api/isGranted', this.data).subscribe((data: any) => {
+    this.httpServiceService.postData('http://localhost/api/isGranted', this.data).subscribe((data: IsGranted) => {
       subject.next(data);
     });
   }
