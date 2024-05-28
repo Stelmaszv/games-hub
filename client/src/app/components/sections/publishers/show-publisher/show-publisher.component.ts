@@ -12,12 +12,12 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
 export class ShowPublisherComponent implements OnInit {
   public publisher: Publisher | null = null;
 
-  constructor(private route: ActivatedRoute, private HttpServiceService : HttpServiceService) { }
+  public constructor(private route: ActivatedRoute, private HttpServiceService : HttpServiceService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPublisher()
   }
-  
+
   private getPublisher(){
     this.route.params.subscribe(params => {
       this.HttpServiceService.getData('http://localhost/api/publisher/show/'+params['id'])
