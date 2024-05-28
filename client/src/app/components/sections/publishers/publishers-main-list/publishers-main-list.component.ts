@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-publishers-main-list',
@@ -9,12 +8,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./publishers-main-list.component.scss']
 })
 export class PublishersMainListComponent {
-  canListPublishers : boolean | undefined;
-  publishers: any[] = [];
+  public canListPublishers : boolean | undefined;
+  public publishers: any[] = [];
 
-  constructor(private HttpServiceService : HttpServiceService,private isGrantedService : IsGrantedService) { }
+  public constructor(private HttpServiceService : HttpServiceService,private isGrantedService : IsGrantedService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getList()
     this.setList()
   }
