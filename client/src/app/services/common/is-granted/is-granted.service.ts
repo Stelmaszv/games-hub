@@ -30,7 +30,7 @@ export class IsGrantedService {
     });
   }
 
-  public setPermisionForList(permision: string): Observable<any> {
+  public getPermisionForList(permision: string): Observable<any> {
     this.setData(permision);
 
     return this.responseData;

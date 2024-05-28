@@ -19,7 +19,7 @@ export class PublishersMainListComponent {
   }
 
   private getList(){
-    this.isGrantedService.setPermisionForList('CAN_LIST_PUBLISHERS').subscribe((list: any) => {
+    this.isGrantedService.getPermisionForList('CAN_LIST_PUBLISHERS').subscribe((list: any) => {
       this.canListPublishers = list
     });
   }
