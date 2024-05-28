@@ -2,20 +2,22 @@
   <div class="actions">
       <add-publishers></add-publishers>
   </div>
+
+
+
   <div class="list" *ngIf="canListPublishers">
-    <div class="listElemnts">
-        <div *ngIf="canShowPublisher"class="row list-elment">
+    <div class="listElemnts" *ngFor="let publisher of publishers">
+        <div *ngIf="publisher.canShowPublisher" class="row list-elment">
           <div class="col-1">
             <img src="../../../../../../assets/media/logo/ea.png" class="logo">
           </div>
           <div class="col-8 list-elment-name">
-            Electronic Arts
+            {{ publisher.generalInformation.name }}
           </div>
           <div class="col-3 list-elment-icons">
             <i class="fa-solid fa-circle-info action-icon"></i>
-            <i *ngIf="canEditPublisher" class="fa-sharp fa-solid fa-sliders action-icon"></i>
-            <i *ngIf="canEditPublisher" class="fa-solid fa-pen-to-square action-icon"></i>
-            <i *ngIf="canDeletePublisher" class="fa-solid fa-trash action-icon"></i>
+            <i *ngIf="publisher.canEditPublisher" class="fa-solid fa-pen-to-square action-icon"></i>
+            <i *ngIf="publisher.canDeletePublisher" class="fa-solid fa-trash action-icon"></i>
           </div>
         </div>
     </div>
