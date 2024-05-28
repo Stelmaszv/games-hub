@@ -22,6 +22,7 @@ import { DeveloperMainListComponent } from './components/sections/devloper/devel
 import { GamesMainListComponent } from './components/sections/games/games-main-list/games-main-list.component';
 import { MainComponentComponent } from './components/sections/main-component/main-component.component';
 import { AddPublishersComponent } from './components/sections/publishers/add-publishers/add-publishers.component';
+import { ShowPublisherComponent } from './components/sections/publishers/show-publisher/show-publisher.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AddPublishersComponent } from './components/sections/publishers/add-pub
     DeveloperMainListComponent,
     GamesMainListComponent,
     MainComponentComponent,
-    AddPublishersComponent
+    AddPublishersComponent,
+    ShowPublisherComponent
   ],
   imports: [
     BrowserModule,

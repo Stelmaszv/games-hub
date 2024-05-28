@@ -10,7 +10,7 @@
             <img src="../../../../../../assets/media/logo/ea.png" class="logo">
           </div>
           <div class="col-8 list-elment-name">
-            {{ publisher.generalInformation.name }}
+            <a [routerLink]="['/publisher/show', publisher.id]">{{ publisher.generalInformation.name }}</a>
           </div>
           <div class="col-3 list-elment-icons">
             <i class="fa-solid fa-circle-info action-icon"></i>

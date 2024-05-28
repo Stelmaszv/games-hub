@@ -8,12 +8,22 @@ import { MainComponentComponent } from './components/sections/main-component/mai
 import { GamesMainListComponent } from './components/sections/games/games-main-list/games-main-list.component';
 import { PublishersMainListComponent } from './components/sections/publishers/publishers-main-list/publishers-main-list.component';
 import { DeveloperMainListComponent } from './components/sections/devloper/developer-main-list/developer-main-list.component';
+import { ShowPublisherComponent } from './components/sections/publishers/show-publisher/show-publisher.component';
 
 const routes: Routes = [
   { path: '', component: MainComponentComponent },
-  { path: 'games/list', component: GamesMainListComponent },
+
+  //publishers
   { path: 'publishers/list', component: PublishersMainListComponent },
+  { path: 'publisher/show/:id', component: ShowPublisherComponent },
+
+  //developers
   { path: 'developers/list', component: DeveloperMainListComponent },
+
+  //games
+  { path: 'games/list', component: GamesMainListComponent },
+  
+  //auth
   { path: 'login', component: LoginComponent, canActivate: [NotLoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotLoginGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [NotLoginGuard] }

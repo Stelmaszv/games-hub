@@ -11,7 +11,7 @@ export class PublishersMainListComponent {
   public canListPublishers : boolean | undefined;
   public publishers: any[] = [];
 
-  public constructor(private HttpServiceService : HttpServiceService,private isGrantedService : IsGrantedService) { }
+  public constructor(private HttpServiceService : HttpServiceService, private isGrantedService : IsGrantedService) { }
 
   public ngOnInit(): void {
     this.getList()
