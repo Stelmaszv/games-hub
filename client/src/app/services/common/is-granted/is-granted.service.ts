@@ -12,16 +12,16 @@ export class IsGrantedService {
 
   public constructor(private httpServiceService: HttpServiceService) { }
 
-  public setData(attribute: string, subject: object | null = null): void {
+  public isGranted(attribute: string, subject: object | null = null): void {
     this.data = {
       'attribute': attribute,
       'subject': subject
     }
 
-    this.init();
+    this.getIsGranted();
   }
 
-  public init(): void {
+  public getIsGranted(): void {
     const subject = new BehaviorSubject<any>(null);
     this.responseData = subject.asObservable();
 
@@ -31,13 +31,13 @@ export class IsGrantedService {
   }
 
   public getPermisionForList(permision: string): Observable<any> {
-    this.setData(permision);
+    this.isGranted(permision);
 
     return this.responseData;
   }
 
   public setPermision(permision: string, element: any, permisionStringName: string,entity: string ) {
-    this.setData(permision, { "entity": entity, "id": element.id });
+    this.isGranted(permision, { "entity": entity, "id": element.id });
       
     this.responseData.subscribe((el) => {
       if (el && 'success' in el) {
@@ -47,7 +47,7 @@ export class IsGrantedService {
   }
 
   public getPermision(permision: string, entity: string | null = null , id : number | null = null  ) {
-    this.setData(permision, { "entity": entity, "id": id });
+    this.isGranted(permision, { "entity": entity, "id": id });
       
     return this.responseData;
   }
