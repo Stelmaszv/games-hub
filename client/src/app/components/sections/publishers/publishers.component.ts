@@ -11,13 +11,4 @@ import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.
 export class PublishersComponent {
   @Input() isGranted: boolean | undefined;
   constructor(private httpServiceService: HttpServiceService,private isGrantedService : IsGrantedService) { }
-
-  ngOnInit(): void {
-    this.isGrantedService.setData('CAN_SHOW_PUBLISHER', { "entity": "Publisher", "id": 65 });
-    
-    this.isGrantedService.responseData.subscribe((el) => {
-      this.isGranted = el
-    });
-
-  }
 }

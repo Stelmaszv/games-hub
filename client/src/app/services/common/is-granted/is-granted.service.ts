@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpServiceService } from '../http-service/http-service.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +8,11 @@ import { HttpServiceService } from '../http-service/http-service.service';
 export class IsGrantedService {
 
   private data: any;
-  public responseData!: Observable<any>;
+  private responseData!: Observable<any>;
 
-  constructor(private httpServiceService: HttpServiceService) { }
+  public constructor(private httpServiceService: HttpServiceService) { }
 
-  setData(attribute: string, subject: object | null = null): void {
+  public setData(attribute: string, subject: object | null = null): void {
     this.data = {
       'attribute': attribute,
       'subject': subject
@@ -23,7 +21,7 @@ export class IsGrantedService {
     this.init();
   }
 
-  init(): void {
+  public init(): void {
     const subject = new BehaviorSubject<any>(null);
     this.responseData = subject.asObservable();
 
@@ -46,5 +44,11 @@ export class IsGrantedService {
         element[permisionStringName] = el.success;
       }
     });
+  }
+
+  public getPermision(permision: string, entity: string | null = null , id : number | null = null  ) {
+    this.setData(permision, { "entity": entity, "id": id });
+      
+    return this.responseData;
   }
 }
