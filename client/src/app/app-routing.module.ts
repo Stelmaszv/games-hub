@@ -16,6 +16,8 @@ const routes: Routes = [
   //publishers
   { path: 'publishers/list', component: PublishersMainListComponent },
   { path: 'publisher/show/:id', component: ShowPublisherComponent },
+  { path: 'publisher/edit/:id', component: ShowPublisherComponent },
+  { path: 'publisher/delete/:id', component: ShowPublisherComponent },
 
   //developers
   { path: 'developers/list', component: DeveloperMainListComponent },

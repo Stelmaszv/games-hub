@@ -14,8 +14,8 @@
           </div>
           <div class="col-3 list-elment-icons">
             <a [routerLink]="['/publisher/show/', publisher.id]"><i class="fa-solid fa-circle-info action-icon"></i></a>
-            <i *ngIf="publisher.canEditPublisher" class="fa-solid fa-pen-to-square action-icon"></i>
-            <i *ngIf="publisher.canDeletePublisher" class="fa-solid fa-trash action-icon"></i>
+            <a [routerLink]="['/publisher/edit/', publisher.id]"><i *ngIf="publisher.canEditPublisher" class="fa-solid fa-pen-to-square action-icon"></i></a>
+            <a [routerLink]="['/publisher/delete/', publisher.id]"><i *ngIf="publisher.canDeletePublisher" class="fa-solid fa-trash action-icon"></i></a>
           </div>
         </div>
     </div>
