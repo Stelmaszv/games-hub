@@ -12,12 +12,13 @@ import { ShowPublisherComponent } from './components/sections/publishers/show-pu
 import { CanShowPublisherGuard } from './gards/section/publisher/CanShowPublisherGuard/can.show.publisher.guard';
 import { CanEditPublisherGuard } from './gards/section/publisher/CanEditPublisherGuard/can-edit-publisher.guard';
 import { CanDeletePublisherGuard } from './gards/section/publisher/CanDeletePublisherGuard/can-delete-publisher-guard';
+import { CanListPublishersGuard } from './gards/section/publisher/CanListPublishersGuard/can-list-publishers.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponentComponent },
 
   //publishers
-  { path: 'publishers/list', component: PublishersMainListComponent },
+  { path: 'publishers/list', component: PublishersMainListComponent, canActivate: [CanListPublishersGuard] },
   { path: 'publisher/show/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
   { path: 'publisher/edit/:id', component: ShowPublisherComponent , canActivate: [CanEditPublisherGuard] },
   { path: 'publisher/delete/:id', component: ShowPublisherComponent , canActivate: [CanDeletePublisherGuard] },

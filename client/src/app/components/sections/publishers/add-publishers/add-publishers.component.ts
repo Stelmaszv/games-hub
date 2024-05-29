@@ -12,11 +12,8 @@ export class AddPublishersComponent implements OnInit {
   
   constructor(public translationService: TranslationService,private isGrantedService : IsGrantedService){}
 
-  ngOnInit(): void {
-    this.isGrantedService.getPermision('CAN_ADD_PUBLISHER').subscribe((el) => {
-      if (el && 'success' in el) {
-        this.canAddPublisher  = el.success;
-      }
-    });
+  async ngOnInit(): Promise<void> {
+    const isGranted = await this.isGrantedService.checkIfGuardCanActivate('CAN_ADD_PUBLISHER');
+    this.canAddPublisher = isGranted
   }
 }

@@ -1,72 +1,63 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpServiceService } from '../http-service/http-service.service';
-import { IsGranted } from 'src/app/interface/common';
-import { map, tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class IsGrantedService {
 
-  private guardData: any;
-  private data: any;
   private responseData!: Observable<any>;
 
-  public constructor(private httpServiceService: HttpServiceService) { }
+  constructor(private httpServiceService: HttpServiceService) { }
 
-  public isGranted(attribute: string, subject: object | null = null): void 
-  {
-    this.data = {
+  private isGranted(attribute: string, subject: object | null = null): void {
+    const data = {
       'attribute': attribute,
       'subject': subject
-    }
+    };
 
-    this.getIsGranted();
+    this.getIsGranted(data);
   }
 
-  public getIsGranted(): void 
-  {
+  private getIsGranted(data: any): void {
     const subject = new BehaviorSubject<any>(null);
     this.responseData = subject.asObservable();
 
-    this.httpServiceService.postData('http://localhost/api/isGranted', this.data).subscribe((data: IsGranted) => {
-      subject.next(data);
+    this.httpServiceService.postData('http://localhost/api/isGranted', data).subscribe((response: any) => {
+      subject.next(response);
     });
   }
 
-  public getPermisionForList(permision: string): Observable<any> {
-    this.isGranted(permision);
-
+  public getPermissionForList(permission: string): Observable<any> {
+    this.isGranted(permission);
     return this.responseData;
   }
 
-  public setPermision(permision: string, element: any, permisionStringName: string,entity: string ) : void  
-  {
-    this.isGranted(permision, { "entity": entity, "id": element.id });
-      
-    this.responseData.subscribe((el) => {
-      if (el && 'success' in el) {
-        element[permisionStringName] = el.success;
+  public setPermission(permission: string, element: any, permissionStringName: string, entity: string): void {
+    this.isGranted(permission, { "entity": entity, "id": element.id });
+
+    this.responseData.subscribe((response: any) => {
+      if (response && 'success' in response) {
+        element[permissionStringName] = response.success;
       }
     });
   }
 
-  public getPermision( permision: string, entity: string | null = null , id : number | null = null  ) : Observable<any>
-  {
-    this.isGranted(permision, { "entity": entity, "id": id });
-      
+  public getPermission(permission: string, entity: string | null = null, id: number | null = null): Observable<any> {
+    this.isGranted(permission, { "entity": entity, "id": id });
     return this.responseData;
   }
 
-  public checkIfGuardCanActive( permision: string, entity: string | null = null , id : number | null = null  ): Promise<boolean> {
+  public checkIfGuardCanActivate(permission: string, entity: string | null = null, id: number | null = null): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.getPermision(permision, entity, id).subscribe((isGranted: IsGranted) => {
-        if (isGranted?.success !== undefined) {
-          resolve(isGranted?.success);
+      this.getPermission(permission, entity, id).subscribe((response: any) => {
+        if (response?.success !== undefined) {
+          resolve(response.success);
         }
       });
     });
   }
-  
+
 }

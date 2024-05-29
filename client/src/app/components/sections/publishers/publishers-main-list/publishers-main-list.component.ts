@@ -22,11 +22,10 @@ export class PublishersMainListComponent {
     this.setList()
   }
 
-  private getList() : void
+  private async getList() : Promise<void>
   {
-    this.isGrantedService.getPermisionForList('CAN_LIST_PUBLISHERS').subscribe((isGrantedList: IsGranted) => {
-      this.canListPublishers = isGrantedList?.success
-    });
+    const isGranted = await this.isGrantedService.checkIfGuardCanActivate('CAN_LIST_PUBLISHERS');
+    this.canListPublishers = isGranted
   }
 
   private setList() : void
@@ -35,9 +34,9 @@ export class PublishersMainListComponent {
     .subscribe((data: RespanseList ) => {
       data.results.forEach((element: PublisherListElement) => {
 
-        this.isGrantedService.setPermision('CAN_SHOW_PUBLISHER', element, 'canShowPublisher', 'Publisher')
-        this.isGrantedService.setPermision('CAN_EDIT_PUBLISHER', element, 'canEditPublisher', 'Publisher' )
-        this.isGrantedService.setPermision('CAN_DELETE_PUBLISHER', element, 'canDeletePublisher', 'Publisher' )
+        this.isGrantedService.setPermission('CAN_SHOW_PUBLISHER', element, 'canShowPublisher', 'Publisher')
+        this.isGrantedService.setPermission('CAN_EDIT_PUBLISHER', element, 'canEditPublisher', 'Publisher' )
+        this.isGrantedService.setPermission('CAN_DELETE_PUBLISHER', element, 'canDeletePublisher', 'Publisher' )
 
         this.publishers.push(element);
       });
