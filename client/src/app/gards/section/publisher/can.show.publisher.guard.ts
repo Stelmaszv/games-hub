@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable,of } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators'
 import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.service';
 
 @Injectable({
@@ -20,7 +18,7 @@ export class CanShowPublisherGuard implements CanActivate {
     if (!idParam) {
       return this.router.createUrlTree(['/']);
     }
-    
+
     const id = +idParam;
     const isGranted = await this.isGrantedService.checkPermission('CAN_SHOW_PUBLISHER', 'Publisher', id);
 
