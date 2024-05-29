@@ -58,7 +58,7 @@ export class IsGrantedService {
     return this.responseData;
   }
 
-  checkPermission(permission: string, entity: string, id: number): Observable<boolean> {
+  public checkIsGardCanActive(permission: string, entity: string, id: number): Observable<boolean> {
     return this.getPermision(permission, entity, id).pipe(
       map((isGrantedList: any) => {
         return isGrantedList?.success ?? false;

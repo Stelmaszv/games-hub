@@ -20,7 +20,7 @@ export class CanShowPublisherGuard implements CanActivate {
     }
 
     const id = +idParam;
-    const isGranted = await this.isGrantedService.checkPermission('CAN_SHOW_PUBLISHER', 'Publisher', id);
+    const isGranted = await this.isGrantedService.checkIsGardCanActive('CAN_SHOW_PUBLISHER', 'Publisher', id);
 
     return (isGranted) ? true :  this.router.createUrlTree(['/'])
   }
