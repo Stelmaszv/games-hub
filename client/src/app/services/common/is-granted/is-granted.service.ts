@@ -9,6 +9,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class IsGrantedService {
 
+  private guardData: any;
   private data: any;
   private responseData!: Observable<any>;
 
@@ -51,18 +52,21 @@ export class IsGrantedService {
     });
   }
 
-  public getPermision(permision: string, entity: string | null = null , id : number | null = null  ) : Observable<any>
+  public getPermision( permision: string, entity: string | null = null , id : number | null = null  ) : Observable<any>
   {
     this.isGranted(permision, { "entity": entity, "id": id });
       
     return this.responseData;
   }
 
-  public checkIsGardCanActive(permission: string, entity: string, id: number): Observable<boolean> {
-    return this.getPermision(permission, entity, id).pipe(
-      map((isGrantedList: any) => {
-        return isGrantedList?.success ?? false;
-      })
-    );
+  public checkIfGuardCanActive( permision: string, entity: string | null = null , id : number | null = null  ): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      this.getPermision(permision, entity, id).subscribe((isGranted: IsGranted) => {
+        if (isGranted?.success !== undefined) {
+          resolve(isGranted?.success);
+        }
+      });
+    });
   }
+  
 }

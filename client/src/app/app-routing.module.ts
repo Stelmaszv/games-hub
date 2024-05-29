@@ -9,7 +9,9 @@ import { GamesMainListComponent } from './components/sections/games/games-main-l
 import { PublishersMainListComponent } from './components/sections/publishers/publishers-main-list/publishers-main-list.component';
 import { DeveloperMainListComponent } from './components/sections/devloper/developer-main-list/developer-main-list.component';
 import { ShowPublisherComponent } from './components/sections/publishers/show-publisher/show-publisher.component';
-import { CanShowPublisherGuard } from './gards/section/publisher/can.show.publisher.guard';
+import { CanShowPublisherGuard } from './gards/section/publisher/CanShowPublisherGuard/can.show.publisher.guard';
+import { CanEditPublisherGuard } from './gards/section/publisher/CanEditPublisherGuard/can-edit-publisher.guard';
+import { CanDeletePublisherGuard } from './gards/section/publisher/CanDeletePublisherGuard/can-delete-publisher-guard';
 
 const routes: Routes = [
   { path: '', component: MainComponentComponent },
@@ -17,8 +19,8 @@ const routes: Routes = [
   //publishers
   { path: 'publishers/list', component: PublishersMainListComponent },
   { path: 'publisher/show/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
-  { path: 'publisher/edit/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
-  { path: 'publisher/delete/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
+  { path: 'publisher/edit/:id', component: ShowPublisherComponent , canActivate: [CanEditPublisherGuard] },
+  { path: 'publisher/delete/:id', component: ShowPublisherComponent , canActivate: [CanDeletePublisherGuard] },
 
   //developers
   { path: 'developers/list', component: DeveloperMainListComponent },
