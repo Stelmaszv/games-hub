@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { IsGranted } from 'src/app/interface/common';
-import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { Observable,of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators'
 import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.service';
 
 @Injectable({
@@ -10,20 +9,22 @@ import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.
 })
 export class CanShowPublisherGuard implements CanActivate {
 
-  constructor(private isGrantedService : IsGrantedService){}
+  constructor(private isGrantedService : IsGrantedService,private router: Router){}
 
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot
+  ): Promise<boolean | UrlTree> {
+    const idParam = route.paramMap.get('id');
 
-    return new Observable<boolean | UrlTree>(observer => {
-      this.isGrantedService.getPermision('CAN_EDIT_PUBLISHER','Publisher',69).subscribe((isGrantedList: IsGranted) => {
-        if(isGrantedList?.success !== undefined){
-          observer.next(isGrantedList?.success);
-          observer.complete();
-        }
-      });
-    });
+    if (!idParam) {
+      return this.router.createUrlTree(['/']);
+    }
+    
+    const id = +idParam;
+    const isGranted = await this.isGrantedService.checkPermission('CAN_SHOW_PUBLISHER', 'Publisher', id);
+
+    return (isGranted) ? true :  this.router.createUrlTree(['/'])
   }
   
 }

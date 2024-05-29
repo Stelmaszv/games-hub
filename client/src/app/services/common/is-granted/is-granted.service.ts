@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpServiceService } from '../http-service/http-service.service';
 import { IsGranted } from 'src/app/interface/common';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,15 @@ export class IsGrantedService {
     this.isGranted(permision, { "entity": entity, "id": id });
       
     return this.responseData;
+  }
+
+  checkPermission(permission: string, entity: string, id: number): Observable<boolean> {
+    return this.getPermision(permission, entity, id).pipe(
+      map((isGrantedList: any) => {
+        const success = isGrantedList?.success ?? false;
+        console.log('Mapped success:', success);
+        return success;
+      })
+    );
   }
 }
