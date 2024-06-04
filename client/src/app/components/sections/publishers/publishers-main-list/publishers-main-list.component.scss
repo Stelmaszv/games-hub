@@ -7,10 +7,10 @@
 }
 
 .list{
+    border-radius: 20px;
+    background-color: $section-bg-color;
+    border : 2px solid $bottom-color;
     .listElemnts{
-        border-radius: 20px;
-        background-color: $section-bg-color;
-        border : 2px solid $bottom-color;
         transition: transform 0.3s ease, color 1s ease;
         
         .list-elment-name,.list-elment-icons{

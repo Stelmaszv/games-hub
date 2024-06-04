@@ -37,8 +37,8 @@ export class PublishersMainListComponent {
         this.isGrantedService.setPermission('CAN_SHOW_PUBLISHER', element, 'canShowPublisher', 'Publisher')
         this.isGrantedService.setPermission('CAN_EDIT_PUBLISHER', element, 'canEditPublisher', 'Publisher' )
         this.isGrantedService.setPermission('CAN_DELETE_PUBLISHER', element, 'canDeletePublisher', 'Publisher' )
-
         this.publishers.push(element);
+        
       });
     });
   }

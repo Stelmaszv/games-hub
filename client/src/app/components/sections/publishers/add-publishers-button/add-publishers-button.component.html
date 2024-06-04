@@ -1,0 +1,9 @@
+<a routerLink="/publishers/add">
+    <button 
+        *ngIf="canAddPublisher" 
+        type="submit" 
+        class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> {{ translationService.translate('addPublishers') }}
+    </button>
+</a>
+

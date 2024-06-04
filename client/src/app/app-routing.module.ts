@@ -13,6 +13,9 @@ import { CanShowPublisherGuard } from './gards/section/publisher/CanShowPublishe
 import { CanEditPublisherGuard } from './gards/section/publisher/CanEditPublisherGuard/can-edit-publisher.guard';
 import { CanDeletePublisherGuard } from './gards/section/publisher/CanDeletePublisherGuard/can-delete-publisher-guard';
 import { CanListPublishersGuard } from './gards/section/publisher/CanListPublishersGuard/can-list-publishers.guard';
+import { AddPublishersComponent } from './components/sections/publishers/add-publishers/add-publishers.component';
+import { CanAddPublishersGuard } from './gards/section/publisher/CanAddPublishersGuard/can-add-publishers.guard';
+
 
 const routes: Routes = [
   { path: '', component: MainComponentComponent },
@@ -22,6 +25,7 @@ const routes: Routes = [
   { path: 'publisher/show/:id', component: ShowPublisherComponent , canActivate: [CanShowPublisherGuard] },
   { path: 'publisher/edit/:id', component: ShowPublisherComponent , canActivate: [CanEditPublisherGuard] },
   { path: 'publisher/delete/:id', component: ShowPublisherComponent , canActivate: [CanDeletePublisherGuard] },
+  { path: 'publishers/add', component: AddPublishersComponent , canActivate: [CanAddPublishersGuard] },
 
   //developers
   { path: 'developers/list', component: DeveloperMainListComponent },

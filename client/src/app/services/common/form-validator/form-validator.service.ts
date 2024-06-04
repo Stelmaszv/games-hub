@@ -8,6 +8,7 @@ export class FormValidatorService {
 
   private form: HTMLFormElement | null = null;
   private formControls: NodeListOf<Element> | null = null;
+  private errorsList:Array<any> = []
 
   public constructor(public translationService: TranslationService) { }
 
@@ -17,28 +18,32 @@ export class FormValidatorService {
     if (this.form !== null) {
       this.formControls = this.form.querySelectorAll('.form-control');
     }
+    console.log(this.formControls)
   }
 
   public showErrors(errorList: { [key: string]: string }): void {
-    if (!this.form) return;
-
     Object.entries(errorList).forEach(([inputName, value]) => {
-      const idName = '#' + inputName;
-      const inputClass = this.form!.querySelector(idName);
-      const inputErrorClassName = '#' + inputName + 'Feedback';
-      const inputErrorValue = this.form!.querySelector(inputErrorClassName);
-      
-      const values = value.split(' ')
-      
+      const input = inputName.replace(/\./g, "");
+      const inputClass = document!.querySelector('[formId ="'+input+'"]');
+      const inputErrorValue = document!.querySelector('[formFeedback ="'+input+'"]');
+
+      const values = value
+
+      if (inputClass){
+        this.errorsList.push({'formId':inputClass,'formFeedback':inputErrorValue})
+      }
+
       if (inputClass) inputClass.classList.add('is-invalid');
-      if (inputErrorValue) inputErrorValue.innerHTML = this.translationService.translate(values[0],JSON.parse(this.convertStringToJson(value)));
+      if (inputErrorValue) inputErrorValue.innerHTML = values[1];
     });
   }
 
   public  restNotUseInputs(errorList: { [key: string]: string }): void {
-    if (!this.formControls || !this.form) return;
-
-    this.formControls.forEach(element => {
+    let errorsStan = Object.entries(errorList).length != this.errorsList.length
+    
+    this.errorsList.forEach(element => {
+      console.log(element)
+      /*
       if (element instanceof HTMLElement && element.id && !(element.id in errorList)) {
         element.classList.remove('is-invalid');
     
@@ -46,6 +51,7 @@ export class FormValidatorService {
         const inputErrorValue = this.form!.querySelector(inputErrorClassName);
         if (inputErrorValue) inputErrorValue.innerHTML = '';
       }
+      */
     });
   }
 
