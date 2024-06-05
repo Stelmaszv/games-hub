@@ -79,11 +79,12 @@ export class AddPublishersComponent {
 
         for (let error of Object.entries(errorList.error.errors)) {
           if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { // Use !== -1 for existence
-            generalInformationErrors[error[0].toString()] = error;
+            const key = error[0].replace(/\./g, "");
+            generalInformationErrors[key] = error;
           }
         }
 
-        //this.formValidatorService.setForm('generalInformation')
+        this.formValidatorService.setForm('generalInformation')
         this.formValidatorService.showErrors(generalInformationErrors)
         this.formValidatorService.restNotUseInputs(generalInformationErrors)
       }

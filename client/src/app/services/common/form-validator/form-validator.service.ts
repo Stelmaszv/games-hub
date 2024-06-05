@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ComponentRef, Injectable } from '@angular/core';
 import { TranslationService } from '../translation/translation.service';
 
 @Injectable({
@@ -6,19 +6,12 @@ import { TranslationService } from '../translation/translation.service';
 })
 export class FormValidatorService {
 
-  private form: HTMLFormElement | null = null;
   private formControls: NodeListOf<Element> | null = null;
-  private errorsList:Array<any> = []
 
   public constructor(public translationService: TranslationService) { }
 
   public setForm(id: string): void {
-    const idTag = '#' + id;
-    this.form = document.querySelector(idTag);
-    if (this.form !== null) {
-      this.formControls = this.form.querySelectorAll('.form-control');
-    }
-    console.log(this.formControls)
+    this.formControls = document.querySelectorAll('[form ="'+id+'"]');
   }
 
   public showErrors(errorList: { [key: string]: string }): void {
@@ -27,31 +20,25 @@ export class FormValidatorService {
       const inputClass = document!.querySelector('[formId ="'+input+'"]');
       const inputErrorValue = document!.querySelector('[formFeedback ="'+input+'"]');
 
-      const values = value
-
-      if (inputClass){
-        this.errorsList.push({'formId':inputClass,'formFeedback':inputErrorValue})
-      }
-
       if (inputClass) inputClass.classList.add('is-invalid');
-      if (inputErrorValue) inputErrorValue.innerHTML = values[1];
+      if (inputErrorValue) inputErrorValue.innerHTML = value[1];
     });
   }
 
-  public  restNotUseInputs(errorList: { [key: string]: string }): void {
-    let errorsStan = Object.entries(errorList).length != this.errorsList.length
-    
-    this.errorsList.forEach(element => {
-      console.log(element)
-      /*
-      if (element instanceof HTMLElement && element.id && !(element.id in errorList)) {
-        element.classList.remove('is-invalid');
-    
-        const inputErrorClassName = '#' + element.id + 'Feedback';
-        const inputErrorValue = this.form!.querySelector(inputErrorClassName);
-        if (inputErrorValue) inputErrorValue.innerHTML = '';
+  public  restNotUseInputs(errorList:any): void {
+
+    let inValidClass = new Array();
+    Object.entries(errorList).forEach(([inputName]) => {
+      inValidClass.push(inputName)
+    });
+
+    this.formControls?.forEach(element => {
+      let id = element.getAttribute('formId')
+      if(id !== null){
+        if(!inValidClass.includes(id)){
+          element.classList.remove('is-invalid')
+        }
       }
-      */
     });
   }
 
