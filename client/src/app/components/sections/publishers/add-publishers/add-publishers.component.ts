@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 
@@ -13,7 +14,7 @@ export class AddPublishersComponent {
   public section: string = 'general_information_normal';
   private generalInformationValidation : boolean = false
 
-  constructor(private fb: FormBuilder,private httpServiceService: HttpServiceService ,private formValidatorService: FormValidatorService) {}
+  constructor(private fb: FormBuilder,private httpServiceService: HttpServiceService ,private formValidatorService: FormValidatorService,private router: Router) {}
 
   public generalInformation: FormGroup = this.fb.group({
     name: '',
@@ -40,7 +41,8 @@ export class AddPublishersComponent {
     }
   }
 
-  public onSubmit() {    
+  public onSubmit() { 
+  
     const generalInformation = {
       name: this.generalInformation?.get('name')?.value,
       origin: this.generalInformation?.get('origin')?.value,
@@ -61,17 +63,14 @@ export class AddPublishersComponent {
       'add' : this.generalInformationValidation
     }).subscribe({
       next: (response) => {
-        if(this.generalInformationValidation){
-          alert('dodano')
+        if(this.generalInformationValidation && response.success){
+          location.href = 'http://localhost:4200/publisher/show/'+response.id
         }
-        console.log(response)
       },
       error: (errorList: HttpErrorResponse) => {
         const generalInformationKeys = Object.keys(errorList.error.errors).filter(key => key.startsWith('generalInformation.'));
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();
-
-        console.log(errorList)
       
         let generalInformationErrors: { [key: string]: any } = {};
 
