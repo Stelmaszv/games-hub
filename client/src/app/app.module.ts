@@ -2,7 +2,7 @@ import { NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importuj moduły formularzy
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PublishersComponent } from './components/sections/publishers/publishers.component';
@@ -17,6 +17,13 @@ import { ForgotPasswordComponent } from './components/sections/auth/forgot-passw
 import { RegisterComponent } from './components/sections/auth/register/register.component';
 import { FooterComponent } from './components/sections/auth/footer/footer.component';
 import { TranslationService } from './services/common/translation/translation.service';
+import { PublishersMainListComponent } from './components/sections/publishers/publishers-main-list/publishers-main-list.component';
+import { DeveloperMainListComponent } from './components/sections/devloper/developer-main-list/developer-main-list.component';
+import { GamesMainListComponent } from './components/sections/games/games-main-list/games-main-list.component';
+import { MainComponentComponent } from './components/sections/main-component/main-component.component';
+import { AddPublishersButtonComponent } from './components/sections/publishers/add-publishers-button/add-publishers-button.component';
+import { ShowPublisherComponent } from './components/sections/publishers/show-publisher/show-publisher.component';
+import { AddPublishersComponent } from './components/sections/publishers/add-publishers/add-publishers.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +38,14 @@ import { TranslationService } from './services/common/translation/translation.se
     AuthNavbarComponent,
     ForgotPasswordComponent,
     RegisterComponent,
-    FooterComponent
+    FooterComponent,
+    PublishersMainListComponent,
+    DeveloperMainListComponent,
+    GamesMainListComponent,
+    MainComponentComponent,
+    AddPublishersButtonComponent,
+    ShowPublisherComponent,
+    AddPublishersComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,11 +3,12 @@
 namespace App\DataFixtures\Data;
 
 use App\Entity\User;
-use App\Generic\Components\AbstractDataFixture;
-use App\Roles\RolePublisherCreator;
-use App\Roles\RolePublisherEditor;
-use App\Roles\RoleSuperAdmin;
 use App\Roles\RoleUser;
+use App\Roles\RoleEditor;
+use App\Roles\RoleSuperAdmin;
+use App\Roles\RolePublisherEditor;
+use App\Roles\RolePublisherCreator;
+use App\Generic\Components\AbstractDataFixture;
 
 class UserData extends AbstractDataFixture
 {
@@ -24,7 +25,7 @@ class UserData extends AbstractDataFixture
         ],
         [
             'outputMessage' => 'Kot123',
-            'email' => 'kot123@dot.com',
+            'email' => 'publisherCreator@dot.com',
             'roles' => [
                 RoleUser::NAME,
                 RolePublisherCreator::NAME,
@@ -34,13 +35,22 @@ class UserData extends AbstractDataFixture
         ],
         [
             'outputMessage' => 'Pani',
-            'email' => 'pani@wp.pl',
+            'email' => 'publisherEditor@wp.pl',
             'roles' => [
                 RoleUser::NAME,
                 RolePublisherEditor::NAME,
             ],
             'password' => 'vbn',
         ],
+        [
+            'outputMessage' => 'Kot123',
+            'email' => 'devloperCreator@dot.com',
+            'roles' => [
+                RoleUser::NAME,
+                RoleEditor::NAME
+            ],
+            'password' => 'qwe',
+        ]
     ];
 
     public function onPasswordSet(mixed $value, object $entity)

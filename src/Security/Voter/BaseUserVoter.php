@@ -2,16 +2,20 @@
 
 namespace App\Security\Voter;
 
-use App\Generic\Auth\JWT;
-use App\Roles\RoleAdmin;
-use App\Roles\RoleSuperAdmin;
 use App\Roles\RoleUser;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use App\Roles\RoleAdmin;
+use App\Generic\Auth\JWT;
+use App\Security\Atribute;
+use App\Roles\RoleSuperAdmin;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class BaseUserVoter extends Voter
 {
-    public const USER = 'ROLE_USER';
+    public const ATRIBUTES = [
+        Atribute::CAN_LIST_PUBLISHERS,
+        Atribute::CAN_SHOW_PUBLISHER
+    ];
 
     private JWT $jwtService;
 
@@ -22,7 +26,9 @@ class BaseUserVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return \in_array($attribute, RoleUser::ROLES, true);
+        return \in_array($attribute, RoleUser::ROLES, true) ||  
+               \in_array($attribute, RoleSuperAdmin::ROLES, true) ||  
+               \in_array($attribute, RoleAdmin::ROLES, true);;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -33,10 +39,23 @@ class BaseUserVoter extends Voter
         $isEditor = $subject?->isEditor($user['id']);
         $isVerified = $subject?->getVerified();
 
-        if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin) {
-            return true;
+        if($subject?->getCreatedBy() !== null && $user['id'] !== null ){
+            $isCreator = $subject?->getCreatedBy()['id'] === $user['id'];
         }
+        
+        switch($attribute){
 
+            case Atribute::CAN_LIST_PUBLISHERS;
+                return true;
+            break;
+
+            case Atribute::CAN_SHOW_PUBLISHER;        
+                if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin || $isCreator) {
+                    return true;
+                }
+            break;
+        }   
+        
         return false;
     }
 }

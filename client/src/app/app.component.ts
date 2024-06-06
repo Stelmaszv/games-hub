@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { AuthGuard } from './gards/auth-guard';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router} from '@angular/router';
 import { HttpServiceService } from './services/common/http-service/http-service.service';
 import { AuthService } from './services/common/auth/auth.service';
 
@@ -11,9 +11,12 @@ import { AuthService } from './services/common/auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title:string = 'Gamers Hub';
-  auth:boolean = false; 
+  auth:boolean = false;
+  activeGuardInfo: string | null = null; 
 
-  constructor(public authService: AuthService, private HttpServiceService : HttpServiceService, private authGuard: AuthGuard, private router: Router){}
+  constructor(public authService: AuthService, private HttpServiceService : HttpServiceService, private authGuard: AuthGuard, private router: Router){
+    
+  }
 
   ngOnInit(): void {
     const emptyRouteSnapshot = {} as ActivatedRouteSnapshot;

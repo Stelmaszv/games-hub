@@ -25,3 +25,21 @@
 .form-danger{
   border-bottom: 4px solid $red-500;
 }
+.form-section{
+  margin: auto;
+  width: 75%;
+  color: rgb(255, 255, 255);
+  background-color: $section-bg-color;
+  border: $border-bottom;
+  padding: 10px;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 10p;
+
+  .container {
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically (optional) */
+    word-wrap: wrap;
+  }
+}

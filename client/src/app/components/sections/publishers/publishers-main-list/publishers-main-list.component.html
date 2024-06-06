@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="actions">
+      <add-publishers-button></add-publishers-button>
+  </div>
+  
+  <div class="list" *ngIf="canListPublishers">
+    <div class="listElemnts" *ngFor="let publisher of publishers">
+        <div *ngIf="publisher.canShowPublisher" class="row list-elment">
+          <div class="col-1">
+            <img src="../../../../../../assets/media/logo/ea.png" class="logo">
+          </div>
+          <div class="col-8 list-elment-name">
+            <a [routerLink]="['/publisher/show/', publisher.id]">{{ publisher.generalInformation.name }}</a>
+          </div>
+          <div class="col-3 list-elment-icons">
+            <a [routerLink]="['/publisher/show/', publisher.id]"><i class="fa-solid fa-circle-info action-icon"></i></a>
+            <a [routerLink]="['/publisher/edit/', publisher.id]"><i *ngIf="publisher.canEditPublisher" class="fa-solid fa-pen-to-square action-icon"></i></a>
+            <a [routerLink]="['/publisher/delete/', publisher.id]"><i *ngIf="publisher.canDeletePublisher" class="fa-solid fa-trash action-icon"></i></a>
+          </div>
+        </div>
+    </div>
+  </div>
+
+</div>

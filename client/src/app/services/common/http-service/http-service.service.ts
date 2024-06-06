@@ -23,7 +23,7 @@ export class HttpServiceService {
 
   postData(url: string, data: any): Observable<any> {
     const token = this.authService.getToken();
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'

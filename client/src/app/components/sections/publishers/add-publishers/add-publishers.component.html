@@ -1,0 +1,101 @@
+<h2 class="text-center mb-4">Add Publisher</h2>
+<div class="form-section d-flex">
+    <form [formGroup]="publisherForm" class="container mx-auto" (ngSubmit)="onSubmit()">
+        <div class="col-8">
+            <div formGroupName="generalInformation" *ngIf="section == 'general_information_normal'">
+                <h2>General Information</h2>
+                <div class="row mb-3">
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" form="generalInformation" requestId = "generalInformation.name" formId = "generalInformationname" class="form-control" formControlName="name" id="name" required>
+                            <div class="invalid-feedback" formFeedback = "generalInformationname"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="origin" class="col-sm-2 col-form-label">Origin:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control" requestId = "generalInformation.origin" form="generalInformation" formId = "generalInformationorigin" formControlName="origin" id="origin">
+                            <div formFeedback = "generalInformationorigin" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="origin" class="col-sm-2 col-form-label">Founded:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" requestId = "generalInformation.founded" form="generalInformation" formId = "generalInformationfounded" formControlName="founded" id="founded">
+                            <div formFeedback = "generalInformationfounded" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="website" class="col-sm-2 col-form-label">Website:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" requestId = "generalInformation.website" form="generalInformation" formId = "generalInformationwebsite" id="website" formControlName="website">
+                            <div formFeedback = "generalInformationwebsite" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="headquarter" class="col-sm-2 col-form-label">Headquarter:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" requestId = "generalInformation.headquarter" form="generalInformation" formId = "generalInformationheadquarter" id="headquarter" id="headquarter" formControlName="headquarter">
+                            <div formFeedback = "generalInformationheadquarter" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div formGroupName="descriptions" *ngIf="section == 'descriptions_normal' ">
+                <h2>Descriptions</h2>
+                <div class="row mb-3">
+                    <label for="address" class="col-sm-2 col-form-label">English:</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control address" id="eng" formControlName="eng"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="address" class="col-sm-2 col-form-label">Polski:</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control address" id="pl" formControlName="pl"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="address" class="col-sm-2 col-form-label">Francuski:</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control address" id="fr" formControlName="fr"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary btn-lg w-100">Next</button>
+            </div>
+        </div>
+        
+
+    </form>      
+</div>
+

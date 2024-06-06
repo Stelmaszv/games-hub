@@ -18,6 +18,8 @@ class PublisherDTO implements DTO
 
     public \DateTime $creationDate;
 
+    public $developer = [];
+
     /**
      * @Assert\Valid
      */
@@ -43,10 +45,13 @@ class PublisherDTO implements DTO
 
     public bool $edit = false;
 
+    public bool $add = false;
+
     private ManagerRegistry $managerRegistry;
 
     public function __construct(array $data = [])
     {
+        $this->add = $data['add'] ?? false;
         $this->creationDate = new \DateTime();
         $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
 
@@ -75,20 +80,19 @@ class PublisherDTO implements DTO
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if (true === $this->edit) {
-            return; // Jeśli edit jest ustawione na true, pomijamy walidację
+            return; 
         }
 
         if (null === $this->managerRegistry) {
             throw new \RuntimeException('ManagerRegistry is not set.');
         }
 
-        // Sprawdzamy, czy użytkownik istnieje
         $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
 
-        if (null !== $user) {
+        if ($this->add === false){
             $context
-                ->buildViolation('A user can only add one publisher.')
-                ->atPath('createdBy')
+                ->buildViolation('Add is Off.')
+                ->atPath('add')
                 ->addViolation();
         }
     }

@@ -28,6 +28,7 @@ class GenericDetailController extends AbstractController
     protected ParameterBag $query;
     protected Request $request;
     private Security $security;
+    private int $id;
     protected array $columns = [];
 
     public function __invoke(
@@ -35,7 +36,8 @@ class GenericDetailController extends AbstractController
         SerializerInterface $serializer,
         Request $request,
         Security $security,
-        JWT $jwt
+        JWT $jwt,
+        int $id
     ): JsonResponse {
         if (!$this->entity) {
             throw new \Exception('Entity is not define in controller '.get_class($this).'!');
@@ -44,6 +46,7 @@ class GenericDetailController extends AbstractController
         $this->request = $request;
         $this->attributes = $request->attributes;
         $this->query = $request->query;
+        $this->id = $id;
         $this->initialize($managerRegistry, $serializer, $security);
 
         return $this->setSecurityView('detailAction', $jwt);
@@ -52,7 +55,7 @@ class GenericDetailController extends AbstractController
     protected function initialize(
         ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
-        Security $security
+        Security $security,
     ): void {
         $this->managerRegistry = $managerRegistry;
         $this->serializer = $serializer;

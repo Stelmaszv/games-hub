@@ -31,7 +31,7 @@ class Publisher implements ApiInterface, IdentifierId
     #[ORM\Column]
     private array $descriptions = [];
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'publishers')]
     private ?User $createdBy = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -111,7 +111,7 @@ class Publisher implements ApiInterface, IdentifierId
         return $this;
     }
 
-    public function isEditor(string $user): bool
+    public function isEditor(int $user): bool
     {
         foreach ($this->getEditors() as $editor) {
             if ($editor['id'] === $user) {
