@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TranslationService } from '../translation/translation.service';
 
 @Injectable({
@@ -8,36 +8,37 @@ export class FormValidatorService {
 
   private formControls: NodeListOf<Element> | null = null;
 
-  public constructor(public translationService: TranslationService) { }
+  public constructor(private translationService: TranslationService) { }
 
   public setForm(id: string): void {
-    this.formControls = document.querySelectorAll('[form ="'+id+'"]');
+    this.formControls = document.querySelectorAll(`[form="${id}"]`);
   }
 
   public showErrors(errorList: { [key: string]: string[] }): void {
-
     Object.entries(errorList).forEach(([inputName, value]) => {
-      const input = inputName.replace(/\./g, "");
-      const inputClass = document!.querySelector('[formId ="' + input + '"]');
-      const inputErrorValue = document!.querySelector('[formFeedback ="' + input + '"]');
-  
-      if (inputClass) inputClass.classList.add('is-invalid');
-  
-      if (inputErrorValue && Array.isArray(value) && value.length > 1) {
-        const translationKey = value[1];  // Assuming the second element needs to be translated
-        const jsonString = this.convertStringToJson(value.join(' '));
-        let parsedJson: { [key: string]: string };
-  
-        try {
-          parsedJson = JSON.parse(jsonString);  // Ensure parsedJson is an object
-        } catch (error) {
-          parsedJson = {};
-        }
-  
-        inputErrorValue.innerHTML = this.translationService.translate(translationKey, parsedJson);
+      const inputId = inputName.replace(/\./g, "");
+      this.markInvalid(inputId);
+
+      if (value.length > 1) {
+        const translationKey = value[1]; 
+        const jsonString = this.convertStringToJson(value.slice(2).join(' '));
+        const parsedJson = this.safeParseJson(jsonString);
+
+        this.displayError(inputId, translationKey, parsedJson);
       }
     });
-    
+  }
+
+  private markInvalid(inputId: string): void {
+    const inputClass = document.querySelector(`[formId="${inputId}"]`);
+    if (inputClass) inputClass.classList.add('is-invalid');
+  }
+
+  private displayError(inputId: string, translationKey: string, parsedJson: { [key: string]: string }): void {
+    const inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
+    if (inputErrorValue) {
+      inputErrorValue.innerHTML = this.translationService.translate(translationKey, parsedJson);
+    }
   }
 
   private convertStringToJson(str: string): string {
@@ -54,19 +55,21 @@ export class FormValidatorService {
     return JSON.stringify(result);
   }
 
-  public  restNotUseInputs(errorList:any): void {
+  private safeParseJson(jsonString: string): { [key: string]: string } {
+    try {
+      return JSON.parse(jsonString);
+    } catch (error) {
+      return {};
+    }
+  }
 
-    let inValidClass = new Array();
-    Object.entries(errorList).forEach(([inputName]) => {
-      inValidClass.push(inputName)
-    });
+  public restNotUseInputs(errorList: { [key: string]: string[] }): void {
+    const invalidIds = Object.keys(errorList);
 
     this.formControls?.forEach(element => {
-      let id = element.getAttribute('formId')
-      if(id !== null){
-        if(!inValidClass.includes(id)){
-          element.classList.remove('is-invalid')
-        }
+      const id = element.getAttribute('formId');
+      if (id && !invalidIds.includes(id)) {
+        element.classList.remove('is-invalid');
       }
     });
   }
