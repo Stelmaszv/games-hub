@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class GeneralInformationDTO implements DTO
 {
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="emptyField")
      */
     public ?string $name = null;
 
@@ -22,9 +22,7 @@ class GeneralInformationDTO implements DTO
     public string $origin = '';
 
     /**
-     * @CustomAssert\Url
-     *
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="emptyField")
      */
     public ?string $website = '';
 

@@ -71,14 +71,12 @@ export class AddPublishersComponent {
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();
 
-        //console.log(generalInformationKeys)
-        //console.log(errorList.error.errors['generalInformation.name'])
-
+        console.log(errorList)
       
-        let generalInformationErrors: { [key: string]: any } = {}; // Assert as object with string keys
+        let generalInformationErrors: { [key: string]: any } = {};
 
         for (let error of Object.entries(errorList.error.errors)) {
-          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { // Use !== -1 for existence
+          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
             const key = error[0].replace(/\./g, "");
             generalInformationErrors[key] = error;
           }
