@@ -31,7 +31,7 @@ class Publisher implements ApiInterface, IdentifierId
     #[ORM\Column]
     private array $descriptions = [];
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'publishers')]
     private ?User $createdBy = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
