@@ -38,6 +38,9 @@ class BaseUserVoter extends Voter
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
         $isEditor = $subject?->isEditor($user['id']);
         $isVerified = $subject?->getVerified();
+        if($subject?->getCreatedBy() !== null && $user['id'] !== null ){
+            $isCreator = $subject?->getCreatedBy()['id'] === $user['id'];
+        }
         
         switch($attribute){
 
@@ -46,7 +49,7 @@ class BaseUserVoter extends Voter
             break;
 
             case Atribute::CAN_SHOW_PUBLISHER;        
-                if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin) {
+                if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin || $isCreator) {
                     return true;
                 }
             break;

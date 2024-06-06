@@ -41,8 +41,7 @@ export class AddPublishersComponent {
     }
   }
 
-  public onSubmit() { 
-  
+  public onSubmit() {   
     const generalInformation = {
       name: this.generalInformation?.get('name')?.value,
       origin: this.generalInformation?.get('origin')?.value,
@@ -50,13 +49,13 @@ export class AddPublishersComponent {
       website: this.generalInformation?.get('website')?.value,
       headquarter: this.generalInformation?.get('headquarter')?.value,
     };
-
+  
     const descriptions = {
       eng: this.descriptions?.get('eng')?.value,
       pl: this.descriptions?.get('pl')?.value,
       fr: this.descriptions?.get('fr')?.value
     };
-
+  
     this.httpServiceService.postData('http://localhost/api/publisher/add',{ 
       'generalInformation' : generalInformation,
       'descriptions' :descriptions,
@@ -64,7 +63,7 @@ export class AddPublishersComponent {
     }).subscribe({
       next: (response) => {
         if(this.generalInformationValidation && response.success){
-          location.href = 'http://localhost:4200/publisher/show/'+response.id
+          this.router.navigate(['publisher/show', response.id]);
         }
       },
       error: (errorList: HttpErrorResponse) => {
@@ -73,14 +72,14 @@ export class AddPublishersComponent {
         this.updateSection();
       
         let generalInformationErrors: { [key: string]: any } = {};
-
+  
         for (let error of Object.entries(errorList.error.errors)) {
           if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
             const key = error[0].replace(/\./g, "");
             generalInformationErrors[key] = error;
           }
         }
-
+  
         this.formValidatorService.setForm('generalInformation')
         this.formValidatorService.showErrors(generalInformationErrors)
         this.formValidatorService.restNotUseInputs(generalInformationErrors)
