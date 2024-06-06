@@ -29,6 +29,17 @@ export class FormValidatorService {
     });
   }
 
+  public restNotUseInputs(errorList: { [key: string]: string[] }): void {
+    const invalidIds = Object.keys(errorList);
+
+    this.formControls?.forEach(element => {
+      const id = element.getAttribute('formId');
+      if (id && !invalidIds.includes(id)) {
+        element.classList.remove('is-invalid');
+      }
+    });
+  }
+
   private markInvalid(inputId: string): void {
     const inputClass = document.querySelector(`[formId="${inputId}"]`);
     if (inputClass) inputClass.classList.add('is-invalid');
@@ -61,16 +72,5 @@ export class FormValidatorService {
     } catch (error) {
       return {};
     }
-  }
-
-  public restNotUseInputs(errorList: { [key: string]: string[] }): void {
-    const invalidIds = Object.keys(errorList);
-
-    this.formControls?.forEach(element => {
-      const id = element.getAttribute('formId');
-      if (id && !invalidIds.includes(id)) {
-        element.classList.remove('is-invalid');
-      }
-    });
   }
 }
