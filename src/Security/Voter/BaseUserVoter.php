@@ -26,9 +26,9 @@ class BaseUserVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return \in_array($attribute, RoleUser::ROLES, true) ||        
-        \in_array($attribute, RoleSuperAdmin::ROLES, true) || 
-        \in_array($attribute, RoleAdmin::ROLES, true);;
+        return \in_array($attribute, RoleUser::ROLES, true) ||  
+               \in_array($attribute, RoleSuperAdmin::ROLES, true) ||  
+               \in_array($attribute, RoleAdmin::ROLES, true);;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -38,6 +38,7 @@ class BaseUserVoter extends Voter
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
         $isEditor = $subject?->isEditor($user['id']);
         $isVerified = $subject?->getVerified();
+
         if($subject?->getCreatedBy() !== null && $user['id'] !== null ){
             $isCreator = $subject?->getCreatedBy()['id'] === $user['id'];
         }
