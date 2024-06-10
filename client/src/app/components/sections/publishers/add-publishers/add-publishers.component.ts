@@ -11,7 +11,7 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
   styleUrls: ['./add-publishers.component.scss']
 })
 export class AddPublishersComponent {
-  public section: String = 'general_information_normal';
+  public section: String = 'descriptions_normal';
   private generalInformationValidation : boolean = false
 
   constructor(
@@ -44,10 +44,50 @@ export class AddPublishersComponent {
     url: '',
   })
 
+  public descriptionsScraperForm : FormGroup = this.fb.group({
+    eng: '',
+    pl: '',
+    fr: '',
+  })
+
   public updateSection(){
     if(this.generalInformationValidation){
       this.section = 'descriptions_normal'
     }
+  }
+
+  public onDescriptionsScraperSubmit(){
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions',{    
+      "descriptions":[
+        {"url":this.descriptionsScraperForm?.get('eng')?.value,"lng":"eng"},
+        {"url":this.descriptionsScraperForm?.get('pl')?.value,"lng":"pl"},
+        {"url":this.descriptionsScraperForm?.get('fr')?.value,"lng":"fr"},
+      ],
+    }).subscribe({  
+      next: (response) => {
+        const data = response['description'];
+        this.descriptions.setValue(data);
+      },
+      error: (errorList: HttpErrorResponse) => {
+        const generalInformationKeys = Object.keys(errorList.error.errors);
+        this.generalInformationValidation = (generalInformationKeys.length === 0)
+        this.updateSection();
+      
+        let generalInformationErrors: { [key: string]: any } = {};
+  
+        for (let error of Object.entries(errorList.error.errors)) {
+          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
+            const key = error[0].replace(/\./g, "");
+            generalInformationErrors[key] = error;
+          }
+        }
+  
+        this.formValidatorService.setForm('descriptions')
+        this.formValidatorService.showErrors(generalInformationErrors,'')
+        this.formValidatorService.restNotUseInputs(generalInformationErrors)
+      }
+    });
+    
   }
 
   public onGeneralInformationScraperSubmit(){
@@ -59,6 +99,7 @@ export class AddPublishersComponent {
         this.generalInformation.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
+        console.log(errorList.error.errors)
         const generalInformationKeys = Object.keys(errorList.error.errors);
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();

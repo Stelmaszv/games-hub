@@ -16,6 +16,7 @@ export class FormValidatorService {
 
   public showErrors(errorList: { [key: string]: string[] },values :any): void {
 
+
     Object.entries(errorList).forEach(([inputName, value]) => {
       const inputId = inputName.replace(/\./g, "");
       this.markInvalid(inputId);
@@ -24,11 +25,11 @@ export class FormValidatorService {
         
         let keys = value[0].split('.');
         if(keys.length > 0){
-          for (let key of keys){
-            if(key == value[0]){
-              value[2] = values[key]
+            for (let key of keys){
+              if(key == value[0]){
+                value[2] = values[key]
+              }
             }
-          }
         }
 
         const translationKey = value[1]; 
@@ -52,11 +53,13 @@ export class FormValidatorService {
 
   private markInvalid(inputId: string): void {
     const inputClass = document.querySelector(`[formId="${inputId}"]`);
+    console.log(inputId)
     if (inputClass) inputClass.classList.add('is-invalid');
   }
 
   private displayError(inputId: string, translationKey: string, parsedJson: { [key: string]: string }): void {
     const inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
+    console.log(inputId)
     if (inputErrorValue) {
       inputErrorValue.innerHTML = this.translationService.translate(translationKey, parsedJson);
     }

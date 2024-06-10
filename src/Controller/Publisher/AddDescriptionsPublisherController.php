@@ -6,7 +6,7 @@ namespace App\Controller\Publisher;
 
 use App\Generic\Api\Controllers\GenericPostController;
 use App\Security\Atribute;
-use App\Service\WebScraber\Publisher\PublisherDescriptionsScraper;
+use App\Service\WebScraber\Developer\DescriptionsScraper;;
 use App\Validation\DTO\Publisher\PublisherWebScraberDescriptionsDTO;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,23 +16,19 @@ class AddDescriptionsPublisherController extends GenericPostController
     protected ?string $dto = PublisherWebScraberDescriptionsDTO::class;
     protected ?string $voterAtribute = Atribute::CAN_ADD_PUBLISHER;
 
-    protected function action(): void
-    {
-    }
-
     protected function onSuccessResponseMessage(): array
     {
         $data = json_decode($this->request->getContent(), true);
         $description = $this->setDescription($data['descriptions']);
 
         return [
-            'description' => $description->getDescription(),
+            'description' => $description->getDescription()
         ];
     }
 
-    private function setDescription(array $descriptions): PublisherDescriptionsScraper
+    private function setDescription(array $descriptions): DescriptionsScraper
     {
-        $publisherScraber = new PublisherDescriptionsScraper();
+       $publisherScraber = new DescriptionsScraper();
 
         foreach ($descriptions as $description) {
             $publisherScraber->addDescription($description);

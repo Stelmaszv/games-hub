@@ -8,6 +8,12 @@
         </div>
     </div>
 
+    <div  *ngIf="section === 'descriptions_normal'">
+        <div class="scraper-icon">
+            <i type="button" data-bs-toggle="modal" data-bs-target="#descriptions" class="fa-solid fa-globe"></i>
+        </div>
+    </div>
+
     <form [formGroup]="publisherForm" class="container mx-auto" (ngSubmit)="onSubmit()">
         <div class="col-8">
             <div formGroupName="generalInformation" *ngIf="section === 'general_information_normal'">
@@ -122,7 +128,7 @@
                         <input 
                             type="text" 
                             form="generalInformation" 
-                            requestId = "generalInformation.url" 
+                            requestId = "url" 
                             formId = "url" 
                             class="form-control" 
                             id="url" 
@@ -134,6 +140,86 @@
                         <div class="invalid-feedback" formFeedback = "url"></div>
                     </div>
                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Scrap</button>
+            </div>
+        </form> 
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="descriptions" tabindex="-1" aria-labelledby="descriptionsScraper" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="descriptionsScraper">Descriptions Scraper</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="descriptionsScraperForm" class="container mx-auto" (ngSubmit)="onDescriptionsScraperSubmit()">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-4">
+                        <label for="eng" class="col-sm-2 col-form-label">English:</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="descriptions" 
+                            requestId = "eng" 
+                            formId = "descriptions[0]url" 
+                            class="form-control" 
+                            id="eng" 
+                            name="eng" 
+                            id="eng"  
+                            formControlName="eng"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "descriptions[0]url"></div>
+                    </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-4">
+                        <label for="eng" class="col-sm-2 col-form-label">Polski:</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="descriptions" 
+                            requestId = "pl" 
+                            formId = "descriptions[1]url" 
+                            class="form-control" 
+                            id="pl" 
+                            name="pl"  
+                            formControlName="pl"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "descriptions[1]url"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <label for="eng" class="col-sm-2 col-form-label">Francuski:</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="descriptions" 
+                            requestId = "fr" 
+                            formId = "descriptions[2]url" 
+                            class="form-control" 
+                            id="fr" 
+                            name="fr"  
+                            formControlName="fr"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "descriptions[2]url"></div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Scrap</button>
