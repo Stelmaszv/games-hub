@@ -59,10 +59,6 @@ export class AddPublishersComponent {
         this.generalInformation.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
-        //this.formValidatorService.setForm('generalInformationScraperForm')
-        ///this.formValidatorService.showErrors(errorList.error.errors)
-        //this.formValidatorService.restNotUseInputs(errorList.error.errors)
-
         const generalInformationKeys = Object.keys(errorList.error.errors);
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();

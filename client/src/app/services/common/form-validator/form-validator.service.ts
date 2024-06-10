@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TranslationService } from '../translation/translation.service';
-import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
 @Injectable({
   providedIn: 'root'
