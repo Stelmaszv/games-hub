@@ -26,6 +26,8 @@
     "userExist" :"Tej Email jest już zajety",
     "passwordsIsWeak" :"To hasło jest za słabe",
     "addPublishers" :"Dodaj Wydawę",
+    "invalidUrl" :"To nie jest adress url",
+    "invalidScraperUrl": "Ten adress nie jest dozwolny",
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"

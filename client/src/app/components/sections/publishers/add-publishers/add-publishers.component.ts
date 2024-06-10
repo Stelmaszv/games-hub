@@ -11,10 +11,15 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
   styleUrls: ['./add-publishers.component.scss']
 })
 export class AddPublishersComponent {
-  public section: string = 'general_information_normal';
+  public section: String = 'general_information_normal';
   private generalInformationValidation : boolean = false
 
-  constructor(private fb: FormBuilder,private httpServiceService: HttpServiceService ,private formValidatorService: FormValidatorService,private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private httpServiceService: HttpServiceService ,
+    private formValidatorService: FormValidatorService,
+    private router: Router
+  ) {}
 
   public generalInformation: FormGroup = this.fb.group({
     name: '',
@@ -35,10 +40,50 @@ export class AddPublishersComponent {
     descriptions: this.descriptions
   })
 
+  public generalInformationScraperForm : FormGroup = this.fb.group({
+    url: '',
+  })
+
   public updateSection(){
     if(this.generalInformationValidation){
       this.section = 'descriptions_normal'
     }
+  }
+
+  public onGeneralInformationScraperSubmit(){
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/',{    
+      url: this.generalInformationScraperForm?.get('url')?.value
+    }).subscribe({  
+      next: (response) => {
+        const data = response['generalInformation']
+        this.generalInformation.setValue(data);
+      },
+      error: (errorList: HttpErrorResponse) => {
+        //this.formValidatorService.setForm('generalInformationScraperForm')
+        ///this.formValidatorService.showErrors(errorList.error.errors)
+        //this.formValidatorService.restNotUseInputs(errorList.error.errors)
+
+        const generalInformationKeys = Object.keys(errorList.error.errors);
+        this.generalInformationValidation = (generalInformationKeys.length === 0)
+        this.updateSection();
+      
+        let generalInformationScraperErrors: { [key: string]: any } = {};
+  
+        for (let error of Object.entries(errorList.error.errors)) {
+          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
+            const key = error[0].replace(/\./g, "");
+            generalInformationScraperErrors[key] = error;
+          }
+        }
+  
+        this.formValidatorService.setForm('generalInformationScraperForm')
+        this.formValidatorService.showErrors(generalInformationScraperErrors,{    
+          url: this.generalInformationScraperForm?.get('url')?.value
+        })
+        this.formValidatorService.restNotUseInputs(generalInformationScraperErrors)
+        
+      }
+    });
   }
 
   public onSubmit() {   
@@ -81,7 +126,7 @@ export class AddPublishersComponent {
         }
   
         this.formValidatorService.setForm('generalInformation')
-        this.formValidatorService.showErrors(generalInformationErrors)
+        this.formValidatorService.showErrors(generalInformationErrors, generalInformation)
         this.formValidatorService.restNotUseInputs(generalInformationErrors)
       }
     });

@@ -11,11 +11,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PublisherWebScraberDTO implements DTO
 {
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="emptyField")
      *
-     * @Assert\Url
+     * @Assert\Url(message="invalidUrl")
      *
-     * @CustomAssert\PublisherUrl
+     * @CustomAssert\PublisherUrl(message="invalidScraperUrl")
      */
     public ?string $url = null;
 

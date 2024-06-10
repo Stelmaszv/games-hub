@@ -26,6 +26,8 @@
     "userExist": "This email address is already taken!",
     "passwordsIsWeak": "This password is too weak!",
     "addPublishers" :"Add Publishers",
+    "invalidUrl" :"This is not url",
+    "invalidScraperUrl": "This Host is not allowed.",
     "month" : [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

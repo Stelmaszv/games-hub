@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslationService } from '../translation/translation.service';
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,27 @@ export class FormValidatorService {
     this.formControls = document.querySelectorAll(`[form="${id}"]`);
   }
 
-  public showErrors(errorList: { [key: string]: string[] }): void {
+  public showErrors(errorList: { [key: string]: string[] },values :any): void {
+
     Object.entries(errorList).forEach(([inputName, value]) => {
       const inputId = inputName.replace(/\./g, "");
       this.markInvalid(inputId);
 
       if (value.length > 1) {
+        
+        let keys = value[0].split('.');
+        if(keys.length > 0){
+          for (let key of keys){
+            if(key == value[0]){
+              value[2] = values[key]
+            }
+          }
+        }
+
         const translationKey = value[1]; 
         const jsonString = this.convertStringToJson(value.slice(2).join(' '));
         const parsedJson = this.safeParseJson(jsonString);
-
-        this.displayError(inputId, translationKey, parsedJson);
+        this.displayError(inputId, translationKey, parsedJson)
       }
     });
   }

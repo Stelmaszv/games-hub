@@ -97,7 +97,11 @@ export class RegisterComponent {
       },
       error: (errorList: HttpErrorResponse) => {
         this.formValidatorService.setForm('registerForm')
-        this.formValidatorService.showErrors(errorList.error.errors)
+        this.formValidatorService.showErrors(errorList.error.errors,{ 
+          'email' : this.email,
+          'password':this.password,
+          'repartPassword':this.repartPassword
+        })
         this.formValidatorService.restNotUseInputs(errorList.error.errors)
       }
     });

@@ -43,6 +43,8 @@ class GeneralInformationScraper
 
     private function getName()
     {
+        $this->data['name'] = '';
+
         $elements = $this->crawler->filter('.mw-page-title-main');
         $elements->each(function (Crawler $node, $i) {
             $this->data['name'] = $node->text();
@@ -51,6 +53,8 @@ class GeneralInformationScraper
 
     private function getFounded()
     {
+        $this->data['founded'] = '';
+        
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
             if (false !== strpos($row->text(), 'Founded')) {
@@ -76,6 +80,8 @@ class GeneralInformationScraper
 
     private function getWebsite()
     {
+        $this->data['website'] = '';
+
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
             if (false !== strpos($row->text(), 'Website')) {
@@ -86,6 +92,9 @@ class GeneralInformationScraper
 
     private function getHeadquarters()
     {
+        $this->data['origin'] = '';
+        $this->data['headquarter'] = '';
+
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
             if (false !== strpos($row->text(), 'Headquarters')) {
