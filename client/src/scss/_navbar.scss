@@ -1,53 +1,57 @@
-$main-color : rgb(110, 136, 144);
-$bottom-color : #FFB130;
-$border-bottom : 5px solid $bottom-color;
+$main-color: rgb(110, 136, 144);
+$bottom-color: #FFB130;
+$border-bottom: 5px solid $bottom-color;
 $navbar-hover: #840028;
 $navbar-font-color: rgba(255, 255, 255, 0.714);
 
 .dropdown-toggle::after {
-    display: none;
-  }
-  
-  .navbar-style {
-    background-color: $main-color;
-    border-bottom: $border-bottom;
-    height: 60px;
-  }
-  
-  .navbar-style .navbar-brand {
+  display: none;
+}
+
+.navbar-style {
+  background-color: $main-color;
+  border-bottom: $border-bottom;
+  height: 60px;
+
+  .navbar-brand {
     color: $navbar-font-color;
     font-weight: bold;
   }
-  
-  .navbar-style .navbar-nav .nav-link {
-    line-height: 80px;
+
+  .navbar-nav {
+    .nav-link {
+      line-height: 80px;
+      color: $navbar-font-color;
+      letter-spacing: 2px;
+      margin-right: 20px;
+      padding-right: 10px;
+      transition: transform 0.3s ease, color 1s ease;
+
+      &:hover,&.active-link {
+        color: $navbar-hover;
+        transform: scale(1.1);
+        transition: transform 0.3s ease, color 1s ease;
+      }
+    }
+  }
+
+  .btn-outline-success {
     color: $navbar-font-color;
-    letter-spacing:2px;
-    margin-right: 20px;
-    padding-right: 10px;
-    transition: transform 0.3s ease, color 1s ease; /* Dodaj animację */
   }
-  
-  .navbar-style .navbar-nav .nav-link:hover {
-    color: $navbar-hover;
-    transform: scale(1.1);
-    transition: transform 0.3s ease, color 1s ease; /* Dodaj animację */
-  }
-  
-  .navbar-style .btn-outline-success {
-    color: $navbar-font-color;
-  }
-  
-  .navbar-style .dropdown-menu {
+
+  .dropdown-menu {
     background-color: $main-color;
+
+    .dropdown-item {
+      color: $navbar-font-color;
+    }
   }
-  
-  .navbar-style .dropdown-menu .dropdown-item {
-    color: $navbar-font-color;
-  }
-  
-  .games-link,
-  .publishers-link,
-  .developers-link{
-    font-size: 20px;
-  }
+}
+
+.games-link,
+.publishers-link,
+.login-link,
+.register-link,
+.developers-link {
+  font-size: 20px;
+}
