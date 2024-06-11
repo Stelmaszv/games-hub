@@ -31,7 +31,6 @@ export class RegisterComponent {
     const inputElement = document.querySelector<HTMLInputElement>('#password');
   
     if (!inputElement) {
-      console.error("Input element '#password' not found.");
       return;
     }
   
@@ -43,7 +42,6 @@ export class RegisterComponent {
     const inputElement = document.querySelector<HTMLInputElement>('#repartPassword');
   
     if (!inputElement) {
-      console.error("Input element '#repartPassword' not found.");
       return;
     }
   
