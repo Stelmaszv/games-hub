@@ -96,13 +96,24 @@ export class RegisterComponent {
         location.reload(); 
       },
       error: (errorList: HttpErrorResponse) => {
+        const register = Object.keys(errorList.error.errors);
+      
+        let registerErrors: { [key: string]: any } = {};
+  
+        for (let error of Object.entries(errorList.error.errors)) {
+          if (register.indexOf(error[0].toString()) !== -1) { 
+            const key = error[0].replace(/\./g, "");
+            registerErrors[key] = error;
+          }
+        }
+  
         this.formValidatorService.setForm('registerForm')
-        this.formValidatorService.showErrors(errorList.error.errors,{ 
+        this.formValidatorService.showErrors(registerErrors, { 
           'email' : this.email,
           'password':this.password,
           'repartPassword':this.repartPassword
         })
-        this.formValidatorService.restNotUseInputs(errorList.error.errors)
+        this.formValidatorService.restNotUseInputs(registerErrors)
       }
     });
   }

@@ -3,7 +3,9 @@
   <div class="mb-3">
     <div class="input-group has-validation">
       <span class="input-group-text" id="emailGroupPrepend">@</span>
-      <input 
+      <input
+        formId = 'email' 
+        form="registerForm" 
         type="text" 
         class="form-control" 
         id="email" 
@@ -13,13 +15,15 @@
         placeholder="{{ translationService.translate('loginIn') }}"  
         name="email"     
         required>
-      <div id="emailFeedback" class="invalid-feedback mt-3"></div>
+      <div id="emailFeedback" formFeedback="email" class="invalid-feedback mt-3"></div>
     </div>
   </div>
   <div class="mb-3">
     <div class="input-group has-validation">
       <span class="input-group-text" id="passwordShow" (click)="showPassword()"><i class="{{showPasswordIcon}}"></i></span>
       <input 
+        formId = 'password' 
+        form="registerForm" 
         type="password" 
         class="form-control" 
         id="password" 
@@ -30,7 +34,7 @@
         [(ngModel)]="password" 
         required
       >
-      <div id="passwordFeedback" class="invalid-feedback"></div>
+      <div id="passwordFeedback" formFeedback="password" class="invalid-feedback"></div>
     </div>
   </div>
   <div class="mb-3">
@@ -39,7 +43,9 @@
           <i class="{{showPasswordRepartIcon}}"></i>
         </span>
 
-        <input 
+        <input
+          formId = 'repartPassword' 
+          form="registerForm" 
           type="password" 
           class="form-control" 
           id="repartPassword" 
@@ -49,7 +55,7 @@
           [(ngModel)]="repartPassword" 
           required
         >
-          <div id="repartPasswordFeedback" class="invalid-feedback"></div>
+          <div id="repartPasswordFeedback" formFeedback="repartPassword" class="invalid-feedback"></div>
     </div>
   </div>
   <div class="actions">
