@@ -13,6 +13,7 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
 export class AddPublishersComponent {
   public section: String = 'general_information_normal';
   private generalInformationValidation : boolean = false
+  private add : boolean = false
 
   constructor(
     private fb: FormBuilder,
@@ -50,11 +51,17 @@ export class AddPublishersComponent {
     fr: null,
   })
 
-  public updateSection(){
-    if(this.generalInformationValidation){
-      this.section = 'descriptions_normal'
+  private getdescription(lng:string,response:any){
+    let description = '';
+
+    if(this.descriptions?.get(lng)?.value === null || this.descriptions?.get(lng)?.value === '' ){
+      description = (response['description'])? response['description']['eng'] : lng
+    }else{
+      description = this.descriptions?.get(lng)?.value
     }
-  }
+
+    return description
+  } 
 
   public onDescriptionsScraperSubmit(){
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions',{    
@@ -65,39 +72,17 @@ export class AddPublishersComponent {
       ],
     }).subscribe({  
       next: (response) => {
-        let descriptionEng = '';
-        if(this.descriptions?.get('eng')?.value === null || this.descriptions?.get('eng')?.value === '' ){
-          descriptionEng = (response['description'])? response['description']['eng'] : 'eng'
-        }else{
-          descriptionEng = this.descriptions?.get('eng')?.value
-        }
-
-        let descriptionFr = '';
-        if(this.descriptions?.get('fr')?.value === null || this.descriptions?.get('fr')?.value === '' ){
-          descriptionFr = (response['description'])? response['description']['fr'] : 'fr'
-        }else{
-          descriptionFr = this.descriptions?.get('fr')?.value
-        }
-
-        let descriptionPl = '';
-        if(this.descriptions?.get('pl')?.value === null || this.descriptions?.get('pl')?.value === '' ){
-          descriptionPl = (response['description'])? response['description']['pl'] : 'pl'
-        }else{
-          descriptionPl = this.descriptions?.get('pl')?.value
-        }
-
         const data = {
-          'eng' : descriptionEng,
-          'fr': descriptionFr,
-          'pl':descriptionPl
+          'eng' : this.getdescription('eng',response),
+          'fr': this.getdescription('fr',response),
+          'pl':this.getdescription('pl',response),
         }
         this.descriptions.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
         const generalInformationKeys = Object.keys(errorList.error.errors);
         this.generalInformationValidation = (generalInformationKeys.length === 0)
-        this.updateSection();
-      
+
         let generalInformationErrors: { [key: string]: any } = {};
   
         for (let error of Object.entries(errorList.error.errors)) {
@@ -126,8 +111,6 @@ export class AddPublishersComponent {
       error: (errorList: HttpErrorResponse) => {
         const generalInformationKeys = Object.keys(errorList.error.errors);
         this.generalInformationValidation = (generalInformationKeys.length === 0)
-        this.updateSection();
-      
         let generalInformationScraperErrors: { [key: string]: any } = {};
   
         for (let error of Object.entries(errorList.error.errors)) {
@@ -162,12 +145,10 @@ export class AddPublishersComponent {
       fr: this.descriptions?.get('fr')?.value
     };
 
-    
-  
     this.httpServiceService.postData('http://localhost/api/publisher/add',{ 
       'generalInformation' : generalInformation,
       'descriptions' :descriptions,
-      'add' : this.generalInformationValidation
+      'add' : this.add
     }).subscribe({
       next: (response) => {
         if(this.generalInformationValidation && response.success){
@@ -175,12 +156,15 @@ export class AddPublishersComponent {
         }
       },
       error: (errorList: HttpErrorResponse) => {
-        const generalInformationKeys = Object.keys(errorList.error.errors).filter(key => key.startsWith('generalInformation.'));;
-        this.generalInformationValidation = (generalInformationKeys.length === 0)
-        this.updateSection();
-      
+        const generalInformationKeys = Object.keys(errorList.error.errors).filter(key => key.startsWith('generalInformation.'));
+        this.generalInformationValidation = (generalInformationKeys.length === 0);
+        
+        if(this.generalInformationValidation){
+          this.section = 'descriptions_normal'
+        }
+
         let generalInformationErrors: { [key: string]: any } = {};
-  
+
         for (let error of Object.entries(errorList.error.errors)) {
           if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
             const key = error[0].replace(/\./g, "");
@@ -195,6 +179,10 @@ export class AddPublishersComponent {
     });
   }
 
+  public showGeneralInformation(){
+    this.section = 'general_information_normal'
+  }
+
   public restGeneralInformation(){
     const data = {
       name: null,
@@ -206,6 +194,11 @@ export class AddPublishersComponent {
     this.generalInformation.setValue(data);
   }
 
+  public addPublisher(){
+    this.add = true;
+    this.onSubmit()
+  }
+
   public restDescription(){
     const data = {
       'eng' : null,
@@ -213,5 +206,9 @@ export class AddPublishersComponent {
       'pl': null
     }
     this.descriptions.setValue(data);
+  }
+
+  public checkErrors(){
+    return this.generalInformationValidation
   }
 }
