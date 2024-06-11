@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Publisher;
+namespace App\Controller\Publisher\Show;
 
 use App\Entity\Publisher;
 use App\Generic\Api\Controllers\GenericDetailController;

@@ -116,7 +116,7 @@ export class AddPublishersComponent {
   }
 
   public onGeneralInformationScraperSubmit(){
-    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/',{    
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/general-information',{    
       url: this.generalInformationScraperForm?.get('url')?.value
     }).subscribe({  
       next: (response) => {
@@ -161,6 +161,8 @@ export class AddPublishersComponent {
       pl: this.descriptions?.get('pl')?.value,
       fr: this.descriptions?.get('fr')?.value
     };
+
+    
   
     this.httpServiceService.postData('http://localhost/api/publisher/add',{ 
       'generalInformation' : generalInformation,
@@ -173,7 +175,7 @@ export class AddPublishersComponent {
         }
       },
       error: (errorList: HttpErrorResponse) => {
-        const generalInformationKeys = Object.keys(errorList.error.errors);
+        const generalInformationKeys = Object.keys(errorList.error.errors).filter(key => key.startsWith('generalInformation.'));;
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();
       

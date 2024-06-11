@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Publisher;
+namespace App\Controller\Publisher\Scraber;
 
 use App\Generic\Api\Controllers\GenericPostController;
 use App\Security\Atribute;
@@ -11,7 +11,7 @@ use App\Validation\DTO\Publisher\PublisherWebScraberDescriptionsDTO;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('api/publisher/web-scraber/add/descriptions', name: 'publisher_add_descriptions', methods: ['POST'])]
-class AddDescriptionsPublisherController extends GenericPostController
+class ScrabDescriptionsController extends GenericPostController
 {
     protected ?string $dto = PublisherWebScraberDescriptionsDTO::class;
     protected ?string $voterAtribute = Atribute::CAN_ADD_PUBLISHER;
