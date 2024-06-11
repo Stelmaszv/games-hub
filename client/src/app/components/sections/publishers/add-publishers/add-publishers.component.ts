@@ -173,7 +173,7 @@ export class AddPublishersComponent {
         }
       },
       error: (errorList: HttpErrorResponse) => {
-        const generalInformationKeys = Object.keys(errorList.error.errors).filter(key => key.startsWith('generalInformation.'));
+        const generalInformationKeys = Object.keys(errorList.error.errors);
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();
       
