@@ -12,7 +12,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
 {
     private Crawler $crawler;
 
-    private array $description;
+    private array $description = [];
 
     public function getLang(string $key): string
     {
@@ -26,7 +26,6 @@ class DescriptionsScraper implements DescriptionScraperInterface
 
     public function addDescription($description): void
     {
-        if(!empty($url)){
         $this->setUrl($description['url']);
 
         $key = $description['lng'];
@@ -41,21 +40,18 @@ class DescriptionsScraper implements DescriptionScraperInterface
         });
 
         $this->description[$key] = $desc;
-        }
 
     }
 
     private function setUrl(string $url)
     {
-        if(!empty($url)){
-            $client = new Client([
-                'base_uri' => $url,
-                'timeout' => 2.0,
-            ]);
+        $client = new Client([
+            'base_uri' => $url,
+            'timeout' => 2.0,
+        ]);
     
-            $response = $client->request('GET', '');
-            $htmlContent = $response->getBody()->getContents();
-            $this->crawler = new Crawler($htmlContent);
-        }
+        $response = $client->request('GET', '');
+        $htmlContent = $response->getBody()->getContents();
+        $this->crawler = new Crawler($htmlContent);
     }
 }

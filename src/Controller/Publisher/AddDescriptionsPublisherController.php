@@ -6,7 +6,7 @@ namespace App\Controller\Publisher;
 
 use App\Generic\Api\Controllers\GenericPostController;
 use App\Security\Atribute;
-use App\Service\WebScraber\Developer\DescriptionsScraper;;
+use App\Service\WebScraber\Developer\DescriptionsScraper;
 use App\Validation\DTO\Publisher\PublisherWebScraberDescriptionsDTO;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +20,7 @@ class AddDescriptionsPublisherController extends GenericPostController
     {
         $data = json_decode($this->request->getContent(), true);
         $description = $this->setDescription($data['descriptions']);
-
+        
         return [
             'description' => $description->getDescription()
         ];
@@ -31,7 +31,9 @@ class AddDescriptionsPublisherController extends GenericPostController
        $publisherScraber = new DescriptionsScraper();
 
         foreach ($descriptions as $description) {
-            $publisherScraber->addDescription($description);
+            if(!empty($description['url'])){
+                $publisherScraber->addDescription($description);
+            }
         }
 
         return $publisherScraber;

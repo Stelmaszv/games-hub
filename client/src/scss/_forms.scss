@@ -47,8 +47,14 @@
 
 .scraper-icon{
   opacity: 0.7;
-  position: absolute;
-  right: 10px;
+  .eraser{
+    position: absolute;
+    right: 50px;
+  }
+  .scraper{
+    position: absolute;
+    right: 20px;
+  }
 }
 
 .scraper-icon:hover{

@@ -4,13 +4,19 @@
 
     <div  *ngIf="section === 'general_information_normal'">
         <div class="scraper-icon">
-            <i type="button" data-bs-toggle="modal" data-bs-target="#generalInformation" class="fa-solid fa-globe"></i>
+            <i class="fa-solid fa-eraser eraser" (click)="restGeneralInformation()"></i>
+        </div>
+        <div class="scraper-icon">
+            <i type="button" data-bs-toggle="modal" data-bs-target="#generalInformation" class="fa-solid fa-globe scraper"></i>
         </div>
     </div>
 
     <div  *ngIf="section === 'descriptions_normal'">
         <div class="scraper-icon">
-            <i type="button" data-bs-toggle="modal" data-bs-target="#descriptions" class="fa-solid fa-globe"></i>
+            <i class="fa-solid fa-eraser eraser" (click)="restDescription()"></i>
+        </div>
+        <div class="scraper-icon">
+            <i type="button" data-bs-toggle="modal" data-bs-target="#descriptions" class="fa-solid fa-globe scraper"></i>
         </div>
     </div>
 
@@ -18,8 +24,8 @@
         <div class="col-8">
             <div formGroupName="generalInformation" *ngIf="section === 'general_information_normal'">
                 <h2>General Information</h2>
+                
                 <div class="row mb-3">
-                    
                     <div class="row">
                         <div class="col-4">
                             <label for="name" class="col-sm-2 col-form-label">Name:</label>
@@ -32,7 +38,6 @@
                 </div>
 
                 <div class="row mb-3">
-
                     <div class="row">
                         <div class="col-4">
                             <label for="origin" class="col-sm-2 col-form-label">Origin:</label>
@@ -42,7 +47,6 @@
                             <div formFeedback = "generalInformationorigin" class="invalid-feedback"></div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row mb-3">
@@ -142,6 +146,7 @@
                </div>
             </div>
             <div class="modal-footer">
+                <button type="button" (click)="restGeneralInformation()" class="btn btn-secondary">Reset fields</button>
                 <button type="submit" class="btn btn-primary">Scrap</button>
             </div>
         </form> 
@@ -222,6 +227,7 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" (click)="restDescription()" class="btn btn-secondary">Reset fields</button>
                 <button type="submit" class="btn btn-primary">Scrap</button>
             </div>
         </form> 

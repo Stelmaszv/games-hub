@@ -53,13 +53,13 @@ export class FormValidatorService {
 
   private markInvalid(inputId: string): void {
     const inputClass = document.querySelector(`[formId="${inputId}"]`);
-    console.log(inputId)
+
     if (inputClass) inputClass.classList.add('is-invalid');
   }
 
   private displayError(inputId: string, translationKey: string, parsedJson: { [key: string]: string }): void {
     const inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
-    console.log(inputId)
+    
     if (inputErrorValue) {
       inputErrorValue.innerHTML = this.translationService.translate(translationKey, parsedJson);
     }

@@ -11,7 +11,7 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
   styleUrls: ['./add-publishers.component.scss']
 })
 export class AddPublishersComponent {
-  public section: String = 'descriptions_normal';
+  public section: String = 'general_information_normal';
   private generalInformationValidation : boolean = false
 
   constructor(
@@ -22,17 +22,17 @@ export class AddPublishersComponent {
   ) {}
 
   public generalInformation: FormGroup = this.fb.group({
-    name: '',
-    origin: '',
-    founded: '',
-    website: '',
-    headquarter: ''
+    name: null,
+    origin: null,
+    founded: null,
+    website: null,
+    headquarter: null
   });
 
   public descriptions: FormGroup = this.fb.group({
-    eng: '',
-    pl: '',
-    fr: '',
+    eng: null,
+    pl: null,
+    fr: null,
   });
 
   public publisherForm : FormGroup = this.fb.group({
@@ -41,13 +41,13 @@ export class AddPublishersComponent {
   })
 
   public generalInformationScraperForm : FormGroup = this.fb.group({
-    url: '',
+    url: null,
   })
 
   public descriptionsScraperForm : FormGroup = this.fb.group({
-    eng: '',
-    pl: '',
-    fr: '',
+    eng: null,
+    pl: null,
+    fr: null,
   })
 
   public updateSection(){
@@ -65,7 +65,32 @@ export class AddPublishersComponent {
       ],
     }).subscribe({  
       next: (response) => {
-        const data = response['description'];
+        let descriptionEng = '';
+        if(this.descriptions?.get('eng')?.value === null || this.descriptions?.get('eng')?.value === '' ){
+          descriptionEng = (response['description'])? response['description']['eng'] : 'eng'
+        }else{
+          descriptionEng = this.descriptions?.get('eng')?.value
+        }
+
+        let descriptionFr = '';
+        if(this.descriptions?.get('fr')?.value === null || this.descriptions?.get('fr')?.value === '' ){
+          descriptionFr = (response['description'])? response['description']['fr'] : 'fr'
+        }else{
+          descriptionFr = this.descriptions?.get('fr')?.value
+        }
+
+        let descriptionPl = '';
+        if(this.descriptions?.get('pl')?.value === null || this.descriptions?.get('pl')?.value === '' ){
+          descriptionPl = (response['description'])? response['description']['pl'] : 'pl'
+        }else{
+          descriptionPl = this.descriptions?.get('pl')?.value
+        }
+
+        const data = {
+          'eng' : descriptionEng,
+          'fr': descriptionFr,
+          'pl':descriptionPl
+        }
         this.descriptions.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
@@ -99,7 +124,6 @@ export class AddPublishersComponent {
         this.generalInformation.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
-        console.log(errorList.error.errors)
         const generalInformationKeys = Object.keys(errorList.error.errors);
         this.generalInformationValidation = (generalInformationKeys.length === 0)
         this.updateSection();
@@ -167,5 +191,25 @@ export class AddPublishersComponent {
         this.formValidatorService.restNotUseInputs(generalInformationErrors)
       }
     });
+  }
+
+  public restGeneralInformation(){
+    const data = {
+      name: null,
+      origin: null,
+      founded: null,
+      website: null,
+      headquarter: null
+    }
+    this.generalInformation.setValue(data);
+  }
+
+  public restDescription(){
+    const data = {
+      'eng' : null,
+      'fr': null,
+      'pl': null
+    }
+    this.descriptions.setValue(data);
   }
 }
