@@ -10,12 +10,31 @@ export class FormValidatorService {
 
   public constructor(private translationService: TranslationService) { }
 
-  public setForm(id: string): void {
+  public processErrors( errorList: any, values: any, formName:string ,subError : string|null = null) {
+    let processKeys = Object.keys(errorList);
+    if(subError){
+      processKeys = Object.keys(errorList).filter(key => key.startsWith(subError));
+    }
+
+    let processErrors: { [key: string]: any } = {};
+  
+    for (let error of Object.entries(errorList)) {
+      if (processKeys.indexOf(error[0].toString()) !== -1) {
+        const key = error[0].replace(/\./g, "");
+        processErrors[key] = error;
+      }
+    }
+  
+    this.setForm(formName);
+    this.showErrors(processErrors, values);
+    this.restNotUseInputs(processErrors);
+  }
+
+  private setForm(id: string): void {
     this.formControls = document.querySelectorAll(`[form="${id}"]`);
   }
 
-  public showErrors(errorList: { [key: string]: string[] },values :any): void {
-
+  private showErrors(errorList: { [key: string]: string[] },values :any): void {
 
     Object.entries(errorList).forEach(([inputName, value]) => {
       const inputId = inputName.replace(/\./g, "");
@@ -40,7 +59,7 @@ export class FormValidatorService {
     });
   }
 
-  public restNotUseInputs(errorList: { [key: string]: string[] }): void {
+  private restNotUseInputs(errorList: { [key: string]: string[] }): void {
     const invalidIds = Object.keys(errorList);
 
     this.formControls?.forEach(element => {

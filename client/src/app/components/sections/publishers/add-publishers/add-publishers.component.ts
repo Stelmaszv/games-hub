@@ -51,7 +51,7 @@ export class AddPublishersComponent {
     fr: null,
   })
 
-  private getdescription(lng:string,response:any){
+  private getDescription(lng:string,response:any){
     let description = '';
 
     if(this.descriptions?.get(lng)?.value === null || this.descriptions?.get(lng)?.value === '' ){
@@ -64,68 +64,41 @@ export class AddPublishersComponent {
   } 
 
   public onDescriptionsScraperSubmit(){
-    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions',{    
+    let postData = {    
       "descriptions":[
         {"url":this.descriptionsScraperForm?.get('eng')?.value,"lng":"eng"},
         {"url":this.descriptionsScraperForm?.get('pl')?.value,"lng":"pl"},
         {"url":this.descriptionsScraperForm?.get('fr')?.value,"lng":"fr"},
       ],
-    }).subscribe({  
+    }
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions', postData ).subscribe({  
       next: (response) => {
         const data = {
-          'eng' : this.getdescription('eng',response),
-          'fr': this.getdescription('fr',response),
-          'pl':this.getdescription('pl',response),
+          'eng' : this.getDescription('eng',response),
+          'fr': this.getDescription('fr',response),
+          'pl':this.getDescription('pl',response),
         }
         this.descriptions.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
-        const generalInformationKeys = Object.keys(errorList.error.errors);
-        this.generalInformationValidation = (generalInformationKeys.length === 0)
-
-        let generalInformationErrors: { [key: string]: any } = {};
-  
-        for (let error of Object.entries(errorList.error.errors)) {
-          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
-            const key = error[0].replace(/\./g, "");
-            generalInformationErrors[key] = error;
-          }
-        }
-  
-        this.formValidatorService.setForm('descriptions')
-        this.formValidatorService.showErrors(generalInformationErrors,'')
-        this.formValidatorService.restNotUseInputs(generalInformationErrors)
+        this.formValidatorService.processErrors(errorList.error.errors, postData ,'descriptions')
       }
     });
     
   }
 
   public onGeneralInformationScraperSubmit(){
-    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/general-information',{    
+    let postData = {    
       url: this.generalInformationScraperForm?.get('url')?.value
-    }).subscribe({  
+    }
+
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/general-information',postData).subscribe({  
       next: (response) => {
         const data = response['generalInformation']
         this.generalInformation.setValue(data);
       },
       error: (errorList: HttpErrorResponse) => {
-        const generalInformationKeys = Object.keys(errorList.error.errors);
-        this.generalInformationValidation = (generalInformationKeys.length === 0)
-        let generalInformationScraperErrors: { [key: string]: any } = {};
-  
-        for (let error of Object.entries(errorList.error.errors)) {
-          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
-            const key = error[0].replace(/\./g, "");
-            generalInformationScraperErrors[key] = error;
-          }
-        }
-  
-        this.formValidatorService.setForm('generalInformationScraperForm')
-        this.formValidatorService.showErrors(generalInformationScraperErrors,{    
-          url: this.generalInformationScraperForm?.get('url')?.value
-        })
-        this.formValidatorService.restNotUseInputs(generalInformationScraperErrors)
-        
+        this.formValidatorService.processErrors(errorList.error.errors,postData,'generalInformationScraperForm')
       }
     });
   }
@@ -145,11 +118,13 @@ export class AddPublishersComponent {
       fr: this.descriptions?.get('fr')?.value
     };
 
-    this.httpServiceService.postData('http://localhost/api/publisher/add',{ 
+    let postData = {
       'generalInformation' : generalInformation,
       'descriptions' :descriptions,
       'add' : this.add
-    }).subscribe({
+    }
+
+    this.httpServiceService.postData('http://localhost/api/publisher/add',postData ).subscribe({
       next: (response) => {
         if(this.generalInformationValidation && response.success){
           this.router.navigate(['publisher/show', response.id]);
@@ -158,23 +133,11 @@ export class AddPublishersComponent {
       error: (errorList: HttpErrorResponse) => {
         const generalInformationKeys = Object.keys(errorList.error.errors).filter(key => key.startsWith('generalInformation.'));
         this.generalInformationValidation = (generalInformationKeys.length === 0);
-        
-        if(this.generalInformationValidation){
-          this.section = 'descriptions_normal'
+        if (this.generalInformationValidation) {
+          this.section = 'descriptions_normal';
         }
 
-        let generalInformationErrors: { [key: string]: any } = {};
-
-        for (let error of Object.entries(errorList.error.errors)) {
-          if (generalInformationKeys.indexOf(error[0].toString()) !== -1) { 
-            const key = error[0].replace(/\./g, "");
-            generalInformationErrors[key] = error;
-          }
-        }
-  
-        this.formValidatorService.setForm('generalInformation')
-        this.formValidatorService.showErrors(generalInformationErrors, generalInformation)
-        this.formValidatorService.restNotUseInputs(generalInformationErrors)
+        this.formValidatorService.processErrors(errorList.error.errors, postData ,'generalInformation','generalInformation.')
       }
     });
   }
