@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse, PublisherGeneralInformation, Response } from '../interfaces';
+import { TranslationService } from 'src/app/services/common/translation/translation.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class AddPublishersComponent {
     private fb: FormBuilder,
     private httpServiceService: HttpServiceService ,
     private formValidatorService: FormValidatorService,
-    private router: Router
+    private router: Router,
+    public translationService: TranslationService
   ) {}
 
   public generalInformation: FormGroup = this.fb.group({

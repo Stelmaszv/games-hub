@@ -1,4 +1,4 @@
-<h2 class="text-center mb-4">Add Publisher</h2>
+<h2 class="text-center mb-4">{{ translationService.translate('addPublishers') }}</h2>
 
 <div class="form-section d-flex">
 
@@ -23,12 +23,12 @@
     <form [formGroup]="publisherForm" class="container mx-auto" (ngSubmit)="onSubmit()">
         <div class="col-8">
             <div formGroupName="generalInformation" *ngIf="section === 'general_information_normal'">
-                <h2>General Information</h2>
+                <h2>{{ translationService.translate('generalInformation') }}</h2>
                 
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-4">
-                            <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                            <label for="name" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationName') }}</label>
                         </div>
                         <div class="col-8">
                             <input type="text" form="generalInformation" requestId = "generalInformation.name" formId = "generalInformationname" class="form-control" formControlName="name" id="name" required>
@@ -40,7 +40,7 @@
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-4">
-                            <label for="origin" class="col-sm-2 col-form-label">Origin:</label>
+                            <label for="origin" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationOrigin') }}</label>
                         </div>
                         <div class="col-8">
                             <input type="text" class="form-control" requestId = "generalInformation.origin" form="generalInformation" formId = "generalInformationorigin" formControlName="origin" id="origin">
@@ -52,7 +52,7 @@
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-4">
-                            <label for="origin" class="col-sm-2 col-form-label">Founded:</label>
+                            <label for="origin" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationFounded') }}</label>
                         </div>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" requestId = "generalInformation.founded" form="generalInformation" formId = "generalInformationfounded" formControlName="founded" id="founded">
@@ -64,7 +64,7 @@
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-4">
-                            <label for="website" class="col-sm-2 col-form-label">Website:</label>
+                            <label for="website" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationWebsite') }}</label>
                         </div>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" requestId = "generalInformation.website" form="generalInformation" formId = "generalInformationwebsite" id="website" formControlName="website">
@@ -76,7 +76,7 @@
                 <div class="row mb-2">
                     <div class="row">
                         <div class="col-4">
-                            <label for="headquarter" class="col-sm-2 col-form-label">Headquarter:</label>
+                            <label for="headquarter" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationHeadquarter') }}</label>
                         </div>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" requestId = "generalInformation.headquarter" form="generalInformation" formId = "generalInformationheadquarter" id="headquarter"  formControlName="headquarter">
@@ -88,36 +88,36 @@
             </div>
 
             <div formGroupName="descriptions" *ngIf="section == 'descriptions_normal' ">
-                <h2>Descriptions</h2>
+                <h2>{{ translationService.translate('generalInformationDescriptions') }}</h2>
                 <div class="row mb-3">
-                    <label for="eng" class="col-sm-2 col-form-label">English:</label>
+                    <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('en') }}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" id="eng" formControlName="eng"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="pl" class="col-sm-2 col-form-label">Polski:</label>
+                    <label for="pl" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('pl') }}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" id="pl" formControlName="pl"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="fr" class="col-sm-2 col-form-label">Francuski:</label>
+                    <label for="fr" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('fr') }}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" id="fr" formControlName="fr"></textarea>
                     </div>
                 </div>
             </div>
             <div class="actions" *ngIf="section === 'general_information_normal'">
-                <button type="submit" class="btn btn-primary btn-lg w-100">Next</button>
+                <button type="submit" class="btn btn-primary btn-lg w-100">{{ translationService.translate('next') }}</button>
             </div>
             <div class="actions" *ngIf="section === 'descriptions_normal'">
                 <div class="row mb-3">
                     <div class="col-sm-6">
-                        <button type="button" class="btn btn-primary btn-lg w-100" (click)="showGeneralInformation()">General Information</button>
+                        <button type="button" class="btn btn-primary btn-lg w-100" (click)="showGeneralInformation()">{{ translationService.translate('generalInformation') }}</button>
                     </div>
                     <div class="col-sm-6">
-                        <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="!checkErrors()" (click)="addPublisher()">Add</button>
+                        <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="!checkErrors()" (click)="addPublisher()">{{ translationService.translate('add') }}</button>
                     </div>
                 </div>
             </div>
@@ -129,14 +129,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="generalInformationScraper">General Information Scraper</h1>
+          <h1 class="modal-title fs-5" id="generalInformationScraper">{{ translationService.translate('generalInformationScraper') }}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form [formGroup]="generalInformationScraperForm" class="container mx-auto" (ngSubmit)="onGeneralInformationScraperSubmit()">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-4">
-                        <label for="name" class="col-sm-2 col-form-label">Url:</label>
+                        <label for="name" class="col-sm-2 col-form-label">WWW</label>
                     </div>
                     <div class="col-8">
                         <input 
@@ -156,8 +156,8 @@
                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" (click)="restGeneralInformation()" class="btn btn-secondary">Reset fields</button>
-                <button type="submit" class="btn btn-primary">Scrap</button>
+                <button type="button" (click)="restGeneralInformation()" class="btn btn-secondary">{{ translationService.translate('resetFields') }}</button>
+                <button type="submit" class="btn btn-primary">{{ translationService.translate('scrap') }}</button>
             </div>
         </form> 
       </div>
@@ -168,7 +168,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="descriptionsScraper">Descriptions Scraper</h1>
+          <h1 class="modal-title fs-5" id="descriptionsScraper">{{ translationService.translate('descriptionsScraper') }}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form [formGroup]="descriptionsScraperForm" class="container mx-auto" (ngSubmit)="onDescriptionsScraperSubmit()">
@@ -176,7 +176,7 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <label for="eng" class="col-sm-2 col-form-label">English:</label>
+                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('en') }}</label>
                     </div>
                     <div class="col-8">
                         <input 
@@ -197,7 +197,7 @@
 
                <div class="row">
                     <div class="col-4">
-                        <label for="eng" class="col-sm-2 col-form-label">Polski:</label>
+                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('pl') }}</label>
                     </div>
                     <div class="col-8">
                         <input 
@@ -217,7 +217,7 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <label for="eng" class="col-sm-2 col-form-label">Francuski:</label>
+                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('fr') }}</label>
                     </div>
                     <div class="col-8">
                         <input 

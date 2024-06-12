@@ -1,6 +1,9 @@
 import { Component, OnInit  } from '@angular/core';
 import { AuthService } from 'src/app/services/common/auth/auth.service';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
+import { Observable, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'user-profil-modal',
@@ -9,19 +12,21 @@ import { TranslationService } from 'src/app/services/common/translation/translat
 })
 export class UserProfilModalComponent implements OnInit {
 
-  public title: string | null = null
+  public title: string|null = null
 
   constructor(public translationService: TranslationService, public authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.title = this.translationService.translate('profil');
+  async ngOnInit() {
+    setTimeout(() => {
+      this.title = this.translationService.translate('profile');
+    }, 1000);
   }
 
-  setTittle(tittle: string){
+  public setTittle(tittle: string){
     this.title = this.translationService.translate(tittle);
   }
 
-  logOut(){
+  public logOut(){
     this.authService.removeToken();
     location.reload();
   }

@@ -14,14 +14,14 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     this.lang = this.translationService.getLang();
-    this.languages = this.translationService.getlanguagesList()
+    this.languages = this.translationService.getLanguagesList()
   }
 
-  isChoosed(lang: string){
+  isChosen(lang: string){
     return (this.lang === lang);
   }
 
-  langChoosed(lang: string) {
+  langChosen(lang: string) {
     this.lang = lang
   }
 

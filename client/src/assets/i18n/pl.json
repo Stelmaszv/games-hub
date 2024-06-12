@@ -1,35 +1,63 @@
 {
     "games": "Gry",
     "publishers" : "Wydawcy",
-    "developers" : "Twórcy",
-    "profil" : "Profil Użytkownika",
+    "developers" : "Deweloperzy",
+    "profile" : "Profil",
     "messages" : "Wiadomości",
     "notifications" : "Powiadomienia",
-    "sesion" : "Sesja",
-    "sesionExpirationIn" : "Sesja wygasnie",
-    "sesionExpirationLeft" : "zostało {{days}} dni",
-    "sesionInformationTitle" :"Informacjie o sesji",
-    "loginIn" : "Login",
-    "password" : "Hasło",
-    "repartPassword" : "Powtórz Hasło",
-    "invalidDataLogin" : "Nie poprawne dane logowania",
-    "invalidLoginOrPassword" : "Nie poprwny login albo hasło",
-    "login": "Zaloguj się",
-    "register" :"Rejestracjia",
-    "forgotPassword": "Zapomniałes hasła ?",
+    "addPublishers" :"Dodaj Wydawców",
+    "generalInformation" :"Informacje ogólne",
     "chooseLang" : "Wybierz język",
-    "saveModal" : "Zapisz",
-    "emptyField" :"To pole nie może być puste !",
-    "fieldLenght" :"To pole jest za któtkie wymagana ilosc znaków to {{lenght}} !",
-    "invalidEmail" : "Nie poprawny Email !",
-    "passwordsNotMatch": "Hasła nie sa takie same !",
-    "userExist" :"Tej Email jest już zajety",
-    "passwordsIsWeak" :"To hasło jest za słabe",
-    "addPublishers" :"Dodaj Wydawę",
-    "invalidUrl" :"To nie jest adress url",
-    "invalidScraperUrl": "Ten adress nie jest dozwolny",
+    "generalInformationScraper" : "Pobierz dane do informacji ogólnych",
+    "descriptionsScraper" : "Pobierz opisy",
+    "sessionInformation" :"Informacje o sesji",
+    "session" : "Sesja",
+    "login": "Zaloguj",
+    "register" :"Zarejestruj",
+
+
+    "sessionExpirationIn" : "Sesja wygasa za",
+    "sessionExpirationLeft" : "pozostało {{days}} dni",
+    "logOut" : "Wyloguj",
+
+
+    "loginIn" : "Zaloguj",
+    "password" : "Hasło",
+    "repeatPassword" : "Powtórz hasło",
+    "invalidDataLogin" : "Nieprawidłowe dane logowania",
+    "invalidLoginOrPassword" : "Nieprawidłowy login lub hasło",
+    "forgotPassword": "Zapomniałeś hasła?",
+    "userExist": "Ten adres email jest już zajęty!",
+    "passwordsIsWeak": "To hasło jest zbyt słabe!",
+
+    "save" : "Zapisz",
+    "next" : "Dalej",
+    "add" : "Dodaj",
+    "scrap" : "Pobierz",
+    "resetFields" : "Resetuj pola",
+
+    "emptyField": "To pole nie może być puste!",
+    "fieldLength": "To pole jest za krótkie. Wymagana długość to {{length}} znaków!",
+    "invalidEmail": "Nieprawidłowy adres email!",
+    "passwordsNotMatch": "Hasła nie pasują do siebie!",
+    "invalidUrl" :"To nie jest poprawny adres URL",
+    "invalidScraperUrl": "Ten host nie jest dozwolony.",
+
+    "generalInformationName": "Nazwa",
+    "generalInformationOrigin": "Pochodzenie",
+    "generalInformationFounded": "Założona",
+    "generalInformationWebsite": "Strona internetowa",
+    "generalInformationHeadquarter": "Siedziba",
+    "generalInformationDescriptions" :"Opisy",
+
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
+    ],
+
+    "languages" : [
+        {"en":"Angielski"},
+        {"pl":"Polski"},
+        {"fr":"Francuski"}
     ]
 }

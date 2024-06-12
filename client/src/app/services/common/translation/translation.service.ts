@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,12 +8,12 @@ import { HttpClient } from '@angular/common/http';
 export class TranslationService {
   private translations: { [key: string]: string } = {};
   private languagesList = [{"lang":"pl","name":"Polski"},{"lang":"en","name":"English"}]
-  public lang : string | null = null; 
+  public lang : string | null = null;
 
   constructor(private http: HttpClient) {
     const long = localStorage.getItem('lang')
     if(long !== null){
-      this.loadTranslations(long );
+      this.loadTranslations(long);
       this.lang = long;
     }else{
       const preferredLanguage = navigator.language || navigator.language;
@@ -51,8 +52,24 @@ export class TranslationService {
     return this.lang
   }
 
-  public getlanguagesList(){
+  public getLanguagesList(){
     return this.languagesList.map(el => el.lang);
+  }
+
+  public getLanguageName(langKey: string) : string {
+    return this.getDataFromSubArray('languages',langKey)
+  }
+
+  private getDataFromSubArray(subArray:string, key:string) :string {
+    const subData :any = this.translations[subArray];
+    const subDataKey = subData.find((lang: any) => lang.hasOwnProperty(key));
+
+    if (!subDataKey) {
+      console.error('Language not found for key: ' + key);
+      return '';
+    }
+
+    return subDataKey[key]
   }
 
   public translateMonth(monthNumber: number){
