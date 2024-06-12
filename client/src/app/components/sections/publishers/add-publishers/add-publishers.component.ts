@@ -77,18 +77,17 @@ export class AddPublishersComponent {
     }
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions', postData ).subscribe({  
       next: (response : PublisherDescriptionsScraperResponse) => {
-        const data = {
+        const publisherDescriptions : PublisherDescriptions = {
           'eng' : this.getDescription('eng',response),
           'fr': this.getDescription('fr',response),
           'pl':this.getDescription('pl',response),
         }
-        this.descriptions.setValue(data);
+        this.descriptions.setValue(publisherDescriptions);
       },
       error: (errorList: HttpErrorResponse) => {
         this.formValidatorService.processErrors(errorList.error.errors, postData ,'descriptions')
       }
     });
-    
   }
 
   public onGeneralInformationScraperSubmit() : void 
