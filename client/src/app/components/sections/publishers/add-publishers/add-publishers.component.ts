@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
+import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse, PublisherGeneralInformation, Response } from '../interfaces';
+
 
 @Component({
   selector: 'app-add-publishers',
@@ -51,20 +53,22 @@ export class AddPublishersComponent {
     fr: null,
   })
 
-  private getDescription(lng:string,response:any){
-    let description = '';
-
-    if(this.descriptions?.get(lng)?.value === null || this.descriptions?.get(lng)?.value === '' ){
-      description = (response['description'])? response['description']['eng'] : lng
-    }else{
-      description = this.descriptions?.get(lng)?.value
+  private getDescription(lng: string, response: PublisherDescriptionsScraperResponse) : string 
+  {
+    let description: string = '';
+  
+    if (this.descriptions?.get(lng)?.value === null || this.descriptions?.get(lng)?.value === '') {
+      description = response['description']?.['eng'] ?? lng;
+    } else {
+      description = this.descriptions?.get(lng)?.value ?? '';
     }
+  
+    return description;
+  }
 
-    return description
-  } 
-
-  public onDescriptionsScraperSubmit(){
-    let postData = {    
+  public onDescriptionsScraperSubmit() : void 
+  {
+    let postData : PublisherDescriptionsScraper = {    
       "descriptions":[
         {"url":this.descriptionsScraperForm?.get('eng')?.value,"lng":"eng"},
         {"url":this.descriptionsScraperForm?.get('pl')?.value,"lng":"pl"},
@@ -72,7 +76,7 @@ export class AddPublishersComponent {
       ],
     }
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions', postData ).subscribe({  
-      next: (response) => {
+      next: (response : PublisherDescriptionsScraperResponse) => {
         const data = {
           'eng' : this.getDescription('eng',response),
           'fr': this.getDescription('fr',response),
@@ -87,13 +91,14 @@ export class AddPublishersComponent {
     
   }
 
-  public onGeneralInformationScraperSubmit(){
-    let postData = {    
+  public onGeneralInformationScraperSubmit() : void 
+  {
+    let postData : GeneralInformationScraper = {    
       url: this.generalInformationScraperForm?.get('url')?.value
     }
 
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/general-information',postData).subscribe({  
-      next: (response) => {
+      next: (response : GeneralInformationResponse ) => {
         const data = response['generalInformation']
         this.generalInformation.setValue(data);
       },
@@ -103,8 +108,9 @@ export class AddPublishersComponent {
     });
   }
 
-  public onSubmit() {   
-    const generalInformation = {
+  public onSubmit() : void 
+  {   
+    const generalInformation : PublisherGeneralInformation = {
       name: this.generalInformation?.get('name')?.value,
       origin: this.generalInformation?.get('origin')?.value,
       founded: this.generalInformation?.get('founded')?.value,
@@ -112,20 +118,20 @@ export class AddPublishersComponent {
       headquarter: this.generalInformation?.get('headquarter')?.value,
     };
   
-    const descriptions = {
+    const descriptions : PublisherDescriptions = {
       eng: this.descriptions?.get('eng')?.value,
       pl: this.descriptions?.get('pl')?.value,
       fr: this.descriptions?.get('fr')?.value
     };
 
-    let postData = {
+    let postData : PublisherAddForm = {
       'generalInformation' : generalInformation,
       'descriptions' :descriptions,
       'add' : this.add
     }
 
     this.httpServiceService.postData('http://localhost/api/publisher/add',postData ).subscribe({
-      next: (response) => {
+      next: (response : Response) => {
         if(this.generalInformationValidation && response.success){
           this.router.navigate(['publisher/show', response.id]);
         }
@@ -142,36 +148,37 @@ export class AddPublishersComponent {
     });
   }
 
-  public showGeneralInformation(){
+  public showGeneralInformation() : void
+  {
     this.section = 'general_information_normal'
   }
 
-  public restGeneralInformation(){
-    const data = {
-      name: null,
+  public restGeneralInformation() : void {
+    const publisherGeneralInformation : PublisherGeneralInformation = {
+      name: '',
       origin: null,
       founded: null,
       website: null,
       headquarter: null
     }
-    this.generalInformation.setValue(data);
+    this.generalInformation.setValue(publisherGeneralInformation);
   }
 
-  public addPublisher(){
+  public addPublisher() : void {
     this.add = true;
     this.onSubmit()
   }
 
-  public restDescription(){
-    const data = {
+  public restDescription() : void {
+    const publisherDescriptions : PublisherDescriptions = {
       'eng' : null,
       'fr': null,
       'pl': null
     }
-    this.descriptions.setValue(data);
+    this.descriptions.setValue(publisherDescriptions);
   }
 
-  public checkErrors(){
+  public checkErrors() : boolean {
     return this.generalInformationValidation
   }
 }
