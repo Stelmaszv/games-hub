@@ -78,7 +78,7 @@ export class AddPublishersComponent {
         {"url":this.descriptionsScraperForm?.get('fr')?.value,"lng":"fr"},
       ],
     }
-    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/descriptions', postData ).subscribe({  
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/descriptions', postData ).subscribe({  
       next: (response : PublisherDescriptionsScraperResponse) => {
         const publisherDescriptions : PublisherDescriptions = {
           'eng' : this.getDescription('eng',response),
@@ -99,7 +99,7 @@ export class AddPublishersComponent {
       url: this.generalInformationScraperForm?.get('url')?.value
     }
 
-    this.httpServiceService.postData('http://localhost/api/publisher/web-scraber/add/general-information',postData).subscribe({  
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/general-information',postData).subscribe({  
       next: (response : GeneralInformationResponse ) => {
         const data = response['generalInformation']
         this.generalInformation.setValue(data);

@@ -15,6 +15,6 @@ class EditPublisherController extends GenericUpdateController
 {
     protected ?string $entity = Publisher::class;
     protected ?string $dto = PublisherDTO::class;
-    protected ?string $voterAtribute = Atribute::CAN_EDIT_PUBLISHER;
+    protected ?string $voterAttribute = Atribute::CAN_EDIT_PUBLISHER;
     protected mixed $voterSubject = Publisher::class;
 }

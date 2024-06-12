@@ -8,7 +8,7 @@ use App\Generic\Api\Interfaces\DTO;
 use App\Validation\Validator\Publisher as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class GeneralInformationScraberDTO implements DTO
+class GeneralInformationScraperDTO implements DTO
 {
     /**
      * @Assert\NotBlank(message="emptyField")

@@ -13,5 +13,5 @@ use Symfony\Component\Routing\Annotation\Route;
 class ShowDeveloperController extends GenericDetailController
 {
     protected ?string $entity = Developer::class;
-    protected ?string $voterAtribute = Atribute::CAN_SHOW_DEVELOPER;
+    protected ?string $voterAttribute = Atribute::CAN_SHOW_DEVELOPER;
 }

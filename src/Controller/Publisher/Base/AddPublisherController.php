@@ -15,5 +15,5 @@ class AddPublisherController extends GenericCreateController
 {
     protected ?string $entity = Publisher::class;
     protected ?string $dto = PublisherDTO::class;
-    protected ?string $voterAtribute = Atribute::CAN_ADD_PUBLISHER;
+    protected ?string $voterAttribute = Atribute::CAN_ADD_PUBLISHER;
 }

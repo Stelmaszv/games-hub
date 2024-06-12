@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Publisher\Scraber;
+namespace App\Controller\Publisher\Scraper;
 
 use App\Generic\Api\Controllers\GenericPostController;
 use App\Security\Atribute;
-use App\Service\WebScraber\Developer\DescriptionsScraper;
-use App\Validation\DTO\Publisher\PublisherWebScraberDescriptionsDTO;
+use App\Service\WebScraper\Publisher\DescriptionsScraper;
+use App\Validation\DTO\Publisher\PublisherWebScraperDescriptionsDTO;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('api/publisher/web-scraber/add/descriptions', name: 'publisher_add_descriptions', methods: ['POST'])]
-class ScrabDescriptionsController extends GenericPostController
+#[Route('api/publisher/web-scraper/add/descriptions', name: 'publisher_add_descriptions', methods: ['POST'])]
+class ScrapDescriptionsController extends GenericPostController
 {
-    protected ?string $dto = PublisherWebScraberDescriptionsDTO::class;
-    protected ?string $voterAtribute = Atribute::CAN_ADD_PUBLISHER;
+    protected ?string $dto = PublisherWebScraperDescriptionsDTO::class;
+    protected ?string $voterAttribute = Atribute::CAN_ADD_PUBLISHER;
 
     protected function onSuccessResponseMessage(): array
     {
@@ -28,14 +28,14 @@ class ScrabDescriptionsController extends GenericPostController
 
     private function setDescription(array $descriptions): DescriptionsScraper
     {
-       $publisherScraber = new DescriptionsScraper();
+       $publisherScraper = new DescriptionsScraper();
 
         foreach ($descriptions as $description) {
             if(!empty($description['url'])){
-                $publisherScraber->addDescription($description);
+                $publisherScraper->addDescription($description);
             }
         }
 
-        return $publisherScraber;
+        return $publisherScraper;
     }
 }

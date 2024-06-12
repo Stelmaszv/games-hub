@@ -9,9 +9,9 @@ use App\Entity\Publisher;
 use App\Entity\User;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Components\AbstractDataFixture;
-use App\Service\WebScraber\Developer\DescriptionsScraper;
-use App\Service\WebScraber\Developer\GeneralInformationScraper;
-use App\Service\WebScraber\WebSraberDescriptionFactory;
+use App\Service\WebScraper\Developer\DescriptionsScraper;
+use App\Service\WebScraper\Developer\GeneralInformationScraper;
+use App\Service\WebScraper\WebScraperDescriptionFactory;
 use App\Validation\DTO\Developer\DescriptionsDTO;
 use App\Validation\DTO\Developer\EditorDTO;
 use App\Validation\DTO\Developer\GeneralInformationDTO;
@@ -88,10 +88,10 @@ class DeveloperData extends AbstractDataFixture
 
     public function onDescriptionsSet(mixed $value, object $entity)
     {
-        $webSraberFactory = new WebSraberDescriptionFactory(new DescriptionsScraper());
-        $webSraberFactory->setDescription($value);
+        $webScraperFactory = new WebScraperDescriptionFactory(new DescriptionsScraper());
+        $webScraperFactory->setDescription($value);
 
-        return new DescriptionsDTO($webSraberFactory->getDescription());
+        return new DescriptionsDTO($webScraperFactory->getDescription());
     }
 
     public function onEditorsSet(mixed $value, object $entity)

@@ -14,5 +14,5 @@ class DeletePublisherController extends GenericDeleteController
 {
     protected ?string $entity = Publisher::class;
 
-    protected ?string $voterAtribute = Atribute::CAN_DELETE_PUBLISHER;
+    protected ?string $voterAttribute = Atribute::CAN_DELETE_PUBLISHER;
 }

@@ -16,5 +16,5 @@ class ListPublisherDevelopersController extends GenericListRelationController
     protected ?string $entity = Publisher::class;
     protected ?string $entityLiteration = Developer::class;
     protected ?string $relationMethod = 'getDeveloper';
-    protected ?string $voterAtribute = Atribute::CAN_LIST_DEVELOPERS;
+    protected ?string $voterAttribute = Atribute::CAN_LIST_DEVELOPERS;
 }

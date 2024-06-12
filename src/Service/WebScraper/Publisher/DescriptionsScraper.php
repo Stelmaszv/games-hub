@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WebScraber\Developer;
+namespace App\Service\WebScraper\Publisher;
 
-use App\Service\WebScraber\DescriptionScraperInterface;
+use App\Service\WebScraper\DescriptionScraperInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -12,7 +12,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
 {
     private Crawler $crawler;
 
-    private array $description = [];
+    private array $description;
 
     public function getLang(string $key): string
     {
@@ -40,7 +40,6 @@ class DescriptionsScraper implements DescriptionScraperInterface
         });
 
         $this->description[$key] = $desc;
-
     }
 
     private function setUrl(string $url)
@@ -49,7 +48,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
             'base_uri' => $url,
             'timeout' => 2.0,
         ]);
-    
+
         $response = $client->request('GET', '');
         $htmlContent = $response->getBody()->getContents();
         $this->crawler = new Crawler($htmlContent);

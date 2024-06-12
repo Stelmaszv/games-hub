@@ -11,40 +11,40 @@ use Symfony\Component\Uid\Uuid;
 abstract class AbstractFixtureGeneric extends Fixture
 {
     protected UserPasswordHasherInterface $passwordEncoder;
-    protected ?string $enetity = null;
+    protected ?string $entity = null;
     protected array $data = [];
 
     public function __construct(UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->passwordEncoder = $userPasswordHasher;
 
-        if (null === $this->enetity) {
+        if (null === $this->entity) {
             throw new \Exception('Entity is not define in Fixture '.get_class($this).'!');
         }
     }
 
     public function load(ObjectManager $manager): void
     {
-        foreach ($this->data as $elelemnts) {
-            $enetityObj = new $this->enetity();
-            $idetikatorUid = $enetityObj instanceof IdentifierUid;
+        foreach ($this->data as $elements) {
+            $entityObj = new $this->entity();
+            $initiatorUid = $entityObj instanceof IdentifierUid;
 
-            if ($idetikatorUid) {
-                $enetityObj?->setId(Uuid::v4());
+            if ($initiatorUid) {
+                $entityObj?->setId(Uuid::v4());
             }
 
-            foreach ($elelemnts as $field => $value) {
+            foreach ($elements as $field => $value) {
                 $setMethod = 'set'.ucfirst($field);
 
                 if (method_exists($this, 'on'.ucfirst($field).'Set')) {
                     $onMethodSet = 'on'.ucfirst($field).'Set';
-                    $value = $this->$onMethodSet($value, $enetityObj);
+                    $value = $this->$onMethodSet($value, $entityObj);
                 }
 
-                $enetityObj?->$setMethod($value);
+                $entityObj?->$setMethod($value);
             }
 
-            $manager->persist($enetityObj);
+            $manager->persist($entityObj);
             $manager->flush();
         }
     }

@@ -8,19 +8,19 @@ abstract class AbstractJsonMapper
 
     public function isValid(mixed $value): bool
     {
-        $maper = false;
+        $jsonMap = false;
 
         if ($this->multi) {
             $this->validMultiMapper($value);
-            $maper = true;
+            $jsonMap = true;
         }
 
         if (!$this->multi) {
             $this->validMapper($value);
-            $maper = true;
+            $jsonMap = true;
         }
 
-        if (false === $maper) {
+        if (false === $jsonMap) {
             throw new \Exception('Invalid Json in '.get_class($this).'!');
         }
 

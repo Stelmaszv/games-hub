@@ -45,7 +45,7 @@ trait AuthenticationWeb
     public function register(ManagerRegistry $managerRegistry, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $authenticationEntity = new User();
-        $idetikatorUid = $authenticationEntity instanceof IdentifierUid;
+        $initiatorUid = $authenticationEntity instanceof IdentifierUid;
 
         $form = $this->createForm(RegisterType::class, $authenticationEntity);
         $form->handleRequest($request);
@@ -56,7 +56,7 @@ trait AuthenticationWeb
                 $form->get('password')->getData()
             );
 
-            if ($idetikatorUid) {
+            if ($initiatorUid) {
                 $authenticationEntity->setId(Uuid::v4());
             }
 

@@ -13,7 +13,6 @@ use App\Service\Validation\PasswordChecker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;

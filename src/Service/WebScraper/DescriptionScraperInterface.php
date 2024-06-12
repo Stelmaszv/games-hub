@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\WebScraber;
+namespace App\Service\WebScraper;
 
 interface DescriptionScraperInterface
 {

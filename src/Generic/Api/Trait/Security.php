@@ -8,9 +8,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait Security
 {
-    protected ?string $voterAtribute = null;
+    protected ?string $voterAttribute = null;
     protected mixed $voterSubject = null;
-
     private bool $access = false; 
 
     private function setSecurityView(string $action, JWT $jwt): JsonResponse
@@ -28,11 +27,11 @@ trait Security
             }
         }
 
-        if (null === $this->voterAtribute && null === $subject) {
+        if (null === $this->voterAttribute && null === $subject) {
             return $this->$action();
         }
 
-        if ((null !== $this->voterAtribute && null !== $subject) || (null !== $this->voterAtribute && null === $subject)) {
+        if ((null !== $this->voterAttribute && null !== $subject) || (null !== $this->voterAttribute && null === $subject)) {
             if (null === $jwt->getJWTFromHeader()) {
                 return new JsonResponse(['success' => false, 'message' => 'token not found'], JsonResponse::HTTP_UNAUTHORIZED);
             }
@@ -50,8 +49,8 @@ trait Security
             }
 
             foreach ($JWTtokken['roles'] as $role) {
-                if (Roles::checkAtribute($role, $this->voterAtribute)) {
-                    $vote = $this->security->isGranted($this->voterAtribute, $subject);
+                if (Roles::checkAtribute($role, $this->voterAttribute)) {
+                    $vote = $this->security->isGranted($this->voterAttribute, $subject);
 
                     if ($vote) {
                       if (null !== $subject) {

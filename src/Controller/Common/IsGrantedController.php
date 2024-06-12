@@ -16,12 +16,13 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class IsGrantedController extends AbstractController
 {
+    use SecurityTrait;
+
     private Security $security;
     private ?int $id = null;
     private ManagerRegistry $managerRegistry;
     protected mixed $voterSubject = null;
 
-    use SecurityTrait;
     #[Route('/api/isGranted', name: 'isGranted', methods: ['POST'])]
     public function check(ManagerRegistry $doctrine,Security $security,Request $request, EntityManagerInterface $entityManager,JWT $jwt): JsonResponse
     {
@@ -37,7 +38,7 @@ class IsGrantedController extends AbstractController
             throw new \InvalidArgumentException('Attribute is required!');
         }
         
-        $this->voterAtribute = $data['attribute'];
+        $this->voterAttribute = $data['attribute'];
         
         if(isset($data['subject'])){
             $entity = $data['subject']['entity'];

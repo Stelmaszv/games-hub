@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WebScraber\Publisher;
+namespace App\Service\WebScraper\Publisher;
 
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;

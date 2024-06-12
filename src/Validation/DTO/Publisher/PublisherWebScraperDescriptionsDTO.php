@@ -7,7 +7,7 @@ namespace App\Validation\DTO\Publisher;
 use App\Generic\Api\Interfaces\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PublisherWebScraberDescriptionsDTO implements DTO
+class PublisherWebScraperDescriptionsDTO implements DTO
 {
     /**
      * @var DescriptionsUrlsDTO[]

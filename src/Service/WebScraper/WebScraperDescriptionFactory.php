@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WebScraber;
+namespace App\Service\WebScraper;
 
-class WebSraberDescriptionFactory
+class WebScraperDescriptionFactory
 {
     private DescriptionScraperInterface $descriptionScraper;
 

@@ -4,7 +4,7 @@ namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
 use App\Generic\Api\Interfaces\ApiInterface;
-use App\Generic\Api\Interfaces\GenricInterface;
+use App\Generic\Api\Interfaces\GenericInterface;
 use App\Generic\Api\Trait\GenericJSONResponse;
 use App\Generic\Api\Trait\GenericProcessEntity;
 use App\Generic\Api\Trait\GenericValidation;
@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class GenericUpdateController extends AbstractController implements GenricInterface
+class GenericUpdateController extends AbstractController implements GenericInterface
 {
     use GenericValidation;
     use GenericProcessEntity;
@@ -95,7 +95,7 @@ class GenericUpdateController extends AbstractController implements GenricInterf
         return $this->respondWithSuccess(JsonResponse::HTTP_OK);
     }
 
-    public function getEntity(): ApiInterface
+    public function getEntity(): ?ApiInterface
     {
         if (null === $this->request->attributes->get('id')) {
             return $this->respondWithError('GenericUpdateController {id} in address', JsonResponse::HTTP_NOT_FOUND);

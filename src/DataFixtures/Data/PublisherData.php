@@ -7,9 +7,9 @@ namespace App\DataFixtures\Data;
 use App\Entity\Publisher;
 use App\Entity\User;
 use App\Generic\Components\AbstractDataFixture;
-use App\Service\WebScraber\Publisher\DescriptionsScraper;
-use App\Service\WebScraber\Publisher\GeneralInformationScraper;
-use App\Service\WebScraber\WebSraberDescriptionFactory;
+use App\Service\WebScraper\Publisher\DescriptionsScraper;
+use App\Service\WebScraper\Publisher\GeneralInformationScraper;
+use App\Service\WebScraper\WebScraperDescriptionFactory;
 use App\Validation\DTO\Publisher\DescriptionsDTO;
 use App\Validation\DTO\Publisher\EditorDTO;
 use App\Validation\DTO\Publisher\GeneralInformationDTO;
@@ -63,10 +63,10 @@ class PublisherData extends AbstractDataFixture
 
     public function onDescriptionsSet(mixed $value, object $entity)
     {
-        $webSraberFactory = new WebSraberDescriptionFactory(new DescriptionsScraper());
-        $webSraberFactory->setDescription($value);
+        $webScraperFactory = new WebScraperDescriptionFactory(new DescriptionsScraper());
+        $webScraperFactory->setDescription($value);
 
-        return new DescriptionsDTO($webSraberFactory->getDescription());
+        return new DescriptionsDTO($webScraperFactory->getDescription());
     }
 
     public function onEditorsSet(mixed $value, object $entity)
