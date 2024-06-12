@@ -67,11 +67,11 @@ class PublisherDTO implements DTO
         }
     }
 
-    public function setComponnetsData(array $componnets): void
+    public function setComponentsData(array $components): void
     {
-        $this->managerRegistry = $componnets['managerRegistry'];
-        $this->createdBy = $componnets['userId'];
-        $this->edit = $componnets['edit'];
+        $this->managerRegistry = $components['managerRegistry'];
+        $this->createdBy = $components['userId'];
+        $this->edit = $components['edit'];
     }
 
     /**

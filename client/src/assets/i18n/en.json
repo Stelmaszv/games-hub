@@ -15,11 +15,9 @@
     "login": "Login",
     "register" :"Register",
  
-
     "sessionExpirationIn" : "Session Expiration In",
     "sessionExpirationLeft" : "left {{days}} days",
     "logOut" : "Log Out",
-
 
     "loginIn" : "Login",
     "password" : "Password",

@@ -39,23 +39,23 @@
   </div>
   <div class="mb-3">
     <div class="input-group has-validation">
-        <span class="input-group-text" id="repartPasswordShow" (click)="showRepartPassword()">
-          <i class="{{showPasswordRepartIcon}}"></i>
+        <span class="input-group-text" id="repartPasswordShow" (click)="showRepeatPassword()">
+          <i class="{{showPasswordRepeatIcon}}"></i>
         </span>
 
         <input
-          formId = 'repartPassword' 
+          formId = 'repeatPassword' 
           form="registerForm" 
           type="password" 
           class="form-control" 
-          id="repartPassword" 
-          placeholder="{{ translationService.translate('repartPassword') }}" 
+          id="repeatPassword" 
+          placeholder="{{ translationService.translate('repeatPassword') }}" 
           aria-describedby="repartPasswordShow repartPasswordFeedback" 
-          name="repartPassword" 
-          [(ngModel)]="repartPassword" 
+          name="repeatPassword" 
+          [(ngModel)]="repeatPassword" 
           required
         >
-          <div id="repartPasswordFeedback" formFeedback="repartPassword" class="invalid-feedback"></div>
+          <div id="repartPasswordFeedback" formFeedback="repeatPassword" class="invalid-feedback"></div>
     </div>
   </div>
   <div class="actions">

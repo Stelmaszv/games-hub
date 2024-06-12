@@ -20,9 +20,7 @@ class PublisherWebScraberDescriptionsDTO implements DTO
      */
     public array $descriptions = [];
 
-    public function setComponnetsData(array $componnets)
-    {
-    }
+    public function setComponentsData(array $components): void {}
 
     public function __construct(
         array $descriptions = [],

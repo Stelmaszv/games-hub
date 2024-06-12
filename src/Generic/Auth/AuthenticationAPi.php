@@ -72,7 +72,7 @@ trait AuthenticationAPi
         $this->passwordChecker = $passwordChecker;
 
         $data = json_decode($request->getContent(), true);
-        $issetData = isset($data['email']) && isset($data['password']) && isset($data['repartPassword']);
+        $issetData = isset($data['email']) && isset($data['password']) && isset($data['repeatPassword']);
 
 
         if (!$issetData) {
@@ -85,7 +85,7 @@ trait AuthenticationAPi
             new UserDTO(
                 $data['email'],
                 $data['password'],
-                $data['repartPassword']
+                $data['repeatPassword']
             )
         );
 
@@ -145,7 +145,7 @@ trait AuthenticationAPi
         }
     }
 
-    private function DTOComponnetsData(): array
+    private function DTOComponentsData(): array
     {
         return [
             'managerRegistry' => $this->managerRegistry,
@@ -156,17 +156,17 @@ trait AuthenticationAPi
 
     private function setDTO(DTO $DTO)
     {
-        $DTO->setComponnetsData($this->DTOComponnetsData());
+        $DTO->setComponentsData($this->DTOComponentsData());
 
         return $DTO;
     }
 
-    private function isPasswordValid(UserInterface $user, string $password): bool
+    private function isPasswordValid($user, string $password): bool
     {
         return password_verify($password, $user->getPassword());
     }
 
-    private function generateToken(UserInterface $user): array
+    private function generateToken($user): array
     {
         return [
             'id' => $user->getId(),

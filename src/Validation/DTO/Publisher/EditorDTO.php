@@ -14,7 +14,5 @@ class EditorDTO implements DTO
      */
     public ?int $id = null;
 
-    public function setComponnetsData(array $componnets)
-    {
-    }
+    public function setComponentsData(array $components): void{}
 }

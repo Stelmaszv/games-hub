@@ -4,5 +4,5 @@ namespace App\Generic\Api\Interfaces;
 
 interface DTO
 {
-    public function setComponnetsData(array $componnets);
+    public function setComponentsData(array $components): void;
 }

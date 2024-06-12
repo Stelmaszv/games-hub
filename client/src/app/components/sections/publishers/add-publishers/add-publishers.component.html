@@ -237,8 +237,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" (click)="restDescription()" class="btn btn-secondary">Reset fields</button>
-                <button type="submit" class="btn btn-primary">Scrap</button>
+                <button type="button" (click)="restDescription()" class="btn btn-secondary">{{ translationService.translate('resetFields') }}</button>
+                <button type="submit" class="btn btn-primary">{{ translationService.translate('scrap') }}</button>
             </div>
         </form> 
       </div>

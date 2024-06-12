@@ -74,7 +74,7 @@ class GenericUpdateController extends AbstractController implements GenricInterf
 
         $dto = $this->deserializeDto($data);
 
-        $dto->setComponnetsData([
+        $dto->setComponentsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
             'userId' => $user->getId(),

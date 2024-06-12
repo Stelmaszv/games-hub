@@ -29,7 +29,6 @@ class GenericCreateController extends AbstractController implements GenricInterf
 
     private Security $security;
     private JWT $jwt;
-
     protected ParameterBag $attributes;
     protected ParameterBag $query;
 
@@ -77,7 +76,7 @@ class GenericCreateController extends AbstractController implements GenricInterf
 
         $dto = new $this->dto(json_decode($data, true));
 
-        $dto->setComponnetsData([
+        $dto->setComponentsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
             'userId' => $user->getId(),

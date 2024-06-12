@@ -11,7 +11,7 @@ use App\Service\Validation\PasswordChecker;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class UserDTO   implements DTO
+class UserDTO implements DTO
 {
     /**
      * @Assert\NotBlank(message="emptyField")
@@ -27,15 +27,15 @@ class UserDTO   implements DTO
     /**
      * @Assert\NotBlank(message="emptyField")
      */
-    public $repartPassword;
+    public $repeatPassword;
     private ManagerRegistry $managerRegistry;
     private PasswordChecker $passwordChecker;
 
-    public function __construct(string $email, string $password, string $repartPassword)
+    public function __construct(string $email, string $password, string $repeatPassword)
     {
         $this->email = $email;
         $this->password = $password;
-        $this->repartPassword = $repartPassword;
+        $this->repeatPassword = $repeatPassword;
     }
 
     /**
@@ -43,17 +43,17 @@ class UserDTO   implements DTO
      */
     public function validatePasswords(ExecutionContextInterface $context, $payload)
     {
-        $passwordStrenght = $this->passwordChecker->checkPasswordStrength($this->password);
+        $passwordStrength = $this->passwordChecker->checkPasswordStrength($this->password);
 
-        if($passwordStrenght === "weak"){
+        if($passwordStrength === "weak"){
             $context->buildViolation('passwordsIsWeak')
-            ->atPath('repartPassword')
+            ->atPath('repeatPassword')
             ->addViolation();
         }
 
-        if ($this->password !== $this->repartPassword) {
+        if ($this->password !== $this->repeatPassword) {
             $context->buildViolation('passwordsNotMatch')
-                ->atPath('repartPassword')
+                ->atPath('repeatPassword')
                 ->addViolation();
         }
 
@@ -67,9 +67,9 @@ class UserDTO   implements DTO
         }
     }
 
-    public function setComponnetsData(array $componnets): void
+    public function setComponentsData(array $components): void
     {
-        $this->managerRegistry = $componnets['managerRegistry'];
-        $this->passwordChecker = $componnets['passwordChecker'];
+        $this->managerRegistry = $components['managerRegistry'];
+        $this->passwordChecker = $components['passwordChecker'];
     }
 }

@@ -13,11 +13,11 @@ import { FormValidatorService } from 'src/app/services/common/form-validator/for
 export class RegisterComponent {
 
   public showPasswordIcon :string = 'fa-solid fa-eye'
-  public showPasswordRepartIcon :string = 'fa-solid fa-eye'
+  public showPasswordRepeatIcon :string = 'fa-solid fa-eye'
   public errorMessage: string  = '';
   public email: string = '';
   public password: string = '';
-  public repartPassword: string = '';
+  public repeatPassword: string = '';
   public registerFailed: boolean  | null = false;
 
   public constructor(
@@ -38,14 +38,14 @@ export class RegisterComponent {
     inputElement.type = (inputElement.type === 'password') ? 'text' : 'password';
   }
   
-  public showRepartPassword(): void {
-    const inputElement = document.querySelector<HTMLInputElement>('#repartPassword');
+  public showRepeatPassword(): void {
+    const inputElement = document.querySelector<HTMLInputElement>('#repeatPassword');
   
     if (!inputElement) {
       return;
     }
   
-    this.showPasswordRepartIcon = (inputElement.type === 'password') ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    this.showPasswordRepeatIcon = (inputElement.type === 'password') ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
     inputElement.type = (inputElement.type === 'password') ? 'text' : 'password';
   }
 
@@ -86,7 +86,7 @@ export class RegisterComponent {
     let postData = { 
       'email' : this.email,
       'password':this.password,
-      'repartPassword':this.repartPassword
+      'repeatPassword':this.repeatPassword
     }
     this.httpServiceService.postData( 'http://localhost/api/register', postData ).subscribe({
       next: (response) => {

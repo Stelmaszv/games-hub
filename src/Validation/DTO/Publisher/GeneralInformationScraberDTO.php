@@ -19,7 +19,5 @@ class GeneralInformationScraberDTO implements DTO
      */
     public ?string $url = null;
 
-    public function setComponnetsData(array $componnets)
-    {
-    }
+    public function setComponentsData(array $components): void {}
 }

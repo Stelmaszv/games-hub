@@ -58,6 +58,7 @@ trait GenericProcessEntity
                 } else {
                     $this->handleSingleEntity($dto, $propertyName, $entity, $propertyTypeName, $method);
                 }
+                
             } else {
                 $this->handleNonTypedProperty($dto, $propertyName, $entity);
             }

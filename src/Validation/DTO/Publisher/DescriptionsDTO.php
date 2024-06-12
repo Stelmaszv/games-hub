@@ -31,7 +31,5 @@ class DescriptionsDTO implements DTO
         $this->fr = $data['fr'] ?? '';
     }
 
-    public function setComponnetsData(array $componnets)
-    {
-    }
+    public function setComponentsData(array $components): void {}
 }

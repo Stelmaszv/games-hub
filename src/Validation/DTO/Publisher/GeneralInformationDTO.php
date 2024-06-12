@@ -35,7 +35,5 @@ class GeneralInformationDTO implements DTO
         $this->website = isset($data['website']) ? $data['website'] : $this->website;
     }
 
-    public function setComponnetsData(array $componnets)
-    {
-    }
+    public function setComponentsData(array $components): void{}
 }

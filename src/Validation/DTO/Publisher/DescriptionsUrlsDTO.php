@@ -22,7 +22,5 @@ class DescriptionsUrlsDTO implements DTO
      */
     public ?string $lng = null;
 
-    public function setComponnetsData(array $componnets)
-    {
-    }
+    public function setComponentsData(array $components): void {}
 }
