@@ -10,10 +10,10 @@
     border-radius: 20px;
     background-color: $section-bg-color;
     border : 2px solid $bottom-color;
-    .listElemnts{
+    .listElements{
         transition: transform 0.3s ease, color 1s ease;
         
-        .list-elment-name,.list-elment-icons{
+        .list-element-name,.list-element-icons{
             color: white;
             font-size: 20px;
             margin-top: 8px;
@@ -29,7 +29,7 @@
             transition: transform 0.3s ease, color 1s ease;
         }
 
-        .list-elment-icons{
+        .list-element-icons{
             text-align: right;
         }
 
@@ -38,7 +38,7 @@
             height: 50px;
         }
 
-        .list-elment{
+        .list-element{
             padding: 20px;
             text-align: left;
         }

@@ -4,8 +4,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
-import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse, PublisherGeneralInformation, Response } from '../interfaces';
+import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse, PublisherGeneralInformation} from '../interfaces';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
+import { Response } from 'src/app/components/interface';
 
 
 @Component({

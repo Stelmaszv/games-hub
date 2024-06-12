@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { AuthService } from 'src/app/services/common/auth/auth.service';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
+import { Register } from '../interface';
 
 @Component({
   selector: 'app-register',
@@ -83,7 +84,7 @@ export class RegisterComponent {
   }
 
   public onSubmit() {
-    let postData = { 
+    let postData : Register = { 
       'email' : this.email,
       'password':this.password,
       'repeatPassword':this.repeatPassword

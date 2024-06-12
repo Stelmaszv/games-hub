@@ -7,7 +7,7 @@ import { ForgotPasswordComponent } from './components/sections/auth/forgot-passw
 import { MainComponentComponent } from './components/sections/main-component/main-component.component';
 import { GamesMainListComponent } from './components/sections/games/games-main-list/games-main-list.component';
 import { PublishersMainListComponent } from './components/sections/publishers/publishers-main-list/publishers-main-list.component';
-import { DeveloperMainListComponent } from './components/sections/devloper/developer-main-list/developer-main-list.component';
+import { DeveloperMainListComponent } from './components/sections/developer/developer-main-list/developer-main-list.component';
 import { ShowPublisherComponent } from './components/sections/publishers/show-publisher/show-publisher.component';
 import { CanShowPublisherGuard } from './gards/section/publisher/CanShowPublisherGuard/can.show.publisher.guard';
 import { CanEditPublisherGuard } from './gards/section/publisher/CanEditPublisherGuard/can-edit-publisher.guard';

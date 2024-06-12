@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
 
 @Component({
-  selector: 'messageges-model',
-  templateUrl: './messageges-model.component.html',
-  styleUrls: ['./messageges-model.component.scss']
+  selector: 'messages-model',
+  templateUrl: './messages-model.component.html',
+  styleUrls: ['./messages-model.component.scss']
 })
-export class MessagegesModelComponent {
+export class MessagesModelComponent {
   constructor(public translationService: TranslationService) {}
 }

@@ -1,3 +1,5 @@
+import { ResponseList } from "../../interface";
+
 export interface PublisherAddForm {
     generalInformation:PublisherGeneralInformation,
     descriptions:PublisherDescriptions, 
@@ -31,11 +33,6 @@ export interface GeneralInformationScraper{
     url : string
 }
 
-export interface Response{
-    id: Number|null,
-    success:boolean
-}
-
 export interface GeneralInformationResponse extends Response{
     generalInformation: PublisherGeneralInformation,
 }
@@ -43,3 +40,23 @@ export interface GeneralInformationResponse extends Response{
 export interface PublisherDescriptionsScraperResponse extends Response{
     description: PublisherDescriptions,
 }
+
+export interface Publisher{
+    id: number;
+  
+    generalInformation: {
+      name: string;
+    };
+}
+  
+export interface PublisherPermissions{
+  canShowPublisher: boolean;
+  canEditPublisher: boolean;
+  canDeletePublisher: boolean;
+}
+
+export interface PublisherList extends ResponseList{
+    results : PublisherListElement[]
+}
+
+export interface PublisherListElement extends Publisher,PublisherPermissions {}
