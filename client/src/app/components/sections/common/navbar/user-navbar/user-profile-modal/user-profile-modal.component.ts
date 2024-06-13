@@ -13,11 +13,10 @@ export class UserProfileModalComponent implements OnInit {
 
   constructor(public translationService: TranslationService, public authService: AuthService) {}
 
-  async ngOnInit() {
-    /*shit*/
+  ngOnInit() {
     setTimeout(() => {
       this.title = this.translationService.translate('profile');
-    }, 1000);
+    }, 1);
   }
 
   public setTittle(tittle: string){
