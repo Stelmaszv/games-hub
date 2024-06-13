@@ -17,7 +17,7 @@ class JWT
         $this->requestStack = $requestStack;
     }
 
-    public function encode(array $data)
+    public function encode(array $data) : string
     {
         $currentTime = time();
         $expirationTime = $currentTime + $this->expirationTime;
@@ -45,7 +45,7 @@ class JWT
         return $this->encode($data);
     }
 
-    public function decode(string $token)
+    public function decode(string $token) :array
     {
         list($header, $payload, $signature) = explode('.', $token);
         $data = json_decode(base64_decode($payload), true);

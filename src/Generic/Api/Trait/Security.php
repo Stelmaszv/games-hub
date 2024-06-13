@@ -36,7 +36,7 @@ trait Security
             }
 
             try {
-                $JWTtokken = $jwt->decode($jwt->getJWTFromHeader());
+                $JWToken = $jwt->decode($jwt->getJWTFromHeader());
             } catch (\Exception $e) {
                 return new JsonResponse(['success' => false, 'message' => $e->getMessage()], JsonResponse::HTTP_UNAUTHORIZED);
             }
@@ -47,8 +47,8 @@ trait Security
                 }
             }
 
-            foreach ($JWTtokken['roles'] as $role) {
-                if (Roles::checkAtribute($role, $this->voterAttribute)) {
+            foreach ($JWToken['roles'] as $role) {
+                if (Roles::checkAttribute($role, $this->voterAttribute)) {
                     $vote = $this->security->isGranted($this->voterAttribute, $subject);
 
                     if ($vote) {

@@ -1,25 +1,28 @@
 <?php
-
 namespace App\Generic\Web\Controllers;
 
+use App\Entity\Publisher;
+use Doctrine\ORM\EntityRepository;
 use App\Generic\Web\Trait\GenericForm;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GenericUpdateController extends AbstractController
 {
+    
     use GenericForm;
     private ManagerRegistry $doctrine;
     private EntityManagerInterface $entityManager;
     private int $id;
     protected ?string $entity = null;
     protected object $item;
-    protected ServiceEntityRepository $repository;
+    
+    /** @var EntityRepository<object> */
+    protected EntityRepository $repository;
 
     public function __invoke(FormFactoryInterface $formFactory, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, Request $request, int $id): Response
     {
@@ -44,14 +47,17 @@ class GenericUpdateController extends AbstractController
         }
     }
 
-    protected function initialize(FormFactoryInterface $formFactory, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, Request $request, int $id)
+    protected function initialize(FormFactoryInterface $formFactory, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, Request $request, int $id) : void
     {
         $this->formFactory = $formFactory;
         $this->doctrine = $doctrine;
         $this->entityManager = $entityManager;
         $this->request = $request;
         $this->id = $id;
+        
         $this->repository = $this->entityManager->getRepository($this->entity);
+   
+
         $item = $this->repository->find($this->id);
 
         if (!$item) {

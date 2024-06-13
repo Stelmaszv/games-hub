@@ -2,25 +2,32 @@
 
 namespace App\Generic\Web\Controllers;
 
-use App\Generic\Web\Trait\GenericGetTrait;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Generic\Web\Trait\GenericGetTrait;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class GenericListController extends AbstractController
 {
     use GenericGetTrait;
 
+    /**
+     * @var array<string, mixed>
+     */
     private ?array $paginatorData = null;
     private bool $paginate = false;
     protected ?int $perPage = null;
     protected Request $request;
     protected EntityManagerInterface $entityManager;
     protected PaginatorInterface $paginator;
-    protected ServiceEntityRepository $repository;
+
+    /** @var EntityRepository<object> */
+    protected EntityRepository $repository;
 
     public function __invoke(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
@@ -48,14 +55,19 @@ class GenericListController extends AbstractController
     {
         $this->beforeQuery();
         $queryBuilder = $this->onQuerySet();
+        /**
+        * @var SlidingPaginationInterface
+        */
         $pagination = $this->paginator->paginate($queryBuilder, $this->request->query->getInt('page', 1), $this->perPage);
         $this->afterQuery();
-
         $this->paginatorData = $pagination->getPaginationData();
 
         return (null !== $this->perPage && 0 !== $this->perPage) ? $pagination : $queryBuilder;
     }
 
+     /**
+     * @return array<mixed>
+     */
     private function getAttributes(): array
     {
         $attributes['object'] = $this->getQuery();

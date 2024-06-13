@@ -73,7 +73,7 @@ class GeneralInformationScraper
             }
         });
     }
-
+    
     private function extractFoundedDate(string $string): ?string
     {
         if (preg_match("/\((\d{4}-\d{2})\)/", $string, $matches)) {

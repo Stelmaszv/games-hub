@@ -25,7 +25,7 @@ class GenericCreateController extends AbstractController
         return $this->createAction();
     }
 
-    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request)
+    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request) : void
     {
         $this->doctrine = $doctrine;
         $this->request = $request;

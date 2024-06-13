@@ -27,15 +27,9 @@ abstract class AbstractJsonMapper
         return true;
     }
 
-    private function is2dArray(array $array): bool
-    {
-        if (is_array($array) && count($array) > 0) {
-            return is_array(array_shift($array));
-        }
-
-        return false;
-    }
-
+    /**
+     * @param array<mixed> $value
+     */
     private function validMultiMapper(array $value): void
     {
         foreach ($value as $el) {
@@ -43,6 +37,9 @@ abstract class AbstractJsonMapper
         }
     }
 
+    /**
+     * @param array<mixed> $value
+     */
     private function validMapper(array $value): void
     {
         foreach ($value as $jEl => $key) {
@@ -59,17 +56,27 @@ abstract class AbstractJsonMapper
     private function validType(string $type, mixed $value): bool
     {
         if ('' === $type) {
-            throw new \Exception('Invalid type in '.get_class($this).'!');
+            throw new \Exception('Invalid type in ' . get_class($this) . '!');
         }
-
-        return match ($type) {
-            'string' => is_string($value),
-            'bool' => is_bool($value),
-            'int' => is_int($value),
-        };
+    
+        if ($type !== null) {
+            return match ($type) {
+                'string' => is_string($value),
+                'bool' => is_bool($value),
+                'int' => is_int($value),
+                'non-empty-string' => is_string($value) && $value !== '',
+                default => false, // Obsługa pozostałych przypadków
+            };
+        }
     }
 
+    /**
+     * @return array<mixed> $value
+     */
     abstract public function jsonSchema(): array;
 
+    /**
+     * @return array<mixed> $value
+     */
     abstract public function defaultValue(): array;
 }
