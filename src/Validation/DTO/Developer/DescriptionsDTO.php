@@ -23,8 +23,7 @@ class DescriptionsDTO implements DTO
      */
     public string $fr = '';
 
-
-     /**
+    /**
      * @param string[] $data
      */
     public function __construct(array $data = [])

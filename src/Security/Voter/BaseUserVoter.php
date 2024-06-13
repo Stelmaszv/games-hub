@@ -2,11 +2,6 @@
 
 namespace App\Security\Voter;
 
-use App\Generic\Auth\JWT;
-use App\Roles\RoleAdmin;
-use App\Roles\RoleSuperAdmin;
-use App\Roles\RoleUser;
-use App\Security\Atribute;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

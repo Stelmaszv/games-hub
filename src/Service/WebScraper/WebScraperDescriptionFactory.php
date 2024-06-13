@@ -23,7 +23,7 @@ class WebScraperDescriptionFactory
         }
     }
 
-     /**
+    /**
      * @return array<string>
      */
     public function getDescription(): array

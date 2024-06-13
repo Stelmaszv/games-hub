@@ -44,7 +44,7 @@ class PublisherBaseVoter extends Voter
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
         $isUser = \in_array($attribute, RoleUser::ROLES, true);
 
-        return in_array($attribute, self::ATTRIBUTES) && $subject instanceof Publisher 
+        return in_array($attribute, self::ATTRIBUTES) && $subject instanceof Publisher
             || ($userHasSuperRule || $isAdmin) || $isUser;
     }
 
@@ -57,7 +57,7 @@ class PublisherBaseVoter extends Voter
         $isEditor = $subject?->isEditor($user['id']);
 
         $isCreator = null;
-        if($subject !== null){
+        if (null !== $subject) {
             if (null !== $subject->getCreatedBy() && null !== $user['id']) {
                 $isCreator = $subject->getCreatedBy()['id'] === $user['id'];
             }
@@ -70,11 +70,12 @@ class PublisherBaseVoter extends Voter
         switch ($attribute) {
             case Atribute::CAN_DELETE_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
+
                 return $subject->isEditor($user['id']) && $userHasRule;
-          
+
             case Atribute::CAN_ADD_PUBLISHER:
                 return $this->userHasRule($user, RolePublisherCreator::NAME);
-    
+
             case Atribute::CAN_EDIT_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
@@ -82,9 +83,9 @@ class PublisherBaseVoter extends Voter
 
             case Atribute::CAN_LIST_PUBLISHERS:
                 return true;
-    
+
             case Atribute::CAN_SHOW_PUBLISHER:
-                return ($isVerified || $isEditor || $isCreator);
+                return $isVerified || $isEditor || $isCreator;
         }
 
         return false;
@@ -93,7 +94,7 @@ class PublisherBaseVoter extends Voter
     /**
      * @param array<array<string>> $user
      */
-    private function userHasRule(array $user, string $role) :bool
+    private function userHasRule(array $user, string $role): bool
     {
         return in_array($role, $user['roles']);
     }

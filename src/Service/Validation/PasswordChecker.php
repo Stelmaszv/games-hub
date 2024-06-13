@@ -11,7 +11,7 @@ class PasswordChecker
      */
     private array $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
 
-    private function estimatePasswordStrength(string $password) : int
+    private function estimatePasswordStrength(string $password): int
     {
         $score = 0;
 
@@ -42,7 +42,7 @@ class PasswordChecker
         return $score;
     }
 
-    public function checkPasswordStrength(string $password) : string
+    public function checkPasswordStrength(string $password): string
     {
         $strength = $this->estimatePasswordStrength($password);
         if ($strength >= 8) {

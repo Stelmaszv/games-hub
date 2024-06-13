@@ -51,7 +51,7 @@ class DeveloperDTO implements DTO
 
     public bool $edit = false;
 
-     /**
+    /**
      * @param array{
      *     add?: bool,
      *     generalInformation?: array<string>,

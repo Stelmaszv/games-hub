@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Validation\DTO\Publisher;
 
 use App\Generic\Api\Interfaces\DTO;
-use App\Validation\DTO\Developer\DeveloperDTO;
 use App\Validation\DTO\Developer\DeveloperItemDTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -97,7 +96,7 @@ class PublisherDTO implements DTO
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, ?string $payload) : void
+    public function validate(ExecutionContextInterface $context, ?string $payload): void
     {
         if (true === $this->edit) {
             return;

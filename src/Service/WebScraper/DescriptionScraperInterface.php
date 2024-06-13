@@ -7,10 +7,10 @@ interface DescriptionScraperInterface
     /**
      * @return array<string>
      */
-    public function getDescription() : array;
+    public function getDescription(): array;
 
     /**
      * @param array<string> $description
      */
-    public function addDescription(array $description) : void;
+    public function addDescription(array $description): void;
 }

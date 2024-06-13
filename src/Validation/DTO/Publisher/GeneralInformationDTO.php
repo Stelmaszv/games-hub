@@ -25,7 +25,7 @@ class GeneralInformationDTO implements DTO
      */
     public ?string $website = '';
 
-        /**
+    /**
      * @param array{
      *     name?: string,
      *     founded?: string,

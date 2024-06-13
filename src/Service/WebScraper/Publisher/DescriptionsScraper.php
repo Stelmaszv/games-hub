@@ -51,7 +51,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
         $this->description[$key] = $desc;
     }
 
-    private function setUrl(string $url) : void
+    private function setUrl(string $url): void
     {
         $client = new Client([
             'base_uri' => $url,
