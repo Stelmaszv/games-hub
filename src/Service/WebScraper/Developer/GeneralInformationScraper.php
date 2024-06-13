@@ -11,6 +11,10 @@ class GeneralInformationScraper
 {
     private string $url;
     private Crawler $crawler;
+
+    /**
+     * @var array<string>
+     */
     private array $data = [];
 
     public function __construct(string $url)
@@ -19,7 +23,7 @@ class GeneralInformationScraper
         $this->initializeCrawler();
     }
 
-    private function initializeCrawler()
+    private function initializeCrawler() : void
     {
         $client = new Client([
             'base_uri' => $this->url,
@@ -31,7 +35,10 @@ class GeneralInformationScraper
         $this->crawler = new Crawler($htmlContent);
     }
 
-    public function getData()
+    /**
+     * @return array<string>
+     */
+    public function getData() : array
     {
         $this->getName();
         $this->getFounded();
@@ -41,7 +48,7 @@ class GeneralInformationScraper
         return $this->data;
     }
 
-    private function getName()
+    private function getName() : void
     {
         $this->data['name'] = '';
 
@@ -51,7 +58,7 @@ class GeneralInformationScraper
         });
     }
 
-    private function getFounded()
+    private function getFounded() : void
     {
         $this->data['founded'] = '';
 
@@ -67,7 +74,7 @@ class GeneralInformationScraper
         });
     }
 
-    private function extractFoundedDate($string)
+    private function extractFoundedDate(string $string) : ?string
     {
         if (preg_match("/\((\d{4}-\d{2})\)/", $string, $matches)) {
             return $matches[1].'-01';
@@ -78,7 +85,7 @@ class GeneralInformationScraper
         return null;
     }
 
-    private function getWebsite()
+    private function getWebsite() : void
     {
         $this->data['website'] = '';
 
@@ -90,7 +97,7 @@ class GeneralInformationScraper
         });
     }
 
-    private function getHeadquarters()
+    private function getHeadquarters() : void
     {
         $this->data['origin'] = '';
         $this->data['headquarter'] = '';

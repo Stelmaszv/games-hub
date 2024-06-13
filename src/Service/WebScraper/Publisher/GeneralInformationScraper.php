@@ -11,6 +11,10 @@ class GeneralInformationScraper
 {
     private string $url;
     private Crawler $crawler;
+
+    /**
+     * @var array<string>
+     */
     private array $data = [];
 
     public function __construct(string $url)
@@ -19,7 +23,7 @@ class GeneralInformationScraper
         $this->initializeCrawler();
     }
 
-    private function initializeCrawler()
+    private function initializeCrawler() : void
     {
         $client = new Client([
             'base_uri' => $this->url,
@@ -31,7 +35,10 @@ class GeneralInformationScraper
         $this->crawler = new Crawler($htmlContent);
     }
 
-    public function getData()
+     /**
+     * @return array<string>
+     */
+    public function getData() : array
     {
         $this->getName();
         $this->getFounded();
@@ -41,7 +48,7 @@ class GeneralInformationScraper
         return $this->data;
     }
 
-    private function getName()
+    private function getName() : void
     {
         $elements = $this->crawler->filter('.mw-page-title-main');
         $elements->each(function (Crawler $node, $i) {
@@ -49,7 +56,7 @@ class GeneralInformationScraper
         });
     }
 
-    private function getFounded()
+    private function getFounded() : void
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
@@ -63,7 +70,7 @@ class GeneralInformationScraper
         });
     }
 
-    private function getWebsite()
+    private function getWebsite() : void
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
@@ -73,7 +80,7 @@ class GeneralInformationScraper
         });
     }
 
-    private function getHeadquarters()
+    private function getHeadquarters() : void
     {
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {

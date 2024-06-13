@@ -12,6 +12,9 @@ class DescriptionsScraper implements DescriptionScraperInterface
 {
     private Crawler $crawler;
 
+    /**
+     * @var array<string>
+     */
     private array $description;
 
     public function getLang(string $key): string
@@ -19,12 +22,18 @@ class DescriptionsScraper implements DescriptionScraperInterface
         return $this->description[$key];
     }
 
+    /**
+     * @return array<string>
+     */
     public function getDescription(): array
     {
         return $this->description;
     }
 
-    public function addDescription($description): void
+    /**
+     * @param array<string> $description
+     */
+    public function addDescription(array $description): void
     {
         $this->setUrl($description['url']);
 
@@ -42,7 +51,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
         $this->description[$key] = $desc;
     }
 
-    private function setUrl(string $url)
+    private function setUrl(string $url) : void
     {
         $client = new Client([
             'base_uri' => $url,

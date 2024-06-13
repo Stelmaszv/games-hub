@@ -13,6 +13,9 @@ class WebScraperDescriptionFactory
         $this->descriptionScraper = $descriptionScraper;
     }
 
+    /**
+     * @param array<array<string>> $descriptions
+     */
     public function setDescription(array $descriptions): void
     {
         foreach ($descriptions as $description) {
@@ -20,6 +23,9 @@ class WebScraperDescriptionFactory
         }
     }
 
+     /**
+     * @return array<array<string>>
+     */
     public function getDescription(): array
     {
         return $this->descriptionScraper->getDescription();

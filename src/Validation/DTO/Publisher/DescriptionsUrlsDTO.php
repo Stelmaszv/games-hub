@@ -13,7 +13,7 @@ class DescriptionsUrlsDTO implements DTO
     /**
      * @Assert\Url(message="invalidUrl")
      *
-     * @CustomAssert\PublisherUrl(message="invalidScraperUrl")
+     * @CustomAssert\PublisherUrl
      */
     public ?string $url = null;
 
@@ -23,7 +23,7 @@ class DescriptionsUrlsDTO implements DTO
     public ?string $lng = null;
 
     /**
-     * @param mixed[] $components an array of strings representing components data
+     * @param mixed[] $components
      */
     public function setComponentsData(array $components): void
     {

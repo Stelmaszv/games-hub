@@ -86,7 +86,7 @@ class PublisherDTO implements DTO
     }
 
     /**
-     * @param mixed[] $components an array of strings representing components data
+     * @param mixed[] $components
      */
     public function setComponentsData(array $components): void
     {

@@ -15,12 +15,12 @@ class GeneralInformationScraperDTO implements DTO
      *
      * @Assert\Url(message="invalidUrl")
      *
-     * @CustomAssert\PublisherUrl(message="invalidScraperUrl")
+     * @CustomAssert\PublisherUrl
      */
     public ?string $url = null;
 
     /**
-     * @param mixed[] $components an array of strings representing components data
+     * @param mixed[] $components
      */
     public function setComponentsData(array $components): void
     {
