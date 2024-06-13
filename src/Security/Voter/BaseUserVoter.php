@@ -2,19 +2,19 @@
 
 namespace App\Security\Voter;
 
-use App\Roles\RoleUser;
-use App\Roles\RoleAdmin;
 use App\Generic\Auth\JWT;
-use App\Security\Atribute;
+use App\Roles\RoleAdmin;
 use App\Roles\RoleSuperAdmin;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Roles\RoleUser;
+use App\Security\Atribute;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class BaseUserVoter extends Voter
 {
     public const ATRIBUTES = [
         Atribute::CAN_LIST_PUBLISHERS,
-        Atribute::CAN_SHOW_PUBLISHER
+        Atribute::CAN_SHOW_PUBLISHER,
     ];
 
     private JWT $jwtService;
@@ -26,9 +26,9 @@ class BaseUserVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return \in_array($attribute, RoleUser::ROLES, true) ||  
-               \in_array($attribute, RoleSuperAdmin::ROLES, true) ||  
-               \in_array($attribute, RoleAdmin::ROLES, true);;
+        return \in_array($attribute, RoleUser::ROLES, true)
+               || \in_array($attribute, RoleSuperAdmin::ROLES, true)
+               || \in_array($attribute, RoleAdmin::ROLES, true);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -39,23 +39,22 @@ class BaseUserVoter extends Voter
         $isEditor = $subject?->isEditor($user['id']);
         $isVerified = $subject?->getVerified();
 
-        if($subject?->getCreatedBy() !== null && $user['id'] !== null ){
+        if (null !== $subject?->getCreatedBy() && null !== $user['id']) {
             $isCreator = $subject?->getCreatedBy()['id'] === $user['id'];
         }
-        
-        switch($attribute){
 
-            case Atribute::CAN_LIST_PUBLISHERS;
+        switch ($attribute) {
+            case Atribute::CAN_LIST_PUBLISHERS:
                 return true;
-            break;
+                break;
 
-            case Atribute::CAN_SHOW_PUBLISHER;        
+            case Atribute::CAN_SHOW_PUBLISHER:
                 if ($isVerified || $isEditor || $isSuperAdmin || $isAdmin || $isCreator) {
                     return true;
                 }
-            break;
-        }   
-        
+                break;
+        }
+
         return false;
     }
 }

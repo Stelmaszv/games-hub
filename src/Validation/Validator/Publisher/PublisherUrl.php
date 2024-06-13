@@ -11,5 +11,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class PublisherUrl extends Constraint
 {
-    public $message = 'invalidScraperUrl';
+    public const message = 'invalidScraperUrl';
 }

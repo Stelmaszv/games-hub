@@ -20,8 +20,16 @@ class PublisherWebScraperDescriptionsDTO implements DTO
      */
     public array $descriptions = [];
 
-    public function setComponentsData(array $components): void {}
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
+    public function setComponentsData(array $components): void
+    {
+    }
 
+    /**
+     * @param array<DescriptionsUrlsDTO> $descriptions
+     */
     public function __construct(
         array $descriptions = [],
     ) {

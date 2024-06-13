@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Validation\Validator\Cumman;
+namespace App\Validation\Validator\Cuman;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class UrlValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (null !== $value && !filter_var($value, FILTER_VALIDATE_URL)) {
             $url = 'http://'.$value;

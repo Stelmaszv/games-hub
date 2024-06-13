@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Validation\DTO\Developer;
 
 use App\Generic\Api\Interfaces\DTO;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class DeveloperDTO implements DTO
@@ -52,17 +51,25 @@ class DeveloperDTO implements DTO
 
     public bool $edit = false;
 
-    private ManagerRegistry $managerRegistry;
-
+     /**
+     * @param array{
+     *     add?: bool,
+     *     generalInformation?: array<string>,
+     *     editors?: array<EditorDTO>,
+     *     descriptions?: array<string>,
+     *     verified?: bool,
+     *     publishers?: array<PublisherDTO>
+     * } $data
+     */
     public function __construct(array $data = [])
     {
         $this->creationDate = new \DateTime();
-        $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
+        $this->generalInformation = new GeneralInformationDTO($data['generalInformation'] ?? []);
 
         $this->editors = $data['editors'] ?? [];
         $this->publishers = $data['publishers'] ?? [];
         $this->verified = $data['verified'] ?? false;
-        $this->descriptions = new DescriptionsDTO($data['descriptions']);
+        $this->descriptions = new DescriptionsDTO($data['descriptions'] ?? []);
 
         if (isset($data['editors'])) {
             foreach ($data['editors'] as $key => $editor) {
@@ -72,16 +79,18 @@ class DeveloperDTO implements DTO
         }
 
         if (isset($data['publishers'])) {
-            foreach ($data['publishers'] as $key => $editor) {
+            foreach ($data['publishers'] as $key => $publisher) {
                 $this->publishers[$key] = new PublisherDTO();
-                $this->publishers[$key]->id = $editor['id'];
+                $this->publishers[$key]->id = $publisher['id'];
             }
         }
     }
 
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
     public function setComponentsData(array $components): void
     {
-        $this->managerRegistry = $components['managerRegistry'];
         $this->createdBy = $components['userId'];
         $this->edit = $components['edit'];
     }

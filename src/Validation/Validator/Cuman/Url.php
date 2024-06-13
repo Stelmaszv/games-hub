@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validation\Validator\Cumman;
+namespace App\Validation\Validator\Cuman;
 
 use Symfony\Component\Validator\Constraint;
 
@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class Url extends Constraint
 {
-    public $message = 'Host {{ host }} is not allowed.';
+    public const message = 'Host {{ host }} is not allowed.';
 }

@@ -20,18 +20,18 @@ class ScrapDescriptionsController extends GenericPostController
     {
         $data = json_decode($this->request->getContent(), true);
         $description = $this->setDescription($data['descriptions']);
-        
+
         return [
-            'description' => $description->getDescription()
+            'description' => $description->getDescription(),
         ];
     }
 
     private function setDescription(array $descriptions): DescriptionsScraper
     {
-       $publisherScraper = new DescriptionsScraper();
+        $publisherScraper = new DescriptionsScraper();
 
         foreach ($descriptions as $description) {
-            if(!empty($description['url'])){
+            if (!empty($description['url'])) {
                 $publisherScraper->addDescription($description);
             }
         }

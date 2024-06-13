@@ -54,7 +54,7 @@ class GeneralInformationScraper
     private function getFounded()
     {
         $this->data['founded'] = '';
-        
+
         $table = $this->crawler->filter('table')->first();
         $table->filter('tr')->each(function (Crawler $row, $i) {
             if (false !== strpos($row->text(), 'Founded')) {

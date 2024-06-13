@@ -12,6 +12,6 @@ class RoleSuperAdmin
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_LIST_PUBLISHERS,
         Atribute::CAN_EDIT_PUBLISHER,
-        Atribute::CAN_DELETE_PUBLISHER
+        Atribute::CAN_DELETE_PUBLISHER,
     ];
 }

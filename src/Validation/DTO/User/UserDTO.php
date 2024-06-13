@@ -6,8 +6,8 @@ namespace App\Validation\DTO\User;
 
 use App\Entity\User;
 use App\Generic\Api\Interfaces\DTO;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Service\Validation\PasswordChecker;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -15,19 +15,20 @@ class UserDTO implements DTO
 {
     /**
      * @Assert\NotBlank(message="emptyField")
+     *
      * @Assert\Email(message="invalidEmail")
      */
-    public $email;
+    public string $email;
 
     /**
      * @Assert\NotBlank(message="emptyField")
      */
-    public $password;
+    public string $password;
 
     /**
      * @Assert\NotBlank(message="emptyField")
      */
-    public $repeatPassword;
+    public string $repeatPassword;
     private ManagerRegistry $managerRegistry;
     private PasswordChecker $passwordChecker;
 
@@ -41,11 +42,11 @@ class UserDTO implements DTO
     /**
      * @Assert\Callback()
      */
-    public function validatePasswords(ExecutionContextInterface $context, $payload)
+    public function validatePasswords(ExecutionContextInterface $context, ?string $payload): void
     {
         $passwordStrength = $this->passwordChecker->checkPasswordStrength($this->password);
 
-        if($passwordStrength === "weak"){
+        if ('weak' === $passwordStrength) {
             $context->buildViolation('passwordsIsWeak')
             ->atPath('repeatPassword')
             ->addViolation();
@@ -57,16 +58,18 @@ class UserDTO implements DTO
                 ->addViolation();
         }
 
-        $user = $this->managerRegistry->getRepository(User::class)->findOneBy([ 'email' => $this->email ]);
+        $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $this->email]);
 
-
-        if ($user !== null) {
+        if (null !== $user) {
             $context->buildViolation('userExist')
                 ->atPath('email')
                 ->addViolation();
         }
     }
 
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
     public function setComponentsData(array $components): void
     {
         $this->managerRegistry = $components['managerRegistry'];

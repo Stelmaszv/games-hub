@@ -3,27 +3,27 @@
 namespace App\Generic\Auth;
 
 use App\Entity\User;
-use App\Roles\RoleUser;
-use Symfony\Flex\Response;
-use Symfony\Component\Uid\Uuid;
+use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use App\Generic\Api\Interfaces\DTO;
+use App\Roles\RoleUser;
+use App\Service\Validation\PasswordChecker;
 use App\Validation\DTO\User\UserDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Service\Validation\PasswordChecker;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Flex\Response;
 
 trait AuthenticationAPi
 {
     private JWT $security;
-    private passwordChecker $passwordChecker;
+    private PasswordChecker $passwordChecker;
 
-    public function __construct(JWT $jwt,ManagerRegistry $doctrine,ValidatorInterface $validator)
+    public function __construct(JWT $jwt, ManagerRegistry $doctrine, ValidatorInterface $validator)
     {
         $this->jwt = $jwt;
         $this->managerRegistry = $doctrine;
@@ -62,17 +62,15 @@ trait AuthenticationAPi
 
     #[Route('/api/register', name: 'register', methods: ['POST'])]
     public function register(
-            Request $request,  
-            UserPasswordHasherInterface $userPasswordHasher,
-            PasswordChecker $passwordChecker
-        ): JsonResponse
-    {
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        PasswordChecker $passwordChecker
+    ): JsonResponse {
         $this->request = $request;
         $this->passwordChecker = $passwordChecker;
 
         $data = json_decode($request->getContent(), true);
         $issetData = isset($data['email']) && isset($data['password']) && isset($data['repeatPassword']);
-
 
         if (!$issetData) {
             return new JsonResponse(['message' => 'No data provided'], JsonResponse::HTTP_UNAUTHORIZED);
@@ -88,8 +86,7 @@ trait AuthenticationAPi
             )
         );
 
-        if($this->actionJsonData === null){
-
+        if (null === $this->actionJsonData) {
             $authenticationEntity = new User();
             $identifierUid = $authenticationEntity instanceof IdentifierUid;
 
@@ -113,14 +110,12 @@ trait AuthenticationAPi
             return new JsonResponse([
                 'token' => $this->jwt->encode($this->generateToken($authenticationEntity)),
             ]);
-
-        }else{
+        } else {
             return $this->actionJsonData;
         }
-
     }
 
-    //Dublicate CODE  !!! GenericPostController
+    // Dublicate CODE  !!! GenericPostController
     protected function validationDTO(DTO $DTO): void
     {
         $DTO = $this->setDTO($DTO);
@@ -149,7 +144,7 @@ trait AuthenticationAPi
         return [
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
-            'passwordChecker' => $this->passwordChecker
+            'passwordChecker' => $this->passwordChecker,
         ];
     }
 
@@ -175,12 +170,13 @@ trait AuthenticationAPi
     }
 
     #[Route(path: 'api/refresh-tokken/{id}', name: 'refresh_tokken')]
-    public function refreshTokken(int $id,ManagerRegistry $doctrine){
+    public function refreshTokken(int $id, ManagerRegistry $doctrine)
+    {
         $userEntity = $doctrine?->getRepository(User::class)?->findOneBy(['id' => $id]);
         $jwt = $this->jwt->getJWTFromHeader();
 
         return new JsonResponse([
-            'token' => $this->jwt->refreshToken($jwt,$this->generateToken($userEntity)),
+            'token' => $this->jwt->refreshToken($jwt, $this->generateToken($userEntity)),
         ]);
     }
 

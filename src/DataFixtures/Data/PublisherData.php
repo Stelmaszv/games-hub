@@ -37,7 +37,7 @@ class PublisherData extends AbstractDataFixture
                 ],
             ],
             'creationDate' => null,
-            'editors' => ['publisherEditor@wp.pl','publisherCreator@dot.com'],
+            'editors' => ['publisherEditor@wp.pl', 'publisherCreator@dot.com'],
             'verified' => true,
         ],
     ];

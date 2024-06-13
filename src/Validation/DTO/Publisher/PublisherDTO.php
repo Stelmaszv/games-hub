@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Validation\DTO\Publisher;
 
-use App\Entity\Publisher;
 use App\Generic\Api\Interfaces\DTO;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Validation\DTO\Developer\DeveloperDTO;
+use App\Validation\DTO\Developer\DeveloperItemDTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -18,7 +18,10 @@ class PublisherDTO implements DTO
 
     public \DateTime $creationDate;
 
-    public $developer = [];
+    /**
+     * @var DeveloperItemDTO[]
+     */
+    public array $developer = [];
 
     /**
      * @Assert\Valid
@@ -47,29 +50,46 @@ class PublisherDTO implements DTO
 
     public bool $add = false;
 
-    private ManagerRegistry $managerRegistry;
-
+    /**
+     * @param array{
+     *     add?: bool,
+     *     generalInformation?: array<string>,
+     *     editors?: array<EditorDTO>,
+     *     descriptions?: array<string>,
+     *     verified?: bool,
+     *     developer?: array<array<string>>
+     * } $data
+     */
     public function __construct(array $data = [])
     {
         $this->add = $data['add'] ?? false;
         $this->creationDate = new \DateTime();
         $this->generalInformation = new GeneralInformationDTO($data['generalInformation']);
-
-        $this->editors = $data['editors'] ?? [];
-        $this->descriptions = new DescriptionsDTO($data['descriptions']);
-        $this->verified = $data['verified'] ?? false;
+        $this->editors = [];
 
         if (isset($data['editors'])) {
             foreach ($data['editors'] as $key => $editor) {
-                $this->editors[$key] = new EditorDTO($editor['id']);
+                $this->editors[$key] = new EditorDTO();
                 $this->editors[$key]->id = $editor['id'];
+            }
+        }
+
+        $this->descriptions = new DescriptionsDTO($data['descriptions']);
+        $this->verified = $data['verified'] ?? false;
+        $this->developer = [];
+
+        if (isset($data['developer'])) {
+            foreach ($data['developer'] as $key => $developerData) {
+                $this->developer[$key] = new DeveloperItemDTO($developerData);
             }
         }
     }
 
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
     public function setComponentsData(array $components): void
     {
-        $this->managerRegistry = $components['managerRegistry'];
         $this->createdBy = $components['userId'];
         $this->edit = $components['edit'];
     }
@@ -77,19 +97,13 @@ class PublisherDTO implements DTO
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, $payload)
+    public function validate(ExecutionContextInterface $context, ?string $payload) : void
     {
         if (true === $this->edit) {
-            return; 
+            return;
         }
 
-        if (null === $this->managerRegistry) {
-            throw new \RuntimeException('ManagerRegistry is not set.');
-        }
-
-        $user = $this->managerRegistry->getRepository(Publisher::class)->findOneBy(['createdBy' => $this->createdBy]);
-
-        if ($this->add === false){
+        if (false === $this->add) {
             $context
                 ->buildViolation('Add is Off.')
                 ->atPath('add')

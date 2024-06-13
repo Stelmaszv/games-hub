@@ -26,16 +26,28 @@ class GeneralInformationDTO implements DTO
      */
     public ?string $website = '';
 
+    /**
+     * @param array{
+     *     name?: string,
+     *     founded?: string,
+     *     headquarter?: string,
+     *     origin?: string,
+     *     website?: string
+     * } $data
+     */
     public function __construct(array $data = [])
     {
-        $this->name = isset($data['name']) ? $data['name'] : $this->name;
-        $this->founded = isset($data['founded']) ? $data['founded'] : $this->founded;
-        $this->headquarter = isset($data['headquarter']) ? $data['headquarter'] : $this->headquarter;
-        $this->origin = isset($data['origin']) ? $data['origin'] : $this->origin;
-        $this->website = isset($data['website']) ? $data['website'] : $this->website;
+        $this->name = $data['name'] ?? $this->name;
+        $this->founded = $data['founded'] ?? $this->founded;
+        $this->headquarter = $data['headquarter'] ?? $this->headquarter;
+        $this->origin = $data['origin'] ?? $this->origin;
+        $this->website = $data['website'] ?? $this->website;
     }
 
-    public function setComponentsData(array $components): void 
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
+    public function setComponentsData(array $components): void
     {
     }
 }

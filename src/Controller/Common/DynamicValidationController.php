@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Controller\Common;
 
 use App\Entity\User;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Service\Validation\PasswordChecker;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DynamicValidationController extends AbstractController
 {
     #[Route('/api/dynamic-validation/login/{email}', name: 'validation-login', methods: ['GET'])]
-    public function validationLogin(ManagerRegistry $doctrine,string $email): JsonResponse
+    public function validationLogin(ManagerRegistry $doctrine, string $email): JsonResponse
     {
         $user = $doctrine?->getRepository(User::class)?->findOneBy(['email' => $email]);
 
@@ -26,14 +26,13 @@ class DynamicValidationController extends AbstractController
             'user' => $email,
             'available' => ($user) ? false : true,
         ]);
-
     }
 
     #[Route('/api/dynamic-validation/password-strength/{password}', name: 'password-strength', methods: ['GET'])]
-    public function validationPasswordStrength(PasswordChecker $passwordChecker,string $password): JsonResponse
+    public function validationPasswordStrength(PasswordChecker $passwordChecker, string $password): JsonResponse
     {
         return new JsonResponse([
-            'password' => $passwordChecker->checkPasswordStrength($password)
+            'password' => $passwordChecker->checkPasswordStrength($password),
         ]);
     }
 }

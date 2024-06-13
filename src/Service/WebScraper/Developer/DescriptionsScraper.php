@@ -40,7 +40,6 @@ class DescriptionsScraper implements DescriptionScraperInterface
         });
 
         $this->description[$key] = $desc;
-
     }
 
     private function setUrl(string $url)
@@ -49,7 +48,7 @@ class DescriptionsScraper implements DescriptionScraperInterface
             'base_uri' => $url,
             'timeout' => 2.0,
         ]);
-    
+
         $response = $client->request('GET', '');
         $htmlContent = $response->getBody()->getContents();
         $this->crawler = new Crawler($htmlContent);

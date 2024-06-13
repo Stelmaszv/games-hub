@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Roles\RoleAdmin;
 use App\Entity\Publisher;
 use App\Generic\Auth\JWT;
-use App\Security\Atribute;
-use App\Roles\RoleSuperAdmin;
-use App\Roles\RolePublisherEditor;
+use App\Roles\RoleAdmin;
 use App\Roles\RolePublisherCreator;
+use App\Roles\RolePublisherEditor;
+use App\Roles\RoleSuperAdmin;
+use App\Security\Atribute;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PublisherBaseVoter extends Voter
 {
@@ -21,7 +21,7 @@ class PublisherBaseVoter extends Voter
     public const ATRIBUTES = [
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_DELETE_PUBLISHER,
-        Atribute::CAN_EDIT_PUBLISHER
+        Atribute::CAN_EDIT_PUBLISHER,
     ];
 
     private JWT $jwtService;
@@ -35,48 +35,46 @@ class PublisherBaseVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, SElf::ATRIBUTES) && $subject instanceof Publisher || 
-              \in_array($attribute, RoleSuperAdmin::ROLES, true) || 
-              \in_array($attribute, RoleAdmin::ROLES, true);
+        return in_array($attribute, self::ATRIBUTES) && $subject instanceof Publisher
+              || \in_array($attribute, RoleSuperAdmin::ROLES, true)
+              || \in_array($attribute, RoleAdmin::ROLES, true);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        
         $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
         $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
 
-        if($userHasSuperRule || $isAdmin){
+        if ($userHasSuperRule || $isAdmin) {
             return true;
         }
 
-        switch($attribute){
-            
-            case Atribute::CAN_DELETE_PUBLISHER;
-                $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
+        switch ($attribute) {
+            case Atribute::CAN_DELETE_PUBLISHER:
+                $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return ($subject->isEditor($user['id']) && $userHasRule);
-            break;
+                return $subject->isEditor($user['id']) && $userHasRule;
+                break;
 
-            case Atribute::CAN_ADD_PUBLISHER;
-                $userHasRule = $this->userHasRule($user,RolePublisherCreator::NAME);
-            
-                return ($userHasRule || $userHasSuperRule);
-            break;
+            case Atribute::CAN_ADD_PUBLISHER:
+                $userHasRule = $this->userHasRule($user, RolePublisherCreator::NAME);
 
-            case Atribute::CAN_EDIT_PUBLISHER;
-                $userHasRule = $this->userHasRule($user,RolePublisherEditor::NAME);
+                return $userHasRule || $userHasSuperRule;
+                break;
+
+            case Atribute::CAN_EDIT_PUBLISHER:
+                $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
                 return ($subject->isEditor($user['id']) && $userHasRule) || $userHasSuperRule;
-            break;
-        }   
-        
+                break;
+        }
+
         return false;
     }
 
-    private function userHasRule(array $user,string $role){
+    private function userHasRule(array $user, string $role)
+    {
         return in_array($role, $user['roles']);
     }
-
 }

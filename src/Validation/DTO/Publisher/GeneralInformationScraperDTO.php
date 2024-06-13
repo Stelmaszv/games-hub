@@ -19,5 +19,10 @@ class GeneralInformationScraperDTO implements DTO
      */
     public ?string $url = null;
 
-    public function setComponentsData(array $components): void {}
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
+    public function setComponentsData(array $components): void
+    {
+    }
 }

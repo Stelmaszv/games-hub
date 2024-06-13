@@ -22,5 +22,10 @@ class DescriptionsUrlsDTO implements DTO
      */
     public ?string $lng = null;
 
-    public function setComponentsData(array $components): void {}
+    /**
+     * @param mixed[] $components an array of strings representing components data
+     */
+    public function setComponentsData(array $components): void
+    {
+    }
 }
