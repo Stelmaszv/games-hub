@@ -4,7 +4,13 @@ namespace App\Service\WebScraper;
 
 interface DescriptionScraperInterface
 {
-    public function getDescription();
+    /**
+     * @return array<string>
+     */
+    public function getDescription() : array;
 
-    public function addDescription(array $description);
+    /**
+     * @param array<string> $description
+     */
+    public function addDescription(array $description) : void;
 }

@@ -6,9 +6,12 @@ namespace App\Service\Validation;
 
 class PasswordChecker
 {
-    private $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
+    /**
+     * @var array<string>
+     */
+    private array $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
 
-    private function estimatePasswordStrength(string $password)
+    private function estimatePasswordStrength(string $password) : int
     {
         $score = 0;
 
@@ -39,7 +42,7 @@ class PasswordChecker
         return $score;
     }
 
-    public function checkPasswordStrength($password)
+    public function checkPasswordStrength(string $password) : string
     {
         $strength = $this->estimatePasswordStrength($password);
         if ($strength >= 8) {

@@ -24,7 +24,7 @@ class WebScraperDescriptionFactory
     }
 
      /**
-     * @return array<array<string>>
+     * @return array<string>
      */
     public function getDescription(): array
     {
