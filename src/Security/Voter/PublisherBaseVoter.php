@@ -57,10 +57,11 @@ class PublisherBaseVoter extends Voter
         $isEditor = $subject?->isEditor($user['id']);
 
         $isCreator = null;
-        if (null !== $subject?->getCreatedBy() && null !== $user['id']) {
-            $isCreator = $subject?->getCreatedBy()['id'] === $user['id'];
+        if($subject !== null){
+            if (null !== $subject->getCreatedBy() && null !== $user['id']) {
+                $isCreator = $subject->getCreatedBy()['id'] === $user['id'];
+            }
         }
-
 
         if ($userHasSuperRule || $isAdmin) {
             return true;
@@ -84,7 +85,6 @@ class PublisherBaseVoter extends Voter
     
             case Atribute::CAN_SHOW_PUBLISHER:
                 return ($isVerified || $isEditor || $isCreator);
-    
         }
 
         return false;
