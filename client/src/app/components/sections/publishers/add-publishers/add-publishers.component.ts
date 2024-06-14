@@ -17,7 +17,6 @@ export class AddPublishersComponent {
   public section: String = 'general_information_normal';
   private generalInformationValidation : boolean = false
   private add : boolean = false
-  private sent : boolean = false
 
   constructor(
     private fb: FormBuilder,
@@ -115,10 +114,6 @@ export class AddPublishersComponent {
 
   public onSubmit() : void 
   { 
-    if(this.sent){
-      return;
-    }
-
     const generalInformation : PublisherGeneralInformation = {
       name: this.generalInformation?.get('name')?.value,
       origin: this.generalInformation?.get('origin')?.value,
@@ -142,7 +137,6 @@ export class AddPublishersComponent {
     this.httpServiceService.postData('http://localhost/api/publisher/add',postData ).subscribe({
       next: (response : Response) => {
         if(this.generalInformationValidation && response.success){
-          this.sent = true;
           this.router.navigate(['publisher/show', response.id]);
         }
       },

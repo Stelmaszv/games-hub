@@ -68,7 +68,7 @@ class PublisherBaseVoter extends Voter
             case Atribute::CAN_DELETE_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return $subject->isEditor($user['id']) && $userHasRule;
+                return ($subject->isEditor($user['id']) && $userHasRule) || $isCreator;
 
             case Atribute::CAN_ADD_PUBLISHER:
                 return $this->userHasRule($user, RolePublisherCreator::NAME);
@@ -76,7 +76,7 @@ class PublisherBaseVoter extends Voter
             case Atribute::CAN_EDIT_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return $subject->isEditor($user['id']) && $userHasRule;
+                return ($subject->isEditor($user['id']) && $userHasRule) || $isCreator;
 
             case Atribute::CAN_LIST_PUBLISHERS:
                 return true;
