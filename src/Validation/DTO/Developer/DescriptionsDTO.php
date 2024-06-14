@@ -23,6 +23,9 @@ class DescriptionsDTO implements DTO
      */
     public string $fr = '';
 
+    /**
+     * @param string[] $data
+     */
     public function __construct(array $data = [])
     {
         $this->eng = $data['pc'] ?? '';
@@ -30,7 +33,10 @@ class DescriptionsDTO implements DTO
         $this->fr = $data['fr'] ?? '';
     }
 
-    public function setComponnetsData(array $componnets)
+    /**
+     * @param mixed[] $components
+     */
+    public function setComponentsData(array $components): void
     {
     }
 }

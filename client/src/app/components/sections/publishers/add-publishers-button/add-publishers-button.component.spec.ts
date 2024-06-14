@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AddPublishersComponent } from './add-publishers-button.component';
+import { AddPublishersComponent } from '../add-publishers/add-publishers.component';
 
 describe('AddPublishersComponent', () => {
   let component: AddPublishersComponent;

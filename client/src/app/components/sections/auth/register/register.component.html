@@ -3,7 +3,9 @@
   <div class="mb-3">
     <div class="input-group has-validation">
       <span class="input-group-text" id="emailGroupPrepend">@</span>
-      <input 
+      <input
+        formId = 'email' 
+        form="registerForm" 
         type="text" 
         class="form-control" 
         id="email" 
@@ -13,13 +15,15 @@
         placeholder="{{ translationService.translate('loginIn') }}"  
         name="email"     
         required>
-      <div id="emailFeedback" class="invalid-feedback mt-3"></div>
+      <div id="emailFeedback" formFeedback="email" class="invalid-feedback mt-3"></div>
     </div>
   </div>
   <div class="mb-3">
     <div class="input-group has-validation">
       <span class="input-group-text" id="passwordShow" (click)="showPassword()"><i class="{{showPasswordIcon}}"></i></span>
       <input 
+        formId = 'password' 
+        form="registerForm" 
         type="password" 
         class="form-control" 
         id="password" 
@@ -30,26 +34,28 @@
         [(ngModel)]="password" 
         required
       >
-      <div id="passwordFeedback" class="invalid-feedback"></div>
+      <div id="passwordFeedback" formFeedback="password" class="invalid-feedback"></div>
     </div>
   </div>
   <div class="mb-3">
     <div class="input-group has-validation">
-        <span class="input-group-text" id="repartPasswordShow" (click)="showRepartPassword()">
-          <i class="{{showPasswordRepartIcon}}"></i>
+        <span class="input-group-text" id="repartPasswordShow" (click)="showRepeatPassword()">
+          <i class="{{showPasswordRepeatIcon}}"></i>
         </span>
 
-        <input 
+        <input
+          formId = 'repeatPassword' 
+          form="registerForm" 
           type="password" 
           class="form-control" 
-          id="repartPassword" 
-          placeholder="{{ translationService.translate('repartPassword') }}" 
+          id="repeatPassword" 
+          placeholder="{{ translationService.translate('repeatPassword') }}" 
           aria-describedby="repartPasswordShow repartPasswordFeedback" 
-          name="repartPassword" 
-          [(ngModel)]="repartPassword" 
+          name="repeatPassword" 
+          [(ngModel)]="repeatPassword" 
           required
         >
-          <div id="repartPasswordFeedback" class="invalid-feedback"></div>
+          <div id="repartPasswordFeedback" formFeedback="repeatPassword" class="invalid-feedback"></div>
     </div>
   </div>
   <div class="actions">

@@ -1,14 +1,34 @@
-<h2 class="text-center mb-4">Add Publisher</h2>
+<h2 class="text-center mb-4">{{ translationService.translate('addPublishers') }}</h2>
+
 <div class="form-section d-flex">
-    <form [formGroup]="publisherForm" class="container mx-auto" (ngSubmit)="onSubmit()">
+
+    <div  *ngIf="section === 'general_information_normal'">
+        <div class="scraper-icon">
+            <i class="fa-solid fa-eraser eraser" (click)="restGeneralInformation()"></i>
+        </div>
+        <div class="scraper-icon">
+            <i type="button" data-bs-toggle="modal" data-bs-target="#generalInformation" class="fa-solid fa-globe scraper"></i>
+        </div>
+    </div>
+
+    <div  *ngIf="section === 'descriptions_normal'">
+        <div class="scraper-icon">
+            <i class="fa-solid fa-eraser eraser" (click)="restDescription()"></i>
+        </div>
+        <div class="scraper-icon">
+            <i type="button" data-bs-toggle="modal" data-bs-target="#descriptions" class="fa-solid fa-globe scraper"></i>
+        </div>
+    </div>
+
+    <form [formGroup]="publisherForm" class="container mx-auto">
         <div class="col-8">
-            <div formGroupName="generalInformation" *ngIf="section == 'general_information_normal'">
-                <h2>General Information</h2>
+            <div formGroupName="generalInformation" *ngIf="section === 'general_information_normal'">
+                <h2>{{ translationService.translate('generalInformation') }}</h2>
+                
                 <div class="row mb-3">
-                    
                     <div class="row">
                         <div class="col-4">
-                            <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                            <label for="name" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationName') }}</label>
                         </div>
                         <div class="col-8">
                             <input type="text" form="generalInformation" requestId = "generalInformation.name" formId = "generalInformationname" class="form-control" formControlName="name" id="name" required>
@@ -18,23 +38,21 @@
                 </div>
 
                 <div class="row mb-3">
-
                     <div class="row">
                         <div class="col-4">
-                            <label for="origin" class="col-sm-2 col-form-label">Origin:</label>
+                            <label for="origin" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationOrigin') }}</label>
                         </div>
                         <div class="col-8">
                             <input type="text" class="form-control" requestId = "generalInformation.origin" form="generalInformation" formId = "generalInformationorigin" formControlName="origin" id="origin">
                             <div formFeedback = "generalInformationorigin" class="invalid-feedback"></div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-4">
-                            <label for="origin" class="col-sm-2 col-form-label">Founded:</label>
+                            <label for="origin" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationFounded') }}</label>
                         </div>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" requestId = "generalInformation.founded" form="generalInformation" formId = "generalInformationfounded" formControlName="founded" id="founded">
@@ -46,7 +64,7 @@
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-4">
-                            <label for="website" class="col-sm-2 col-form-label">Website:</label>
+                            <label for="website" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationWebsite') }}</label>
                         </div>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" requestId = "generalInformation.website" form="generalInformation" formId = "generalInformationwebsite" id="website" formControlName="website">
@@ -58,10 +76,10 @@
                 <div class="row mb-2">
                     <div class="row">
                         <div class="col-4">
-                            <label for="headquarter" class="col-sm-2 col-form-label">Headquarter:</label>
+                            <label for="headquarter" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationHeadquarter') }}</label>
                         </div>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" requestId = "generalInformation.headquarter" form="generalInformation" formId = "generalInformationheadquarter" id="headquarter" id="headquarter" formControlName="headquarter">
+                            <input type="text" class="form-control" requestId = "generalInformation.headquarter" form="generalInformation" formId = "generalInformationheadquarter" id="headquarter"  formControlName="headquarter">
                             <div formFeedback = "generalInformationheadquarter" class="invalid-feedback"></div>
                         </div>
                     </div>
@@ -70,32 +88,159 @@
             </div>
 
             <div formGroupName="descriptions" *ngIf="section == 'descriptions_normal' ">
-                <h2>Descriptions</h2>
+                <h2>{{ translationService.translate('generalInformationDescriptions') }}</h2>
                 <div class="row mb-3">
-                    <label for="address" class="col-sm-2 col-form-label">English:</label>
+                    <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('en') }}</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control address" id="eng" formControlName="eng"></textarea>
+                      <textarea class="form-control" id="eng" formControlName="eng"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="address" class="col-sm-2 col-form-label">Polski:</label>
+                    <label for="pl" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('pl') }}</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control address" id="pl" formControlName="pl"></textarea>
+                      <textarea class="form-control" id="pl" formControlName="pl"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="address" class="col-sm-2 col-form-label">Francuski:</label>
+                    <label for="fr" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('fr') }}</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control address" id="fr" formControlName="fr"></textarea>
+                      <textarea class="form-control" id="fr" formControlName="fr"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="actions">
-                <button type="submit" class="btn btn-primary btn-lg w-100">Next</button>
+            <div class="actions" *ngIf="section === 'general_information_normal'">
+                <button type="submit" (click)="onSubmit()" class="btn btn-primary btn-lg w-100">{{ translationService.translate('next') }}</button>
+            </div>
+            <div class="actions" *ngIf="section === 'descriptions_normal'">
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary btn-lg w-100" (click)="showGeneralInformation()">{{ translationService.translate('generalInformation') }}</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="!checkErrors()" (click)="addPublisher()">{{ translationService.translate('add') }}</button>
+                    </div>
+                </div>
             </div>
         </div>
-        
-
     </form>      
 </div>
 
+<div class="modal fade" id="generalInformation" tabindex="-1" aria-labelledby="generalInformationScraper" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="generalInformationScraper">{{ translationService.translate('generalInformationScraper') }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="generalInformationScraperForm" class="container mx-auto" (ngSubmit)="onGeneralInformationScraperSubmit()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="name" class="col-sm-2 col-form-label">WWW</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="generalInformation" 
+                            requestId = "url" 
+                            formId = "url" 
+                            class="form-control" 
+                            id="url" 
+                            name="url" 
+                            id="url"  
+                            formControlName="url"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "url"></div>
+                    </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="restGeneralInformation()" class="btn btn-secondary">{{ translationService.translate('resetFields') }}</button>
+                <button type="submit" class="btn btn-primary">{{ translationService.translate('scrap') }}</button>
+            </div>
+        </form> 
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="descriptions" tabindex="-1" aria-labelledby="descriptionsScraper" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="descriptionsScraper">{{ translationService.translate('descriptionsScraper') }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="descriptionsScraperForm" class="container mx-auto" (ngSubmit)="onDescriptionsScraperSubmit()">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-4">
+                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('en') }}</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="descriptions" 
+                            requestId = "eng" 
+                            formId = "descriptions[0]url" 
+                            class="form-control" 
+                            id="eng" 
+                            name="eng" 
+                            id="eng"  
+                            formControlName="eng"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "descriptions[0]url"></div>
+                    </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-4">
+                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('pl') }}</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="descriptions" 
+                            requestId = "pl" 
+                            formId = "descriptions[1]url" 
+                            class="form-control" 
+                            id="pl" 
+                            name="pl"  
+                            formControlName="pl"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "descriptions[1]url"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('fr') }}</label>
+                    </div>
+                    <div class="col-8">
+                        <input 
+                            type="text" 
+                            form="descriptions" 
+                            requestId = "fr" 
+                            formId = "descriptions[2]url" 
+                            class="form-control" 
+                            id="fr" 
+                            name="fr"  
+                            formControlName="fr"
+                            required
+                        >
+                        <div class="invalid-feedback" formFeedback = "descriptions[2]url"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="restDescription()" class="btn btn-secondary">{{ translationService.translate('resetFields') }}</button>
+                <button type="submit" class="btn btn-primary">{{ translationService.translate('scrap') }}</button>
+            </div>
+        </form> 
+      </div>
+    </div>
+  </div>

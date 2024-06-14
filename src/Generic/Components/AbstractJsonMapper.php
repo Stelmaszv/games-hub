@@ -8,34 +8,28 @@ abstract class AbstractJsonMapper
 
     public function isValid(mixed $value): bool
     {
-        $maper = false;
+        $jsonMap = false;
 
         if ($this->multi) {
             $this->validMultiMapper($value);
-            $maper = true;
+            $jsonMap = true;
         }
 
         if (!$this->multi) {
             $this->validMapper($value);
-            $maper = true;
+            $jsonMap = true;
         }
 
-        if (false === $maper) {
+        if (false === $jsonMap) {
             throw new \Exception('Invalid Json in '.get_class($this).'!');
         }
 
         return true;
     }
 
-    private function is2dArray(array $array): bool
-    {
-        if (is_array($array) && count($array) > 0) {
-            return is_array(array_shift($array));
-        }
-
-        return false;
-    }
-
+    /**
+     * @param array<mixed> $value
+     */
     private function validMultiMapper(array $value): void
     {
         foreach ($value as $el) {
@@ -43,6 +37,9 @@ abstract class AbstractJsonMapper
         }
     }
 
+    /**
+     * @param array<mixed> $value
+     */
     private function validMapper(array $value): void
     {
         foreach ($value as $jEl => $key) {
@@ -62,14 +59,24 @@ abstract class AbstractJsonMapper
             throw new \Exception('Invalid type in '.get_class($this).'!');
         }
 
-        return match ($type) {
-            'string' => is_string($value),
-            'bool' => is_bool($value),
-            'int' => is_int($value),
-        };
+        if (null !== $type) {
+            return match ($type) {
+                'string' => is_string($value),
+                'bool' => is_bool($value),
+                'int' => is_int($value),
+                'non-empty-string' => is_string($value) && '' !== $value,
+                default => false, // Obsługa pozostałych przypadków
+            };
+        }
     }
 
+    /**
+     * @return array<mixed> $value
+     */
     abstract public function jsonSchema(): array;
 
+    /**
+     * @return array<mixed> $value
+     */
     abstract public function defaultValue(): array;
 }

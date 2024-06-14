@@ -15,5 +15,5 @@ class AddDeveloperController extends GenericCreateController
 {
     protected ?string $entity = Developer::class;
     protected ?string $dto = DeveloperDTO::class;
-    protected ?string $voterAtribute = Atribute::CAN_ADD_DEVELOPER;
+    protected ?string $voterAttribute = Atribute::CAN_ADD_DEVELOPER;
 }

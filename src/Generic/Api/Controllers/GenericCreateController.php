@@ -4,7 +4,7 @@ namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
 use App\Generic\Api\Interfaces\ApiInterface;
-use App\Generic\Api\Interfaces\GenricInterface;
+use App\Generic\Api\Interfaces\GenericInterface;
 use App\Generic\Api\Interfaces\ProcessEntity;
 use App\Generic\Api\Trait\GenericJSONResponse;
 use App\Generic\Api\Trait\GenericProcessEntity;
@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class GenericCreateController extends AbstractController implements GenricInterface, ProcessEntity
+class GenericCreateController extends AbstractController implements GenericInterface, ProcessEntity
 {
     use GenericValidation;
     use GenericProcessEntity;
@@ -29,7 +29,6 @@ class GenericCreateController extends AbstractController implements GenricInterf
 
     private Security $security;
     private JWT $jwt;
-
     protected ParameterBag $attributes;
     protected ParameterBag $query;
 
@@ -72,12 +71,12 @@ class GenericCreateController extends AbstractController implements GenricInterf
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $JWTtokken = $this->jwt->decode($this->jwt->getJWTFromHeader());
-        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
+        $JWTtoken = $this->jwt->decode($this->jwt->getJWTFromHeader());
+        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtoken['id']);
 
         $dto = new $this->dto(json_decode($data, true));
 
-        $dto->setComponnetsData([
+        $dto->setComponentsData([
             'managerRegistry' => $this->managerRegistry,
             'request' => $this->request,
             'userId' => $user->getId(),
@@ -99,7 +98,7 @@ class GenericCreateController extends AbstractController implements GenricInterf
         return $this->respondWithSuccess(JsonResponse::HTTP_CREATED);
     }
 
-    public function getEntity(): ApiInterface
+    public function getEntity(): ?ApiInterface
     {
         return new $this->entity();
     }

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { IsGranted } from 'src/app/interface/common';
-import { PublisherListElement } from 'src/app/interface/publisher';
-import { RespanseList } from 'src/app/interface/respanse';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.service';
+import { PublisherList, PublisherListElement} from '../interfaces';
 
 @Component({
   selector: 'app-publishers-main-list',
@@ -31,7 +29,7 @@ export class PublishersMainListComponent {
   private setList() : void
   {
     this.HttpServiceService.getData('http://localhost/api/publisher/list')
-    .subscribe((data: RespanseList ) => {
+    .subscribe((data: PublisherList ) => {
       data.results.forEach((element: PublisherListElement) => {
 
         this.isGrantedService.setPermission('CAN_SHOW_PUBLISHER', element, 'canShowPublisher', 'Publisher')

@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class GenericListController extends AbstractController
 {
@@ -24,21 +23,24 @@ class GenericListController extends AbstractController
     protected ObjectRepository $repository;
     protected Request $request;
     protected ManagerRegistry $managerRegistry;
-    private SerializerInterface $serializer;
     private PaginatorInterface $paginator;
     protected ParameterBag $attributes;
     protected ParameterBag $query;
+    /**
+     * @var array<mixed>
+     */
     private ?array $paginatorData = null;
+    /**
+     * @var array<string>
+     */
     protected array $columns = [];
-    private Security $security;
 
     public function __construct(
         ManagerRegistry $doctrine,
-        SerializerInterface $serializer,
         PaginatorInterface $paginator,
         Security $security
     ) {
-        $this->initialize($doctrine, $serializer, $paginator, $security);
+        $this->initialize($doctrine, $paginator, $security);
     }
 
     public function __invoke(
@@ -54,14 +56,12 @@ class GenericListController extends AbstractController
 
     protected function initialize(
         ManagerRegistry $doctrine,
-        SerializerInterface $serializer,
         PaginatorInterface $paginator,
         Security $security
     ): void {
         $this->managerRegistry = $doctrine;
-        $this->serializer = $serializer;
         $this->paginator = $paginator;
-        $this->security = $security;
+        $this->setSecurity($security);
         $this->repository = $this->managerRegistry->getRepository($this->entity);
     }
 
@@ -115,22 +115,26 @@ class GenericListController extends AbstractController
                 $this->perPage
             );
 
-            $paginationData = $paginator->getPaginationData();
-
-            $this->paginatorData = [
-                'totalCount' => $paginationData['totalCount'],
-                'endPage' => $paginationData['endPage'],
-                'startPage' => $paginationData['startPage'],
-                'current' => $paginationData['current'],
-                'pageCount' => $paginationData['pageCount'],
-                'previous' => $paginationData['previous'] ?? null,
-                'next' => $paginationData['next'] ?? null,
-            ];
+            if (method_exists($paginator, 'getPaginationData')) {
+                $paginationData = $paginator->getPaginationData();
+                $this->paginatorData = [
+                    'totalCount' => $paginationData['totalCount'],
+                    'endPage' => $paginationData['endPage'],
+                    'startPage' => $paginationData['startPage'],
+                    'current' => $paginationData['current'],
+                    'pageCount' => $paginationData['pageCount'],
+                    'previous' => $paginationData['previous'] ?? null,
+                    'next' => $paginationData['next'] ?? null,
+                ];
+            }
         }
 
         return $data;
     }
 
+    /**
+     * @return array<int<0, max>>
+     */
     private function setData(mixed $query): array
     {
         $entity = (null === $this->entityLiteration) ? $this->entity : $this->entityLiteration;

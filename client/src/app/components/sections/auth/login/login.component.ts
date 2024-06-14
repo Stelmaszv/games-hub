@@ -3,6 +3,7 @@ import { TranslationService } from 'src/app/services/common/translation/translat
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/services/common/auth/auth.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
+import { Login } from '../interface';
 
 @Component({
   selector: 'app-login',
@@ -23,10 +24,12 @@ export class LoginComponent {
   ) {}
   
   onSubmit() {
-    this.httpServiceService.postData('http://localhost/api/login',{ 
+    let login : Login = { 
       'email' : this.email,
       'password':this.password
-    }).subscribe({
+    }
+
+    this.httpServiceService.postData('http://localhost/api/login',login ).subscribe({
       next: (response) => {
         this.loginFailed = false;
         this.authService.setToken(response.token)

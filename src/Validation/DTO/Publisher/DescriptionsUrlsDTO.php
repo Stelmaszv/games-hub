@@ -11,9 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class DescriptionsUrlsDTO implements DTO
 {
     /**
-     * @Assert\NotBlank
-     *
-     * @Assert\Url
+     * @Assert\Url(message="invalidUrl")
      *
      * @CustomAssert\PublisherUrl
      */
@@ -24,7 +22,10 @@ class DescriptionsUrlsDTO implements DTO
      */
     public ?string $lng = null;
 
-    public function setComponnetsData(array $componnets)
+    /**
+     * @param mixed[] $components
+     */
+    public function setComponentsData(array $components): void
     {
     }
 }

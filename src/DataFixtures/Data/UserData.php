@@ -3,12 +3,12 @@
 namespace App\DataFixtures\Data;
 
 use App\Entity\User;
-use App\Roles\RoleUser;
-use App\Roles\RoleEditor;
-use App\Roles\RoleSuperAdmin;
-use App\Roles\RolePublisherEditor;
-use App\Roles\RolePublisherCreator;
 use App\Generic\Components\AbstractDataFixture;
+use App\Roles\RoleEditor;
+use App\Roles\RolePublisherCreator;
+use App\Roles\RolePublisherEditor;
+use App\Roles\RoleSuperAdmin;
+use App\Roles\RoleUser;
 
 class UserData extends AbstractDataFixture
 {
@@ -47,13 +47,13 @@ class UserData extends AbstractDataFixture
             'email' => 'devloperCreator@dot.com',
             'roles' => [
                 RoleUser::NAME,
-                RoleEditor::NAME
+                RoleEditor::NAME,
             ],
             'password' => 'qwe',
-        ]
+        ],
     ];
 
-    public function onPasswordSet(mixed $value, object $entity)
+    public function onPasswordSet(mixed $value, object $entity): string
     {
         return $this->passwordEncoder->hashPassword(
             $entity,

@@ -14,9 +14,7 @@ export class AppComponent implements OnInit {
   auth:boolean = false;
   activeGuardInfo: string | null = null; 
 
-  constructor(public authService: AuthService, private HttpServiceService : HttpServiceService, private authGuard: AuthGuard, private router: Router){
-    
-  }
+  constructor(public authService: AuthService, private HttpServiceService : HttpServiceService, private authGuard: AuthGuard, private router: Router){}
 
   ngOnInit(): void {
     const emptyRouteSnapshot = {} as ActivatedRouteSnapshot;

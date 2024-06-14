@@ -2,13 +2,11 @@
 
 namespace App\Generic\Api\Trait;
 
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Interfaces\DTO;
-use App\Generic\Api\Interfaces\ProcessEntity;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait GenericProcessEntity
@@ -24,7 +22,7 @@ trait GenericProcessEntity
     {
     }
 
-    private function checkData()
+    private function checkData(): void
     {
         if (!$this->entity) {
             throw new \Exception('Entity is not define in controller '.get_class($this).'!');
@@ -63,8 +61,6 @@ trait GenericProcessEntity
             }
         }
 
-        $this->handleIdentifierUid($entity);
-
         $entityManager = $this->managerRegistry->getManager();
         $entityManager->persist($entity);
         $entityManager->flush();
@@ -72,7 +68,7 @@ trait GenericProcessEntity
         $this->insertId = $entity->getId();
     }
 
-    private function handleCollection(DTO $dto, string $propertyName, $entity): void
+    private function handleCollection(DTO $dto, string $propertyName, ApiInterface $entity): void
     {
         foreach ($dto->$propertyName as $collectionEl) {
             $name = basename(str_replace('\\', '/', get_class($collectionEl)), 'DTO');
@@ -85,7 +81,7 @@ trait GenericProcessEntity
         }
     }
 
-    private function handleSingleEntity(DTO $dto, string $propertyName, $entity, string $propertyTypeName, string $method): void
+    private function handleSingleEntity(DTO $dto, string $propertyName, ApiInterface $entity, string $propertyTypeName, string $method): void
     {
         $object = $this->getObject($propertyTypeName);
         if (null !== $object && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
@@ -96,17 +92,10 @@ trait GenericProcessEntity
         }
     }
 
-    private function handleNonTypedProperty(DTO $dto, string $propertyName, $entity): void
+    private function handleNonTypedProperty(DTO $dto, string $propertyName, ApiInterface $entity): void
     {
         $method = 'set'.ucfirst($propertyName);
         $entity->$method($dto->$propertyName);
-    }
-
-    private function handleIdentifierUid($entity): void
-    {
-        if ($entity instanceof IdentifierUid && $this instanceof ProcessEntity) {
-            $entity->setId(Uuid::v4());
-        }
     }
 
     private function getObject(string $type): ?object

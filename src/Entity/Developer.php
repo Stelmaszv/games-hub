@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\JsonMaper\Developer\DescriptionsMapper;
 use App\Entity\JsonMaper\Developer\EditorsMapper;
 use App\Entity\JsonMaper\Developer\GeneralInformationMapper;
-use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Generic\Api\Identifier\Trait\IdentifierById;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Trait\EntityApiGeneric;
@@ -19,21 +18,30 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DeveloperRepository::class)]
-class Developer implements ApiInterface, IdentifierId
+class Developer implements ApiInterface
 {
     use EntityApiGeneric;
     use IdentifierById;
     use JsonMapValidator;
 
+    /**
+     * @var array<mixed>
+     */
     #[ORM\Column]
     private array $generalInformation = [];
 
+    /**
+     * @var array<string>
+     */
     #[ORM\Column]
     private array $descriptions = [];
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
+    /**
+     * @var array<array<string>>
+     */
     #[ORM\Column]
     private array $editors = [];
 
@@ -51,6 +59,9 @@ class Developer implements ApiInterface, IdentifierId
         $this->publisher = new ArrayCollection();
     }
 
+    /**
+     * @return array<string>
+     */
     public function getGeneralInformation(): array
     {
         return $this->generalInformation;
@@ -63,6 +74,9 @@ class Developer implements ApiInterface, IdentifierId
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getDescriptions(): array
     {
         return $this->descriptions;
@@ -87,11 +101,17 @@ class Developer implements ApiInterface, IdentifierId
         return $this;
     }
 
+    /**
+     * @return array<array<string>>
+     */
     public function getEditors(): array
     {
         return $this->editors;
     }
 
+    /**
+     * @param array<string> $editors
+     */
     public function setEditors(array $editors): static
     {
         $this->editors = $this->jsonValidate($editors, EditorsMapper::class);
@@ -112,7 +132,7 @@ class Developer implements ApiInterface, IdentifierId
     }
 
     /**
-     * @return Collection<int, Publisher>
+     * @return array<string>
      */
     public function getPublisher(): array
     {
@@ -135,6 +155,9 @@ class Developer implements ApiInterface, IdentifierId
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getCreatedBy(): array
     {
         return $this->setApiGroup(new User(), 'createdBy');

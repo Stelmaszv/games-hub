@@ -14,7 +14,10 @@ class EditorDTO implements DTO
      */
     public ?int $id = null;
 
-    public function setComponnetsData(array $componnets)
+    /**
+     * @param mixed[] $components
+     */
+    public function setComponentsData(array $components): void
     {
     }
 }

@@ -9,9 +9,9 @@ use App\Entity\Publisher;
 use App\Entity\User;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Components\AbstractDataFixture;
-use App\Service\WebScraber\Developer\DescriptionsScraper;
-use App\Service\WebScraber\Developer\GeneralInformationScraper;
-use App\Service\WebScraber\WebSraberDescriptionFactory;
+use App\Service\WebScraper\Developer\DescriptionsScraper;
+use App\Service\WebScraper\Developer\GeneralInformationScraper;
+use App\Service\WebScraper\WebScraperDescriptionFactory;
 use App\Validation\DTO\Developer\DescriptionsDTO;
 use App\Validation\DTO\Developer\EditorDTO;
 use App\Validation\DTO\Developer\GeneralInformationDTO;
@@ -45,7 +45,7 @@ class DeveloperData extends AbstractDataFixture
         ],
     ];
 
-    public function onCreatedBySet(mixed $value, object $entity)
+    public function onCreatedBySet(mixed $value, object $entity): User
     {
         $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $value]);
 
@@ -79,23 +79,28 @@ class DeveloperData extends AbstractDataFixture
         return new \DateTime();
     }
 
-    public function onGeneralInformationSet(mixed $value, object $entity)
+    public function onGeneralInformationSet(mixed $value, object $entity): GeneralInformationDTO
     {
         $generalInformationScraper = new GeneralInformationScraper($value);
 
         return new GeneralInformationDTO($generalInformationScraper->getData());
     }
 
-    public function onDescriptionsSet(mixed $value, object $entity)
+    public function onDescriptionsSet(mixed $value, object $entity): DescriptionsDTO
     {
-        $webSraberFactory = new WebSraberDescriptionFactory(new DescriptionsScraper());
-        $webSraberFactory->setDescription($value);
+        $webScraperFactory = new WebScraperDescriptionFactory(new DescriptionsScraper());
+        $webScraperFactory->setDescription($value);
 
-        return new DescriptionsDTO($webSraberFactory->getDescription());
+        return new DescriptionsDTO($webScraperFactory->getDescription());
     }
 
-    public function onEditorsSet(mixed $value, object $entity)
+    /**
+     * @return array<EditorDTO> $descriptions
+     */
+    public function onEditorsSet(mixed $value, object $entity): array
     {
+        $editors = [];
+
         foreach ($value as $key => $editor) {
             $editors[$key] = new EditorDTO();
             $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $editor]);

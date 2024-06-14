@@ -14,7 +14,10 @@ class PublisherDTO implements DTO
      */
     public ?int $id = null;
 
-    public function setComponnetsData(array $componnets): void
+    /**
+     * @param mixed[] $components
+     */
+    public function setComponentsData(array $components): void
     {
     }
 }

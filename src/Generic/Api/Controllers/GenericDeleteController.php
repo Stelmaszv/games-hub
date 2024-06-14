@@ -18,7 +18,6 @@ class GenericDeleteController extends AbstractController
     use GenericJSONResponse;
 
     protected ?string $entity = null;
-    private Security $security;
     protected ManagerRegistry $managerRegistry;
     protected Request $request;
     protected ParameterBag $attributes;
@@ -61,7 +60,7 @@ class GenericDeleteController extends AbstractController
         Security $security,
     ): void {
         $this->managerRegistry = $doctrine;
-        $this->security = $security;
+        $this->setSecurity($security);
     }
 
     protected function beforeDelete(): void

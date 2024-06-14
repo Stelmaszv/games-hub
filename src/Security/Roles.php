@@ -18,8 +18,8 @@ class Roles
         RolePublisherEditor::NAME => RolePublisherEditor::ROLES,
     ];
 
-    public static function checkAtribute(string $role, $atribute)
+    public static function checkAttribute(string $role, string $attribute): bool
     {
-        return in_array($atribute, self::ROLES[$role]);
+        return in_array($attribute, self::ROLES[$role]);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Generic\Web\Controllers;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,7 +12,9 @@ class GenericDeleteController extends AbstractController
     protected ?string $entity = null;
     protected ?string $redirectTo = null;
     protected EntityManagerInterface $entityManager;
-    protected ServiceEntityRepository $repository;
+
+    /** @var EntityRepository<object> */
+    protected EntityRepository $repository;
     protected object $item;
     protected int $id;
 

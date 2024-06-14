@@ -1,7 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Publisher} from 'src/app/interface/publisher';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
+import { Publisher } from '../interfaces';
 
 @Component({
   selector: 'app-show-publisher',

@@ -9,22 +9,26 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class PublisherUrlValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$value) {
-            return false;
+        if (empty($value)) {
+            $this->context->buildViolation('URL cannot be empty.')
+                ->addViolation();
+
+            return;
         }
 
         $urlParts = parse_url($value);
 
         if (!isset($urlParts['host'])) {
-            return false;
+            $this->context->buildViolation('Invalid URL format.')
+                ->addViolation();
+
+            return;
         }
 
-        $urlParts = parse_url($value);
-
         if (!in_array($urlParts['host'], PublisherHosts::HOST)) {
-            $this->context->buildViolation($constraint->message)
+            $this->context->buildViolation(PublisherUrl::message)
                 ->setParameter('{{ host }}', $urlParts['host'])
                 ->addViolation();
         }

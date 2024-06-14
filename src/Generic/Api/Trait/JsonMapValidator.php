@@ -6,6 +6,11 @@ use App\Generic\Components\AbstractJsonMapper;
 
 trait JsonMapValidator
 {
+    /**
+     * @param array<mixed> $value
+     *
+     * @return array<mixed>
+     */
     private function jsonValidate(?array $value, string $mapper): array
     {
         $mapperObj = new $mapper();

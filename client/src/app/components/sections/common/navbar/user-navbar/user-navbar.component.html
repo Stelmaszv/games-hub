@@ -4,11 +4,11 @@
         <i class="fa-sharp fa-solid fa-bell "></i>
         <span *ngIf="userNotification" class="message-count" >{{ userNotification }}</span>
       </div>
-      <div class="circle-icon" data-bs-toggle="modal" data-bs-target="#messagegesModal" [ngClass]="{'circle-icon-not-active': !userMessage}" [ngClass]="{'circle-icon-active': userMessage}">
+      <div class="circle-icon" data-bs-toggle="modal" data-bs-target="#messagesModal" [ngClass]="{'circle-icon-not-active': !userMessage}" [ngClass]="{'circle-icon-active': userMessage}">
         <i class="fa-solid fa-message"></i>
         <span *ngIf="userMessage" class="message-count">{{ userMessage }}</span>
       </div>
-      <div class="circle-icon circle-icon-not-active" data-bs-toggle="modal" data-bs-target="#userProfilModal">
+      <div class="circle-icon circle-icon-not-active" data-bs-toggle="modal" data-bs-target="#userProfileModal">
         <i class="fas fa-user"></i>
       </div>
     </li>
@@ -16,5 +16,5 @@
 
 
 <notification-model></notification-model>
-<messageges-model></messageges-model>
-<user-profil-modal></user-profil-modal>
+<messages-model></messages-model>
+<user-profile-modal></user-profile-modal>

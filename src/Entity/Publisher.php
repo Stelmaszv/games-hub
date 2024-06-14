@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\JsonMaper\Publisher\DescriptionsMapper;
 use App\Entity\JsonMaper\Publisher\EditorsMapper;
 use App\Entity\JsonMaper\Publisher\GeneralInformationMapper;
-use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Generic\Api\Identifier\Trait\IdentifierById;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Trait\EntityApiGeneric;
@@ -19,15 +18,21 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
-class Publisher implements ApiInterface, IdentifierId
+class Publisher implements ApiInterface
 {
     use EntityApiGeneric;
     use IdentifierById;
     use JsonMapValidator;
 
+    /**
+     * @var array<mixed>
+     */
     #[ORM\Column]
     private array $generalInformation = [];
 
+    /**
+     * @var array<string>
+     */
     #[ORM\Column]
     private array $descriptions = [];
 
@@ -37,6 +42,9 @@ class Publisher implements ApiInterface, IdentifierId
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
+    /**
+     * @var array<array<string>>
+     */
     #[ORM\Column]
     private array $editors = [];
 
@@ -51,6 +59,9 @@ class Publisher implements ApiInterface, IdentifierId
         $this->developer = new ArrayCollection();
     }
 
+    /**
+     * @return array<string>
+     */
     public function getGeneralInformation(): array
     {
         return $this->generalInformation;
@@ -63,6 +74,9 @@ class Publisher implements ApiInterface, IdentifierId
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getDescriptions(): array
     {
         return $this->descriptions;
@@ -75,6 +89,9 @@ class Publisher implements ApiInterface, IdentifierId
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getCreatedBy(): ?array
     {
         return $this->setApiGroup(new User(), 'createdBy');
@@ -99,11 +116,17 @@ class Publisher implements ApiInterface, IdentifierId
         return $this;
     }
 
+    /**
+     * @return array<array<string>>
+     */
     public function getEditors(): array
     {
         return $this->editors;
     }
 
+    /**
+     * @param array<string> $editors
+     */
     public function setEditors(array $editors): static
     {
         $this->editors = $this->jsonValidate($editors, EditorsMapper::class);

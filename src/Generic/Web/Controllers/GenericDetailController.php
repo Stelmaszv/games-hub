@@ -3,8 +3,8 @@
 namespace App\Generic\Web\Controllers;
 
 use App\Generic\Web\Trait\GenericGetTrait;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,9 @@ class GenericDetailController extends AbstractController
 
     protected int $id;
     protected EntityManagerInterface $entityManager;
-    protected ServiceEntityRepository $repository;
+
+    /** @var EntityRepository<object> */
+    protected EntityRepository $repository;
     protected object $item;
 
     public function __invoke(EntityManagerInterface $entityManager, int $id): Response
@@ -32,7 +34,7 @@ class GenericDetailController extends AbstractController
         $this->repository = $this->entityManager->getRepository($this->entity);
     }
 
-    private function getQuery(): ?object
+    private function getQuery(): object
     {
         $this->beforeQuery();
 
@@ -47,6 +49,9 @@ class GenericDetailController extends AbstractController
         return $queryBuilder;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getAttributes(): array
     {
         $this->item = $this->getQuery();

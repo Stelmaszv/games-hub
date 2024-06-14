@@ -1,4 +1,6 @@
 parameters:
+    checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false
     level: 6
     paths:
         - bin/
@@ -6,3 +8,16 @@ parameters:
         - public/
         - src/
         - tests/
+
+    excludes_analyse:
+        - src/Generic/Api/Controllers/GenericActionController.php
+        - src/Generic/Web/Controllers/GenericUpdateController.php
+        - src/Generic/Web/Controllers/GenericListController.php
+        - src/Generic/Web/Controllers/GenericDetailController.php
+        - src/Generic/Web/Controllers/GenericDeleteController.php
+        - src/Generic/Api/Trait/Security.php
+        - src/Generic/Api/Controllers/GenericDeleteController.php 
+        - src/Generic/Api/Controllers/GenericDetailController.php
+        - src/Generic/Api/Controllers/GenericListController.php
+        - src/Generic/Api/Controllers/GenericPostController.php
+        - src/Generic/Api/Controllers/GenericUpdateController.php

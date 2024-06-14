@@ -11,13 +11,13 @@
       </div>
       <div class="modal-body">
         <div class="lang-list">
-          <li *ngFor="let lang of languages" (click)="langChoosed(lang)" [ngClass]="{ 'choosedOpacity': isChoosed(lang) }" [ngClass]="{ 'NotChoosedOpacity': !isChoosed(lang) }" >
+          <li *ngFor="let lang of languages" (click)="langChosen(lang)" [ngClass]="{ 'chosenOpacity': isChosen(lang) }" [ngClass]="{ 'notChosenOpacity': !isChosen(lang) }" >
             <img src="../../../../../assets/flags/{{lang}}.png">{{ translationService.translateLanguage(lang) }}
           </li>
         </div>
       </div>
       <div class="modal-footer">
-        <button (click)="langSaved()" type="button" class="btn btn-primary">{{ translationService.translate('saveModal') }}</button>
+        <button (click)="langSaved()" type="button" class="btn btn-primary">{{ translationService.translate('save') }}</button>
       </div>
     </div>
   </div>

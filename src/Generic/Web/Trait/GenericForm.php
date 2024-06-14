@@ -11,12 +11,19 @@ trait GenericForm
     private Request $request;
     protected ?string $twig = null;
     protected ?string $form = null;
+    protected ?object $item;
 
+    /**
+     * @return array<string>
+     */
     protected function onSetAttribute(): array
     {
         return [];
     }
 
+    /**
+     * @return array<string>
+     */
     private function getAttributes(): array
     {
         $attributes['form'] = $this->setFormToAttribute();
@@ -24,14 +31,14 @@ trait GenericForm
         return array_merge($attributes, $this->onSetAttribute());
     }
 
-    private function setFormToAttribute()
+    private function setFormToAttribute(): mixed
     {
         return $this->setForm($this->item)->createView();
     }
 
-    private function setForm(object $entetiy): mixed
+    private function setForm(object $entity): mixed
     {
-        $form = $this->formFactory->create($this->form, $entetiy);
+        $form = $this->formFactory->create($this->form, $entity);
 
         $form->handleRequest($this->request);
 

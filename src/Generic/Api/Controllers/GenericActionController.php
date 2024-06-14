@@ -25,7 +25,6 @@ class GenericActionController extends AbstractController
     protected ManagerRegistry $managerRegistry;
     protected ParameterBag $attributes;
     protected ParameterBag $query;
-    private Security $security;
 
     public function __invoke(
         ManagerRegistry $managerRegistry,
@@ -34,7 +33,7 @@ class GenericActionController extends AbstractController
         JWT $jwt,
     ): JsonResponse {
         $this->managerRegistry = $managerRegistry;
-        $this->security = $security;
+        $this->setSecurity($security);
         $this->attributes = $request->attributes;
         $this->query = $request->query;
 

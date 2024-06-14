@@ -9,7 +9,7 @@ class JWT
 {
     private string $appSecret;
     private RequestStack $requestStack;
-    private int $expirationTime = 7*24 * 60 * 60; 
+    private int $expirationTime = 7 * 24 * 60 * 60;
 
     public function __construct(RequestStack $requestStack, string $appSecret)
     {
@@ -17,7 +17,10 @@ class JWT
         $this->requestStack = $requestStack;
     }
 
-    public function encode(array $data)
+    /**
+     * @param array<mixed> $data
+     */
+    public function encode(array $data): string
     {
         $currentTime = time();
         $expirationTime = $currentTime + $this->expirationTime;
@@ -30,11 +33,14 @@ class JWT
         return "$header.$payload.$signature";
     }
 
-    public function refreshToken(string $refreshToken,array $data): ?string
+    /**
+     * @param array<mixed> $data
+     */
+    public function refreshToken(string $refreshToken, array $data): ?string
     {
         $refreshTokenData = $this->decode($refreshToken);
 
-        if ($refreshTokenData === null || !isset($refreshTokenData['id'])) {
+        if (null == $refreshTokenData || !isset($refreshTokenData['id'])) {
             throw new \Exception('Invalid refresh token');
         }
 
@@ -45,7 +51,10 @@ class JWT
         return $this->encode($data);
     }
 
-    public function decode(string $token)
+    /**
+     * @return array<mixed>
+     */
+    public function decode(string $token): array
     {
         list($header, $payload, $signature) = explode('.', $token);
         $data = json_decode(base64_decode($payload), true);

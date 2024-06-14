@@ -4,42 +4,46 @@ declare(strict_types=1);
 
 namespace App\Service\Validation;
 
-class PasswordChecker {
+class PasswordChecker
+{
+    /**
+     * @var array<string>
+     */
+    private array $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
 
-    private $specialCharacters = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
-    
-    private function estimatePasswordStrength(string $password) {
+    private function estimatePasswordStrength(string $password): int
+    {
         $score = 0;
-        
+
         $length = strlen($password);
         if ($length >= 12) {
             $score += 3;
         } elseif ($length >= 8) {
             $score += 2;
         } else {
-            $score += 1;
+            ++$score;
         }
-        
+
         foreach ($this->specialCharacters as $character) {
-            if (strpos($password, $character) !== false) {
+            if (false !== strpos($password, $character)) {
                 $score += 2;
                 break;
             }
         }
-        
+
         if (preg_match('/[a-z]/', $password)) {
             $score += 2;
         }
-        
+
         if (preg_match('/[A-Z]/', $password)) {
             $score += 2;
         }
-        
+
         return $score;
     }
 
-    public function checkPasswordStrength($password) {
-                
+    public function checkPasswordStrength(string $password): string
+    {
         $strength = $this->estimatePasswordStrength($password);
         if ($strength >= 8) {
             $error = 'strong';
@@ -48,7 +52,7 @@ class PasswordChecker {
         } else {
             $error = 'weak';
         }
-        
+
         return $error;
     }
 }
