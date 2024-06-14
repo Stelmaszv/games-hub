@@ -15,7 +15,7 @@ trait GenericGetTrait
     {
     }
 
-     /**
+    /**
      * @return array<string>
      */
     protected function onSetAttribute(): array

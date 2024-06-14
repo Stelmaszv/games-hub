@@ -7,9 +7,10 @@ export interface PublisherAddForm {
 }
 
 export interface PublisherDescriptions {
-    eng: null|string,
-    pl: null|string,
-    fr: null|string,
+    eng: null | string,
+    pl: null | string,
+    fr: null | string,
+    [key: string]: null | string;
 }
 
 export interface PublisherGeneralInformation {

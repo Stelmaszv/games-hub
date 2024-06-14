@@ -4,7 +4,6 @@ namespace App\Generic\Api\Identifier\Interfaces;
 
 interface IdentifierId
 {
-
     public function getPassword(): string;
 
     public function getId(): ?int;
@@ -15,8 +14,9 @@ interface IdentifierId
 
     public function setEmail(string $email): self;
 
-        /**
+    /**
      * @see UserInterface
+     *
      * @return array<mixed>
      */
     public function getRoles(): array;

@@ -12,7 +12,7 @@ class GenericListRelationController extends GenericListController
 
     protected function beforeQuery(): void
     {
-        if ($this->relationMethod == null) {
+        if (null == $this->relationMethod) {
             throw new \Exception('RelationMethod is not define in controller '.get_class($this).'!');
         }
 
@@ -22,7 +22,7 @@ class GenericListRelationController extends GenericListController
 
         $entity = $this->getEntity();
 
-        if ($entity == null) {
+        if (null == $entity) {
             throw new \Exception('Object not found '.get_class($this).'!');
         }
 

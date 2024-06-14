@@ -11,7 +11,7 @@ trait GenericForm
     private Request $request;
     protected ?string $twig = null;
     protected ?string $form = null;
-    protected ?Object $item;
+    protected ?object $item;
 
     /**
      * @return array<string>
@@ -20,7 +20,6 @@ trait GenericForm
     {
         return [];
     }
-
 
     /**
      * @return array<string>
@@ -32,7 +31,7 @@ trait GenericForm
         return array_merge($attributes, $this->onSetAttribute());
     }
 
-    private function setFormToAttribute() : mixed
+    private function setFormToAttribute(): mixed
     {
         return $this->setForm($this->item)->createView();
     }

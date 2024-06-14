@@ -8,7 +8,6 @@ import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { Response } from 'src/app/components/interface';
 
-
 @Component({
   selector: 'app-add-publishers',
   templateUrl: './add-publishers.component.html',
@@ -18,6 +17,7 @@ export class AddPublishersComponent {
   public section: String = 'general_information_normal';
   private generalInformationValidation : boolean = false
   private add : boolean = false
+  private sent : boolean = false
 
   constructor(
     private fb: FormBuilder,
@@ -56,16 +56,16 @@ export class AddPublishersComponent {
     fr: null,
   })
 
-  private getDescription(lng: string, response: PublisherDescriptionsScraperResponse) : string 
-  {
+  private getDescription(lng: string, response: PublisherDescriptions): string {
     let description: string = '';
-  
+
     if (this.descriptions?.get(lng)?.value === null || this.descriptions?.get(lng)?.value === '') {
-      description = response['description']?.['eng'] ?? lng;
+        console.log(response);
+        description = response[lng] ?? lng;
     } else {
-      description = this.descriptions?.get(lng)?.value ?? '';
+        description = this.descriptions?.get(lng)?.value ?? '';
     }
-  
+
     return description;
   }
 
@@ -81,13 +81,16 @@ export class AddPublishersComponent {
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/descriptions', postData ).subscribe({  
       next: (response : PublisherDescriptionsScraperResponse) => {
         const publisherDescriptions : PublisherDescriptions = {
-          'eng' : this.getDescription('eng',response),
-          'fr': this.getDescription('fr',response),
-          'pl':this.getDescription('pl',response),
+          'eng' : this.getDescription('eng',response['description']),
+          'fr': this.getDescription('fr',response['description']),
+          'pl':this.getDescription('pl',response['description']),
         }
         this.descriptions.setValue(publisherDescriptions);
       },
       error: (errorList: HttpErrorResponse) => {
+        if(errorList.status == 500){
+          console.log('Server Error')
+        }
         this.formValidatorService.processErrors(errorList.error.errors, postData ,'descriptions')
       }
     });
@@ -111,7 +114,11 @@ export class AddPublishersComponent {
   }
 
   public onSubmit() : void 
-  {   
+  { 
+    if(this.sent){
+      return;
+    }
+
     const generalInformation : PublisherGeneralInformation = {
       name: this.generalInformation?.get('name')?.value,
       origin: this.generalInformation?.get('origin')?.value,
@@ -135,6 +142,7 @@ export class AddPublishersComponent {
     this.httpServiceService.postData('http://localhost/api/publisher/add',postData ).subscribe({
       next: (response : Response) => {
         if(this.generalInformationValidation && response.success){
+          this.sent = true;
           this.router.navigate(['publisher/show', response.id]);
         }
       },

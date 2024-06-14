@@ -36,7 +36,7 @@ class MainFixture extends Fixture
         $this->entityManager = $entityManager;
     }
 
-    public function load(ObjectManager $manager) : void
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->data as $fixture) {
             $fixture = new $fixture($this->passwordEncoder, $manager, $this->managerRegistry, $this->entityManager);

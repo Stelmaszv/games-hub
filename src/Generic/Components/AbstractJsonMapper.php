@@ -56,15 +56,15 @@ abstract class AbstractJsonMapper
     private function validType(string $type, mixed $value): bool
     {
         if ('' === $type) {
-            throw new \Exception('Invalid type in ' . get_class($this) . '!');
+            throw new \Exception('Invalid type in '.get_class($this).'!');
         }
-    
-        if ($type !== null) {
+
+        if (null !== $type) {
             return match ($type) {
                 'string' => is_string($value),
                 'bool' => is_bool($value),
                 'int' => is_int($value),
-                'non-empty-string' => is_string($value) && $value !== '',
+                'non-empty-string' => is_string($value) && '' !== $value,
                 default => false, // Obsługa pozostałych przypadków
             };
         }

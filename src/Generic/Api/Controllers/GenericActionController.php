@@ -25,7 +25,7 @@ class GenericActionController extends AbstractController
     protected ManagerRegistry $managerRegistry;
     protected ParameterBag $attributes;
     protected ParameterBag $query;
-    
+
     public function __invoke(
         ManagerRegistry $managerRegistry,
         Request $request,

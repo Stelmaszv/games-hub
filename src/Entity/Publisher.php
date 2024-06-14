@@ -91,7 +91,7 @@ class Publisher implements ApiInterface
 
     /**
      * @return array<string>
-    */
+     */
     public function getCreatedBy(): ?array
     {
         return $this->setApiGroup(new User(), 'createdBy');
@@ -118,7 +118,7 @@ class Publisher implements ApiInterface
 
     /**
      * @return array<array<string>>
-    */
+     */
     public function getEditors(): array
     {
         return $this->editors;
@@ -126,7 +126,7 @@ class Publisher implements ApiInterface
 
     /**
      * @param array<string> $editors
-    */
+     */
     public function setEditors(array $editors): static
     {
         $this->editors = $this->jsonValidate($editors, EditorsMapper::class);

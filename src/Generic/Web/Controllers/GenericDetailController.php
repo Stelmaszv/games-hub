@@ -2,11 +2,11 @@
 
 namespace App\Generic\Web\Controllers;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Generic\Web\Trait\GenericGetTrait;
-use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class GenericDetailController extends AbstractController
 {

@@ -4,9 +4,9 @@ namespace App\Generic\Api\Trait;
 
 use App\Generic\Auth\JWT;
 use App\Security\Roles;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Security as SecuritCore;
-use Doctrine\Persistence\ManagerRegistry;
 
 trait Security
 {
@@ -14,15 +14,18 @@ trait Security
     protected mixed $voterSubject = null;
     private bool $access = false;
 
-    public function setSecurity(SecuritCore $security){
+    public function setSecurity(SecuritCore $security)
+    {
         $this->security = $security;
     }
 
-    public function setManagerRegistry(ManagerRegistry $doctrine){
+    public function setManagerRegistry(ManagerRegistry $doctrine)
+    {
         $this->managerRegistry = $doctrine;
     }
 
-    public function setId(?int $id){
+    public function setId(?int $id)
+    {
         $this->id = $id;
     }
 

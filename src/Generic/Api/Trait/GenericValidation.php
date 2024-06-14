@@ -18,7 +18,7 @@ trait GenericValidation
     /**
      * @return array<mixed>
      */
-    private function deserializeDto(string $data) : Mixed
+    private function deserializeDto(string $data): mixed
     {
         return $this->serializer->deserialize($data, $this->dto, 'json');
     }

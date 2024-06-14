@@ -2,14 +2,11 @@
 
 namespace App\Generic\Api\Trait;
 
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Interfaces\DTO;
-use App\Generic\Api\Interfaces\ProcessEntity;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait GenericProcessEntity
@@ -25,7 +22,7 @@ trait GenericProcessEntity
     {
     }
 
-    private function checkData() : void
+    private function checkData(): void
     {
         if (!$this->entity) {
             throw new \Exception('Entity is not define in controller '.get_class($this).'!');
@@ -84,7 +81,7 @@ trait GenericProcessEntity
         }
     }
 
-    private function handleSingleEntity(DTO $dto, string $propertyName,ApiInterface  $entity, string $propertyTypeName, string $method): void
+    private function handleSingleEntity(DTO $dto, string $propertyName, ApiInterface $entity, string $propertyTypeName, string $method): void
     {
         $object = $this->getObject($propertyTypeName);
         if (null !== $object && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
@@ -95,7 +92,7 @@ trait GenericProcessEntity
         }
     }
 
-    private function handleNonTypedProperty(DTO $dto, string $propertyName,ApiInterface $entity): void
+    private function handleNonTypedProperty(DTO $dto, string $propertyName, ApiInterface $entity): void
     {
         $method = 'set'.ucfirst($propertyName);
         $entity->$method($dto->$propertyName);

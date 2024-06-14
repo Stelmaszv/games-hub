@@ -10,7 +10,6 @@ use App\Roles\RoleAdmin;
 use App\Roles\RolePublisherCreator;
 use App\Roles\RolePublisherEditor;
 use App\Roles\RoleSuperAdmin;
-use App\Roles\RoleUser;
 use App\Security\Atribute;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -39,16 +38,15 @@ class PublisherBaseVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        if($subject !== null){
+        if (null !== $subject) {
             return in_array($attribute, self::ATTRIBUTES) && $subject instanceof Publisher;
         }
-        
+
         return in_array($attribute, self::ATTRIBUTES);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-
         $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
         $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);

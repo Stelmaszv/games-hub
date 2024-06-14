@@ -52,7 +52,7 @@ trait EntityApiGeneric
                     $entity[$propertyName] = $el->$getterMethod();
                 }
             }
-            if($entity !== null){
+            if (null !== $entity) {
                 $values[] = $entity;
             }
         }

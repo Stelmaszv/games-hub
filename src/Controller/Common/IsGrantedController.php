@@ -26,7 +26,7 @@ class IsGrantedController extends AbstractController
         $id = null;
         $this->setSecurity($security);
         $this->setManagerRegistry($doctrine);
-        
+
         $data = json_decode($request->getContent(), true);
 
         if (!isset($data['attribute'])) {
@@ -55,7 +55,7 @@ class IsGrantedController extends AbstractController
         return $this->setSecurityView('accessGranted', $jwt);
     }
 
-    public function accessGranted() : JsonResponse
+    public function accessGranted(): JsonResponse
     {
         return new JsonResponse(['success' => $this->access, 'message' => 'Access Granted'], JsonResponse::HTTP_ACCEPTED);
     }

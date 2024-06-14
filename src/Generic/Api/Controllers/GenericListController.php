@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class GenericListController extends AbstractController
 {
@@ -116,7 +115,7 @@ class GenericListController extends AbstractController
                 $this->perPage
             );
 
-            if(method_exists($paginator, 'getPaginationData')){
+            if (method_exists($paginator, 'getPaginationData')) {
                 $paginationData = $paginator->getPaginationData();
                 $this->paginatorData = [
                     'totalCount' => $paginationData['totalCount'],
@@ -128,15 +127,13 @@ class GenericListController extends AbstractController
                     'next' => $paginationData['next'] ?? null,
                 ];
             }
-
-
         }
 
         return $data;
     }
 
     /**
-     * @return  array<int<0, max>>
+     * @return array<int<0, max>>
      */
     private function setData(mixed $query): array
     {

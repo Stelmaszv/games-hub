@@ -20,7 +20,7 @@ class JWT
     /**
      * @param array<mixed> $data
      */
-    public function encode(array $data) : string
+    public function encode(array $data): string
     {
         $currentTime = time();
         $expirationTime = $currentTime + $this->expirationTime;
@@ -54,7 +54,7 @@ class JWT
     /**
      * @return array<mixed>
      */
-    public function decode(string $token) :array
+    public function decode(string $token): array
     {
         list($header, $payload, $signature) = explode('.', $token);
         $data = json_decode(base64_decode($payload), true);

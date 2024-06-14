@@ -2,8 +2,8 @@
 
 namespace App\Generic\Components;
 
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 abstract class AbstractFixtureGeneric extends Fixture
@@ -29,7 +29,7 @@ abstract class AbstractFixtureGeneric extends Fixture
     {
         foreach ($this->data as $elements) {
             $entityObj = new $this->entity();
-            
+
             foreach ($elements as $field => $value) {
                 $setMethod = 'set'.ucfirst($field);
 
@@ -40,8 +40,8 @@ abstract class AbstractFixtureGeneric extends Fixture
 
                 $entityObj?->$setMethod($value);
             }
-            
-            if(!is_object($entityObj)){
+
+            if (!is_object($entityObj)) {
                 throw new \Exception('EntityObj is object '.get_class($this).'!');
             }
 

@@ -100,10 +100,10 @@ class GenericDetailController extends AbstractController
      */
     private function normalize(ApiInterface $object): array
     {
-        if(method_exists($this->serializer, 'normalize')){
+        if (method_exists($this->serializer, 'normalize')) {
             return $this->serializer->normalize($this->setData($object), null, []);
         }
-        
+
         return [];
     }
 

@@ -103,7 +103,7 @@ class Developer implements ApiInterface
 
     /**
      * @return array<array<string>>
-    */
+     */
     public function getEditors(): array
     {
         return $this->editors;
@@ -111,7 +111,7 @@ class Developer implements ApiInterface
 
     /**
      * @param array<string> $editors
-    */
+     */
     public function setEditors(array $editors): static
     {
         $this->editors = $this->jsonValidate($editors, EditorsMapper::class);
@@ -133,7 +133,7 @@ class Developer implements ApiInterface
 
     /**
      * @return array<string>
-    */
+     */
     public function getPublisher(): array
     {
         return $this->setApiGroupMany(new Publisher(), $this->publisher);
@@ -157,7 +157,7 @@ class Developer implements ApiInterface
 
     /**
      * @return array<string>
-    */
+     */
     public function getCreatedBy(): array
     {
         return $this->setApiGroup(new User(), 'createdBy');

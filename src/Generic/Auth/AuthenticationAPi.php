@@ -4,8 +4,6 @@ namespace App\Generic\Auth;
 
 use App\Entity\User;
 use App\Generic\Api\Identifier\Interfaces\IdentifierId;
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
-use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Interfaces\DTO;
 use App\Roles\RoleUser;
 use App\Service\Validation\PasswordChecker;
@@ -16,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Flex\Response;
 
@@ -141,6 +138,7 @@ trait AuthenticationAPi
             $this->actionJsonData = new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
+
     /**
      * @return array<mixed>
      */
@@ -153,7 +151,7 @@ trait AuthenticationAPi
         ];
     }
 
-    private function setDTO(DTO $DTO) : DTO
+    private function setDTO(DTO $DTO): DTO
     {
         $DTO->setComponentsData($this->DTOComponentsData());
 
@@ -189,7 +187,7 @@ trait AuthenticationAPi
     }
 
     #[Route(path: '/login', name: 'app_login')]
-    public function loginAction(AuthenticationUtils $authenticationUtils):never
+    public function loginAction(AuthenticationUtils $authenticationUtils): never
     {
         throw new \LogicException('Login Action');
     }

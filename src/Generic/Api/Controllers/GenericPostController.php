@@ -86,7 +86,7 @@ abstract class GenericPostController extends AbstractController
 
         $this->beforeValidation();
         $errors = $this->validateDto($dto);
-        
+
         if (!empty($errors)) {
             return $this->validationErrorResponse($errors);
         }
@@ -140,11 +140,11 @@ abstract class GenericPostController extends AbstractController
     {
         return [
             'managerRegistry' => $this->managerRegistry,
-            'request' => $this->request
+            'request' => $this->request,
         ];
     }
 
-    private function setDTO(DTO $DTO) : DTO
+    private function setDTO(DTO $DTO): DTO
     {
         $DTO->setComponentsData($this->DTOComponentsData());
 

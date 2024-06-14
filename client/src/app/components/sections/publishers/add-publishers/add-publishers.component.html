@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <form [formGroup]="publisherForm" class="container mx-auto" (ngSubmit)="onSubmit()">
+    <form [formGroup]="publisherForm" class="container mx-auto">
         <div class="col-8">
             <div formGroupName="generalInformation" *ngIf="section === 'general_information_normal'">
                 <h2>{{ translationService.translate('generalInformation') }}</h2>
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="actions" *ngIf="section === 'general_information_normal'">
-                <button type="submit" class="btn btn-primary btn-lg w-100">{{ translationService.translate('next') }}</button>
+                <button type="submit" (click)="onSubmit()" class="btn btn-primary btn-lg w-100">{{ translationService.translate('next') }}</button>
             </div>
             <div class="actions" *ngIf="section === 'descriptions_normal'">
                 <div class="row mb-3">

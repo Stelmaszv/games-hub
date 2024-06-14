@@ -40,7 +40,7 @@ abstract class AbstractDataFixture
         }
     }
 
-    public function setData() :void
+    public function setData(): void
     {
         if (empty($this->data)) {
             throw new \Exception('No data provided to setData() method.');
@@ -51,7 +51,7 @@ abstract class AbstractDataFixture
         foreach ($this->data as $elements) {
             $entityObj = new $this->entity();
 
-            if(!is_object($entityObj)){
+            if (!is_object($entityObj)) {
                 throw new \Exception('EntityObj is object '.get_class($this).'!');
             }
 
@@ -69,15 +69,13 @@ abstract class AbstractDataFixture
                     $value = $this->$onMethodSet($value, $entityObj);
                 }
 
-                
-
                 $entityObj->$setMethod($value);
             }
 
             $this->objectManager->persist($entityObj);
         }
 
-        if($entityObj == null){
+        if (null == $entityObj) {
             throw new \Exception('EntityObj is object '.get_class($this).'!');
         }
 
@@ -89,7 +87,7 @@ abstract class AbstractDataFixture
     {
     }
 
-    protected function addRelation(string $filed, ApiInterface $entityObj, ?ApiInterface $object) : void
+    protected function addRelation(string $filed, ApiInterface $entityObj, ?ApiInterface $object): void
     {
         if (null === $object) {
             throw new \Exception('Releted object not found !');

@@ -42,26 +42,26 @@ class PublisherData extends AbstractDataFixture
         ],
     ];
 
-    public function onCreatedBySet(mixed $value, object $entity) : User
+    public function onCreatedBySet(mixed $value, object $entity): User
     {
         $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $value]);
 
         return $user;
     }
 
-    public function onCreationDateSet(mixed $value, object $entity) : \DateTime
+    public function onCreationDateSet(mixed $value, object $entity): \DateTime
     {
         return new \DateTime();
     }
 
-    public function onGeneralInformationSet(mixed $value, object $entity) : GeneralInformationDTO
+    public function onGeneralInformationSet(mixed $value, object $entity): GeneralInformationDTO
     {
         $publisherScraper = new GeneralInformationScraper($value);
 
         return new GeneralInformationDTO($publisherScraper->getData());
     }
 
-    public function onDescriptionsSet(mixed $value, object $entity) : DescriptionsDTO
+    public function onDescriptionsSet(mixed $value, object $entity): DescriptionsDTO
     {
         $webScraperFactory = new WebScraperDescriptionFactory(new DescriptionsScraper());
         $webScraperFactory->setDescription($value);
@@ -72,7 +72,7 @@ class PublisherData extends AbstractDataFixture
     /**
      * @return array<EditorDTO> $descriptions
      */
-    public function onEditorsSet(mixed $value, object $entity) : array
+    public function onEditorsSet(mixed $value, object $entity): array
     {
         $editors = [];
         foreach ($value as $key => $editor) {
