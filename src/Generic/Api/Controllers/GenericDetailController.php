@@ -27,8 +27,10 @@ class GenericDetailController extends AbstractController
     protected ParameterBag $attributes;
     protected ParameterBag $query;
     protected Request $request;
-    private Security $security;
-    private int $id;
+
+    /**
+     * @var array<string>
+     */
     protected array $columns = [];
 
     public function __invoke(
@@ -46,7 +48,7 @@ class GenericDetailController extends AbstractController
         $this->request = $request;
         $this->attributes = $request->attributes;
         $this->query = $request->query;
-        $this->id = $id;
+        $this->setId($id);
         $this->initialize($managerRegistry, $serializer, $security);
 
         return $this->setSecurityView('detailAction', $jwt);
@@ -59,7 +61,7 @@ class GenericDetailController extends AbstractController
     ): void {
         $this->managerRegistry = $managerRegistry;
         $this->serializer = $serializer;
-        $this->security = $security;
+        $this->setSecurity($security);
         $this->repository = $this->managerRegistry->getRepository($this->entity);
     }
 
@@ -93,9 +95,16 @@ class GenericDetailController extends AbstractController
         return new JsonResponse($this->normalize($entity), JsonResponse::HTTP_OK);
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function normalize(ApiInterface $object): array
     {
-        return $this->serializer->normalize($this->setData($object), null, []);
+        if(method_exists($this->serializer, 'normalize')){
+            return $this->serializer->normalize($this->setData($object), null, []);
+        }
+        
+        return [];
     }
 
     private function getObject(): ?object
@@ -103,6 +112,9 @@ class GenericDetailController extends AbstractController
         return $this->onQuerySet();
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function setData(ApiInterface $entity): array
     {
         $reflection = new \ReflectionClass($entity);

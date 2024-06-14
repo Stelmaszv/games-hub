@@ -34,7 +34,6 @@ abstract class GenericPostController extends AbstractController
     protected ParameterBag $attributes;
     protected ParameterBag $query;
     protected Request $request;
-    private Security $security;
     protected ?JsonResponse $actionJsonData = null;
     protected JWT $jwt;
 
@@ -64,7 +63,7 @@ abstract class GenericPostController extends AbstractController
         $this->jwt = $jwt;
         $this->serializer = $serializer;
         $this->validator = $validator;
-        $this->security = $security;
+        $this->setSecurity($security);
         $this->managerRegistry = $managerRegistry;
         $this->request = $request;
     }
@@ -87,6 +86,7 @@ abstract class GenericPostController extends AbstractController
 
         $this->beforeValidation();
         $errors = $this->validateDto($dto);
+        
         if (!empty($errors)) {
             return $this->validationErrorResponse($errors);
         }
@@ -114,6 +114,8 @@ abstract class GenericPostController extends AbstractController
         $violations = $this->validator->validate($DTO);
 
         if (count($violations) > 0) {
+            $errors = [];
+
             foreach ($violations as $violation) {
                 $data = [];
                 $data['path'] = $violation->getPropertyPath();
@@ -131,19 +133,20 @@ abstract class GenericPostController extends AbstractController
         }
     }
 
-    private function DTOComponnetsData(): array
+    /**
+     * @return array<mixed>
+     */
+    private function DTOComponentsData(): array
     {
         return [
             'managerRegistry' => $this->managerRegistry,
-            'request' => $this->request,
-            'userId' => $this->jwt->decode($this->jwt->getJWTFromHeader())['id'],
-            'edit' => false,
+            'request' => $this->request
         ];
     }
 
-    private function setDTO(DTO $DTO)
+    private function setDTO(DTO $DTO) : DTO
     {
-        $DTO->setComponnetsData($this->DTOComponnetsData());
+        $DTO->setComponentsData($this->DTOComponentsData());
 
         return $DTO;
     }

@@ -69,8 +69,8 @@ class GenericUpdateController extends AbstractController implements GenericInter
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $JWTtokken = $this->jwt->getJWTFromHeader();
-        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokken['id']);
+        $JWTtoken = $this->jwt->getJWTFromHeader();
+        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtoken['id']);
 
         $dto = $this->deserializeDto($data);
 
