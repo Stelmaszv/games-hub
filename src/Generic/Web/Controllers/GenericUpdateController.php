@@ -1,7 +1,6 @@
 <?php
 namespace App\Generic\Web\Controllers;
 
-use App\Entity\Publisher;
 use Doctrine\ORM\EntityRepository;
 use App\Generic\Web\Trait\GenericForm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +18,7 @@ class GenericUpdateController extends AbstractController
     private EntityManagerInterface $entityManager;
     private int $id;
     protected ?string $entity = null;
-    protected object $item;
+    protected ?Object $item;
     
     /** @var EntityRepository<object> */
     protected EntityRepository $repository;

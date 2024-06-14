@@ -15,7 +15,7 @@ class GenericCreateController extends AbstractController
 
     private ManagerRegistry $doctrine;
     protected ?string $entity = null;
-    protected object $item;
+    protected ?Object $item;
 
     public function __invoke(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request): Response
     {
@@ -50,7 +50,9 @@ class GenericCreateController extends AbstractController
     private function createAction(): Response
     {
         $entity = new $this->entity();
-        $form = $this->setForm($entity);
+        if(is_object($entity)){
+            $form = $this->setForm($entity);
+        }
         $this->item = $entity;
 
         if ($this->request->isMethod('POST')) {
