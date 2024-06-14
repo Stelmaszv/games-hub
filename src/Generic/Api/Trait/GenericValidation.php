@@ -15,16 +15,25 @@ trait GenericValidation
     {
     }
 
-    private function deserializeDto(string $data)
+    /**
+     * @return array<mixed>
+     */
+    private function deserializeDto(string $data) : Mixed
     {
         return $this->serializer->deserialize($data, $this->dto, 'json');
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function validateDto(DTO $dto): array
     {
         return iterator_to_array($this->validator->validate($dto));
     }
 
+    /**
+     * @param array<mixed> $errors
+     */
     private function validationErrorResponse(array $errors): JsonResponse
     {
         $errorMessages = [];

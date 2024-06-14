@@ -16,7 +16,7 @@ class DynamicValidationController extends AbstractController
     #[Route('/api/dynamic-validation/login/{email}', name: 'validation-login', methods: ['GET'])]
     public function validationLogin(ManagerRegistry $doctrine, string $email): JsonResponse
     {
-        $user = $doctrine?->getRepository(User::class)?->findOneBy(['email' => $email]);
+        $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return new JsonResponse(['message' => 'invalidEmail'], JsonResponse::HTTP_FORBIDDEN);

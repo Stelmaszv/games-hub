@@ -17,10 +17,6 @@ use Symfony\Component\Security\Core\Security;
 class IsGrantedController extends AbstractController
 {
     use SecurityTrait;
-
-    private Security $security;
-    private ?int $id = null;
-    private ManagerRegistry $managerRegistry;
     protected mixed $voterSubject = null;
 
     #[Route('/api/isGranted', name: 'isGranted', methods: ['POST'])]
@@ -28,9 +24,9 @@ class IsGrantedController extends AbstractController
     {
         $entity = null;
         $id = null;
-        $this->security = $security;
-        $this->managerRegistry = $doctrine;
-
+        $this->setSecurity($security);
+        $this->setManagerRegistry($doctrine);
+        
         $data = json_decode($request->getContent(), true);
 
         if (!isset($data['attribute'])) {
@@ -53,13 +49,13 @@ class IsGrantedController extends AbstractController
         }
 
         if (null !== $id) {
-            $this->id = $id;
+            $this->setId($id);
         }
 
         return $this->setSecurityView('accessGranted', $jwt);
     }
 
-    public function accessGranted()
+    public function accessGranted() : JsonResponse
     {
         return new JsonResponse(['success' => $this->access, 'message' => 'Access Granted'], JsonResponse::HTTP_ACCEPTED);
     }

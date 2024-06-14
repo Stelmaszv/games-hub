@@ -23,6 +23,9 @@ class ScrapGeneralInformationController extends GenericPostController
         ];
     }
 
+    /**
+     * @return array<string>
+     */
     private function getDataFromScraper(): array
     {
         $data = json_decode($this->request->getContent(), true);

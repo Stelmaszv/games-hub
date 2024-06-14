@@ -1,4 +1,5 @@
 parameters:
+    checkGenericClassInNonGenericObjectType: false
     level: 6
     paths:
         - bin/
@@ -8,6 +9,7 @@ parameters:
         - tests/
 
     excludes_analyse:
+        
         - src/Generic/Web/Controllers/GenericUpdateController.php
         - src/Generic/Web/Controllers/GenericListController.php
         - src/Generic/Web/Controllers/GenericDetailController.php

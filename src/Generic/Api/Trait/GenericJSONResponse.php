@@ -8,6 +8,9 @@ trait GenericJSONResponse
 {
     private int|string|null $insertId = null;
 
+    /**
+     * @return array<mixed>
+     */
     protected function onSuccessResponseMessage(): array
     {
         return [];

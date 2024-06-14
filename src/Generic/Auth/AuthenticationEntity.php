@@ -9,6 +9,9 @@ trait AuthenticationEntity
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    /**
+     * @var array<mixed> $roles
+     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -42,6 +45,7 @@ trait AuthenticationEntity
 
     /**
      * @see UserInterface
+     * @return array<mixed>
      */
     public function getRoles(): array
     {
@@ -52,6 +56,9 @@ trait AuthenticationEntity
         return array_unique($roles);
     }
 
+    /**
+     * @param array<mixed> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -77,7 +84,7 @@ trait AuthenticationEntity
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials() : void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

@@ -3,7 +3,9 @@
 namespace App\Generic\Auth;
 
 use App\Entity\User;
+use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
+use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Interfaces\DTO;
 use App\Roles\RoleUser;
 use App\Service\Validation\PasswordChecker;
@@ -20,8 +22,12 @@ use Symfony\Flex\Response;
 
 trait AuthenticationAPi
 {
-    private JWT $security;
+    private JWT $jwt;
     private PasswordChecker $passwordChecker;
+    private ManagerRegistry $managerRegistry;
+    private ValidatorInterface $validator;
+    private ?JsonResponse $actionJsonData;
+    private Request $request;
 
     public function __construct(JWT $jwt, ManagerRegistry $doctrine, ValidatorInterface $validator)
     {
@@ -45,7 +51,7 @@ trait AuthenticationAPi
             return new JsonResponse(['message' => 'invalidDataLogin'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $user = $this->managerRegistry?->getRepository(User::class)?->findOneBy(['email' => $data['email']]);
+        $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
         if (!$user) {
             return new JsonResponse(['message' => 'invalidDataLogin'], JsonResponse::HTTP_UNAUTHORIZED);
@@ -88,16 +94,11 @@ trait AuthenticationAPi
 
         if (null === $this->actionJsonData) {
             $authenticationEntity = new User();
-            $identifierUid = $authenticationEntity instanceof IdentifierUid;
 
             $hashedPassword = $userPasswordHasher->hashPassword(
                 $authenticationEntity,
                 $data['password']
             );
-
-            if ($identifierUid) {
-                $authenticationEntity->setId(Uuid::v4());
-            }
 
             $authenticationEntity->setEmail($data['email']);
             $authenticationEntity->setPassword($hashedPassword);
@@ -122,6 +123,8 @@ trait AuthenticationAPi
         $violations = $this->validator->validate($DTO);
 
         if (count($violations) > 0) {
+            $errors = [];
+
             foreach ($violations as $violation) {
                 $data = [];
                 $data['path'] = $violation->getPropertyPath();
@@ -138,7 +141,9 @@ trait AuthenticationAPi
             $this->actionJsonData = new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
-
+    /**
+     * @return array<mixed>
+     */
     private function DTOComponentsData(): array
     {
         return [
@@ -148,19 +153,22 @@ trait AuthenticationAPi
         ];
     }
 
-    private function setDTO(DTO $DTO)
+    private function setDTO(DTO $DTO) : DTO
     {
         $DTO->setComponentsData($this->DTOComponentsData());
 
         return $DTO;
     }
 
-    private function isPasswordValid($user, string $password): bool
+    private function isPasswordValid(IdentifierId $user, string $password): bool
     {
         return password_verify($password, $user->getPassword());
     }
 
-    private function generateToken($user): array
+    /**
+     * @return array<mixed>
+     */
+    private function generateToken(IdentifierId $user): array
     {
         return [
             'id' => $user->getId(),
@@ -169,10 +177,10 @@ trait AuthenticationAPi
         ];
     }
 
-    #[Route(path: 'api/refresh-tokken/{id}', name: 'refresh_tokken')]
-    public function refreshTokken(int $id, ManagerRegistry $doctrine)
+    #[Route(path: 'api/refresh-token/{id}', name: 'refresh_token')]
+    public function refreshToken(int $id, ManagerRegistry $doctrine): JsonResponse
     {
-        $userEntity = $doctrine?->getRepository(User::class)?->findOneBy(['id' => $id]);
+        $userEntity = $doctrine->getRepository(User::class)->findOneBy(['id' => $id]);
         $jwt = $this->jwt->getJWTFromHeader();
 
         return new JsonResponse([
@@ -181,7 +189,7 @@ trait AuthenticationAPi
     }
 
     #[Route(path: '/login', name: 'app_login')]
-    public function loginAction(AuthenticationUtils $authenticationUtils)
+    public function loginAction(AuthenticationUtils $authenticationUtils):never
     {
         throw new \LogicException('Login Action');
     }

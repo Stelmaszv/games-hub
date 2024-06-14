@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\JsonMaper\Publisher\DescriptionsMapper;
 use App\Entity\JsonMaper\Publisher\EditorsMapper;
 use App\Entity\JsonMaper\Publisher\GeneralInformationMapper;
-use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Generic\Api\Identifier\Trait\IdentifierById;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Trait\EntityApiGeneric;
@@ -19,7 +18,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
-class Publisher implements ApiInterface, IdentifierId
+class Publisher implements ApiInterface
 {
     use EntityApiGeneric;
     use IdentifierById;

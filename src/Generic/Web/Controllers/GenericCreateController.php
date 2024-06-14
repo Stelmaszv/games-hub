@@ -15,6 +15,7 @@ class GenericCreateController extends AbstractController
 
     private ManagerRegistry $doctrine;
     protected ?string $entity = null;
+    protected ?string $form = null;
     protected ?Object $item;
 
     public function __invoke(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request): Response
@@ -50,11 +51,14 @@ class GenericCreateController extends AbstractController
     private function createAction(): Response
     {
         $entity = new $this->entity();
+        $form = null;
         if(is_object($entity)){
             $form = $this->setForm($entity);
         }
         $this->item = $entity;
-
+        if($form === null){
+            throw new \Exception('Form is not defined '.get_class($this).'!');
+        }
         if ($this->request->isMethod('POST')) {
             if ($form->isSubmitted()) {
                 $this->onSubmittedTrue();

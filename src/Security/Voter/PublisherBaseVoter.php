@@ -39,17 +39,16 @@ class PublisherBaseVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
-        $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
-        $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);
-        $isUser = \in_array($attribute, RoleUser::ROLES, true);
-
-        return in_array($attribute, self::ATTRIBUTES) && $subject instanceof Publisher
-            || ($userHasSuperRule || $isAdmin) || $isUser;
+        if($subject !== null){
+            return in_array($attribute, self::ATTRIBUTES) && $subject instanceof Publisher;
+        }
+        
+        return in_array($attribute, self::ATTRIBUTES);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
+
         $user = $this->jwtService->decode($this->jwtService->getJWTFromHeader());
         $userHasSuperRule = in_array(RoleSuperAdmin::NAME, $user['roles']);
         $isAdmin = \in_array(RoleAdmin::NAME, $user['roles'], true);

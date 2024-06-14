@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Generic\Components;
 
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
 use App\Generic\Api\Interfaces\ApiInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Uid\Uuid;
 
 abstract class AbstractDataFixture
 {
@@ -20,6 +18,10 @@ abstract class AbstractDataFixture
     protected ManagerRegistry $managerRegistry;
     protected EntityManager $entityManager;
     protected ?string $entity = null;
+
+    /**
+     * @var mixed[]
+     */
     protected array $data = [];
 
     public function __construct(
@@ -38,18 +40,19 @@ abstract class AbstractDataFixture
         }
     }
 
-    public function setData()
+    public function setData() :void
     {
         if (empty($this->data)) {
             throw new \Exception('No data provided to setData() method.');
         }
 
+        $entityObj = null;
+
         foreach ($this->data as $elements) {
             $entityObj = new $this->entity();
-            $identifierUid = $entityObj instanceof IdentifierUid;
 
-            if ($identifierUid) {
-                $entityObj->setId(Uuid::uuid4());
+            if(!is_object($entityObj)){
+                throw new \Exception('EntityObj is object '.get_class($this).'!');
             }
 
             foreach ($elements as $field => $value) {
@@ -66,11 +69,18 @@ abstract class AbstractDataFixture
                     $value = $this->$onMethodSet($value, $entityObj);
                 }
 
+                
+
                 $entityObj->$setMethod($value);
             }
 
             $this->objectManager->persist($entityObj);
         }
+
+        if($entityObj == null){
+            throw new \Exception('EntityObj is object '.get_class($this).'!');
+        }
+
         $this->initRelations($entityObj);
         $this->objectManager->flush();
     }
@@ -79,7 +89,7 @@ abstract class AbstractDataFixture
     {
     }
 
-    protected function addRelation(string $filed, ApiInterface $entityObj, ?ApiInterface $object)
+    protected function addRelation(string $filed, ApiInterface $entityObj, ?ApiInterface $object) : void
     {
         if (null === $object) {
             throw new \Exception('Releted object not found !');

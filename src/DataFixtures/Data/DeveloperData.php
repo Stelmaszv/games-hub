@@ -45,14 +45,14 @@ class DeveloperData extends AbstractDataFixture
         ],
     ];
 
-    public function onCreatedBySet(mixed $value, object $entity)
+    public function onCreatedBySet(mixed $value, object $entity) : User
     {
         $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $value]);
 
         return $user;
     }
 
-    protected function initRelations(ApiInterface $entityObj): void
+    protected function initRelations(ApiInterface $entityObj) : void
     {
         $this->addRelation('Publisher', $entityObj, $this->getPublisher('Electronic Arts'));
     }
@@ -79,14 +79,14 @@ class DeveloperData extends AbstractDataFixture
         return new \DateTime();
     }
 
-    public function onGeneralInformationSet(mixed $value, object $entity)
+    public function onGeneralInformationSet(mixed $value, object $entity) : GeneralInformationDTO
     {
         $generalInformationScraper = new GeneralInformationScraper($value);
 
         return new GeneralInformationDTO($generalInformationScraper->getData());
     }
 
-    public function onDescriptionsSet(mixed $value, object $entity)
+    public function onDescriptionsSet(mixed $value, object $entity) : DescriptionsDTO
     {
         $webScraperFactory = new WebScraperDescriptionFactory(new DescriptionsScraper());
         $webScraperFactory->setDescription($value);
@@ -94,8 +94,13 @@ class DeveloperData extends AbstractDataFixture
         return new DescriptionsDTO($webScraperFactory->getDescription());
     }
 
-    public function onEditorsSet(mixed $value, object $entity)
+    /**
+     * @return array<EditorDTO> $descriptions
+     */
+    public function onEditorsSet(mixed $value, object $entity) :array
     {
+        $editors = [];
+        
         foreach ($value as $key => $editor) {
             $editors[$key] = new EditorDTO();
             $user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $editor]);

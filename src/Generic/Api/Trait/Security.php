@@ -5,12 +5,26 @@ namespace App\Generic\Api\Trait;
 use App\Generic\Auth\JWT;
 use App\Security\Roles;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Security as SecuritCore;
+use Doctrine\Persistence\ManagerRegistry;
 
 trait Security
 {
     protected ?string $voterAttribute = null;
     protected mixed $voterSubject = null;
     private bool $access = false;
+
+    public function setSecurity(SecuritCore $security){
+        $this->security = $security;
+    }
+
+    public function setManagerRegistry(ManagerRegistry $doctrine){
+        $this->managerRegistry = $doctrine;
+    }
+
+    public function setId(?int $id){
+        $this->id = $id;
+    }
 
     private function setSecurityView(string $action, JWT $jwt): JsonResponse
     {

@@ -7,11 +7,16 @@ use Doctrine\Common\Collections\Collection;
 
 trait EntityApiGeneric
 {
+    /**
+     * @return array<mixed>
+     */
     public function setApiGroup(ApiInterface $entityObject, string $objectProperty): ?array
     {
         if ($this->$objectProperty === null) {
             return null;
         }
+
+        $values = null;
 
         $reflectionClass = new \ReflectionClass($entityObject);
         $properties = $reflectionClass->getProperties();
@@ -28,6 +33,9 @@ trait EntityApiGeneric
         return $values;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function setApiGroupMany(ApiInterface $entityObject, Collection $collection): array
     {
         $values = [];
@@ -35,6 +43,7 @@ trait EntityApiGeneric
         foreach ($collection as $el) {
             $reflectionClass = new \ReflectionClass($entityObject);
             $properties = $reflectionClass->getProperties();
+            $entity = null;
             foreach ($properties as $property) {
                 $propertyName = $property->getName();
                 $getterMethod = 'get'.ucfirst($propertyName);
@@ -43,8 +52,9 @@ trait EntityApiGeneric
                     $entity[$propertyName] = $el->$getterMethod();
                 }
             }
-
-            $values[] = $entity;
+            if($entity !== null){
+                $values[] = $entity;
+            }
         }
 
         return $values;

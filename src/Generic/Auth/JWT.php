@@ -17,6 +17,9 @@ class JWT
         $this->requestStack = $requestStack;
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function encode(array $data) : string
     {
         $currentTime = time();
@@ -30,11 +33,14 @@ class JWT
         return "$header.$payload.$signature";
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function refreshToken(string $refreshToken, array $data): ?string
     {
         $refreshTokenData = $this->decode($refreshToken);
 
-        if (null === $refreshTokenData || !isset($refreshTokenData['id'])) {
+        if (null == $refreshTokenData || !isset($refreshTokenData['id'])) {
             throw new \Exception('Invalid refresh token');
         }
 
@@ -45,6 +51,9 @@ class JWT
         return $this->encode($data);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function decode(string $token) :array
     {
         list($header, $payload, $signature) = explode('.', $token);

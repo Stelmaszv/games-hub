@@ -15,9 +15,4 @@ class ListDevelopersController extends GenericListController
     protected ?string $entity = Developer::class;
 
     protected ?string $voterAttribute = Atribute::CAN_LIST_DEVELOPERS;
-
-    protected function onQuerySet(): array
-    {
-        return $this->repository->findBy(['verified' => true]);
-    }
 }

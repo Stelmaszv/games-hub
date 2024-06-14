@@ -2,16 +2,18 @@
 
 namespace App\Generic\Components;
 
-use App\Generic\Api\Identifier\Interfaces\IdentifierUid;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Uid\Uuid;
 
 abstract class AbstractFixtureGeneric extends Fixture
 {
     protected UserPasswordHasherInterface $passwordEncoder;
     protected ?string $entity = null;
+
+    /**
+     * @var mixed[]
+     */
     protected array $data = [];
 
     public function __construct(UserPasswordHasherInterface $userPasswordHasher)
@@ -27,12 +29,7 @@ abstract class AbstractFixtureGeneric extends Fixture
     {
         foreach ($this->data as $elements) {
             $entityObj = new $this->entity();
-            $initiatorUid = $entityObj instanceof IdentifierUid;
-
-            if ($initiatorUid) {
-                $entityObj?->setId(Uuid::v4());
-            }
-
+            
             foreach ($elements as $field => $value) {
                 $setMethod = 'set'.ucfirst($field);
 
@@ -42,6 +39,10 @@ abstract class AbstractFixtureGeneric extends Fixture
                 }
 
                 $entityObj?->$setMethod($value);
+            }
+            
+            if(!is_object($entityObj)){
+                throw new \Exception('EntityObj is object '.get_class($this).'!');
             }
 
             $manager->persist($entityObj);

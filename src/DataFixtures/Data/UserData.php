@@ -53,7 +53,7 @@ class UserData extends AbstractDataFixture
         ],
     ];
 
-    public function onPasswordSet(mixed $value, object $entity)
+    public function onPasswordSet(mixed $value, object $entity) : string
     {
         return $this->passwordEncoder->hashPassword(
             $entity,

@@ -26,6 +26,9 @@ class ScrapDescriptionsController extends GenericPostController
         ];
     }
 
+    /**
+     * @param array<array<string>> $descriptions
+     */
     private function setDescription(array $descriptions): DescriptionsScraper
     {
         $publisherScraper = new DescriptionsScraper();

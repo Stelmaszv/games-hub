@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\JsonMaper\Developer\DescriptionsMapper;
 use App\Entity\JsonMaper\Developer\EditorsMapper;
 use App\Entity\JsonMaper\Developer\GeneralInformationMapper;
-use App\Generic\Api\Identifier\Interfaces\IdentifierId;
 use App\Generic\Api\Identifier\Trait\IdentifierById;
 use App\Generic\Api\Interfaces\ApiInterface;
 use App\Generic\Api\Trait\EntityApiGeneric;
@@ -19,7 +18,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DeveloperRepository::class)]
-class Developer implements ApiInterface, IdentifierId
+class Developer implements ApiInterface
 {
     use EntityApiGeneric;
     use IdentifierById;
