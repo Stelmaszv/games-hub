@@ -24,9 +24,15 @@ class Publisher implements ApiInterface
     use IdentifierById;
     use JsonMapValidator;
 
+    /**
+     * @var array<mixed>
+     */
     #[ORM\Column]
     private array $generalInformation = [];
 
+    /**
+     * @var array<string>
+     */
     #[ORM\Column]
     private array $descriptions = [];
 
@@ -36,6 +42,9 @@ class Publisher implements ApiInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
+    /**
+     * @var array<array<string>>
+     */
     #[ORM\Column]
     private array $editors = [];
 
@@ -50,6 +59,9 @@ class Publisher implements ApiInterface
         $this->developer = new ArrayCollection();
     }
 
+    /**
+     * @return array<string>
+     */
     public function getGeneralInformation(): array
     {
         return $this->generalInformation;
@@ -62,6 +74,9 @@ class Publisher implements ApiInterface
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getDescriptions(): array
     {
         return $this->descriptions;
@@ -74,6 +89,9 @@ class Publisher implements ApiInterface
         return $this;
     }
 
+    /**
+     * @return array<string>
+    */
     public function getCreatedBy(): ?array
     {
         return $this->setApiGroup(new User(), 'createdBy');
@@ -98,11 +116,17 @@ class Publisher implements ApiInterface
         return $this;
     }
 
+    /**
+     * @return array<array<string>>
+    */
     public function getEditors(): array
     {
         return $this->editors;
     }
 
+    /**
+     * @param array<string> $editors
+    */
     public function setEditors(array $editors): static
     {
         $this->editors = $this->jsonValidate($editors, EditorsMapper::class);

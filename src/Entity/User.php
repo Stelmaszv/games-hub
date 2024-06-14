@@ -50,8 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Identif
     public function removeDeveloper(Developer $developer): static
     {
         if ($this->developers->removeElement($developer)) {
-            // set the owning side to null (unless already changed)
-            if ($developer->getCreatedBy() === $this) {
+            if ($developer->getCreatedBy() == $this) {
                 $developer->setCreatedBy(null);
             }
         }
