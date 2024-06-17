@@ -14,5 +14,10 @@ class ListPublisherController extends GenericListController
 {
     protected ?string $entity = Publisher::class;
 
+    /**
+     * @var array<string>
+     */
+    protected array $columns = ['id','generalInformation'];
+
     protected ?string $voterAttribute = Atribute::CAN_LIST_PUBLISHERS;
 }

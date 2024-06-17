@@ -10,6 +10,7 @@ class RoleUser
 
     public const ROLES = [
         Atribute::CAN_SHOW_PUBLISHER,
+        Atribute::CAN_SHOW_PUBLISHER_GENERAL_INFORMATION,
         Atribute::CAN_SHOW_DEVELOPER,
         Atribute::CAN_LIST_PUBLISHERS,
         Atribute::CAN_LIST_DEVELOPERS,

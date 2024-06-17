@@ -22,9 +22,11 @@ class PublisherBaseVoter extends Voter
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_DELETE_PUBLISHER,
         Atribute::CAN_EDIT_PUBLISHER,
+        Atribute::CAN_EDIT_PUBLISHER_GENERAL_INFORMATION,
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_LIST_PUBLISHERS,
         Atribute::CAN_SHOW_PUBLISHER,
+        Atribute::CAN_SHOW_PUBLISHER_GENERAL_INFORMATION
     ];
 
     private JWT $jwtService;
@@ -60,7 +62,7 @@ class PublisherBaseVoter extends Voter
             }
         }
 
-        if ($userHasSuperRule || $isAdmin) {
+        if ($userHasSuperRule || $isAdmin || $attribute == Atribute::CAN_LIST_PUBLISHERS) {
             return true;
         }
 
@@ -68,20 +70,17 @@ class PublisherBaseVoter extends Voter
             case Atribute::CAN_DELETE_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return ($subject->isEditor($user['id']) && $userHasRule) || $isCreator;
+                return ($isEditor && $userHasRule) || $isCreator;
 
             case Atribute::CAN_ADD_PUBLISHER:
                 return $this->userHasRule($user, RolePublisherCreator::NAME);
 
-            case Atribute::CAN_EDIT_PUBLISHER:
+            case Atribute::CAN_EDIT_PUBLISHER || Atribute::CAN_EDIT_PUBLISHER_GENERAL_INFORMATION:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return ($subject->isEditor($user['id']) && $userHasRule) || $isCreator;
+                return ($isEditor && $userHasRule) || $isCreator;
 
-            case Atribute::CAN_LIST_PUBLISHERS:
-                return true;
-
-            case Atribute::CAN_SHOW_PUBLISHER:
+            case Atribute::CAN_SHOW_PUBLISHER || Atribute::CAN_SHOW_PUBLISHER_GENERAL_INFORMATION:
                 return $isVerified || $isEditor || $isCreator;
         }
 
