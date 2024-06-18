@@ -47,6 +47,10 @@ export interface Publisher{
   
     generalInformation: {
       name: string;
+      headquarter: string|null;
+      origin: string|null;
+      founded: string|null;
+      website: string|null;
     };
 }
   

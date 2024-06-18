@@ -1,1 +1,8 @@
-<h2>{{ publisher?.generalInformation?.name }}</h2>
+<div *ngIf="showPublisherGeneralInformation()">
+    <div class="row">
+        <div *ngIf="checkIfGranted('CAN_SHOW_PUBLISHER_GENERAL_INFORMATION')" class="item-card col-4">
+            <a href="fqef"><i class="fa-solid fa-pen-to-square edit"></i></a>
+            <show-publisher-general-information [publisher]="publisher" ></show-publisher-general-information>
+        </div>
+    </div>
+</div>
