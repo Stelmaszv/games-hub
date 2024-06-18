@@ -52,7 +52,7 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
       descriptions: []
     }
 
-    this.httpServiceService.putData('http://localhost/api/publisher/edit/general-information/37', postData ).subscribe({  
+    this.httpServiceService.postData('http://localhost/api/publisher/edit/general-information/37',postData  ).subscribe({  
       next: (response : any) => {
         console.log(response)
       },

@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Controller\Publisher\Edit;
 
 use App\Entity\Publisher;
@@ -9,7 +7,7 @@ use App\Validation\DTO\Publisher\PublisherDTO;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericUpdateController;
 
-#[Route('api/publisher/edit/general-information/{id}', name: 'publisher_edit_general_information', methods: ['PUT'])]
+#[Route('api/publisher/edit/general-information/{id}', name: 'publisher_edit_general_information', methods: ['POST'])]
 class EditPublisherGeneralInformationController extends GenericUpdateController
 {
     protected ?string $entity = Publisher::class;
