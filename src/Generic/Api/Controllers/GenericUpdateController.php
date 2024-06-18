@@ -113,12 +113,12 @@ class GenericUpdateController extends AbstractController implements GenericInter
             return $this->respondWithError('GenericUpdateController {id} in address', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        $entity = $this->managerRegistry->getRepository($this->entity)->find(1);
+        $entity = $this->managerRegistry->getRepository($this->entity)->find($this->id);
 
         if (!$entity) {
             return $this->respondWithError('Object not found', JsonResponse::HTTP_NOT_FOUND);
         }
         
-        return $this->managerRegistry->getRepository($this->entity)->find(1);
+        return $this->managerRegistry->getRepository($this->entity)->find($this->id);
     }
 }

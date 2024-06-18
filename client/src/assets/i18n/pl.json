@@ -30,6 +30,7 @@
     "userExist": "Ten adres email jest już zajęty!",
     "passwordsIsWeak": "To hasło jest zbyt słabe!",
 
+    "edit" : "Edycja",
     "save" : "Zapisz",
     "next" : "Dalej",
     "add" : "Dodaj",

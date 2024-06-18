@@ -1,0 +1,95 @@
+<div class="modal fade" id="editGeneralInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="form" (ngSubmit)="onSubmit()" #generalInformationForm="ngForm" id="generalInformationForm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">{{translationService.translate('edit')}} : {{ translationService.translate('generalInformation') }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+              <div class="input-group has-validation">
+                <span class="input-group-text" id="nameGroupPrepend">{{ translationService.translate('generalInformationName') }}</span>
+                <input
+                  formId = 'name' 
+                  form="registerForm" 
+                  type="text" 
+                  class="form-control" 
+                  id="name" 
+                  aria-describedby="nameGroupPrepend nameFeedback" 
+                  [(ngModel)]="name"  
+                  name="name"     
+                  required>
+                <div id="nameFeedback" formFeedback="name" class="invalid-feedback mt-3"></div>
+              </div>
+
+              <div class="input-group has-validation">
+                <span class="input-group-text" id="headquarterGroupPrepend">{{ translationService.translate('generalInformationHeadquarter') }}</span>
+                <input
+                  formId = 'headquarter' 
+                  form="registerForm" 
+                  type="text" 
+                  class="form-control" 
+                  id="headquarter" 
+                  aria-describedby="headquarterGroupPrepend headquarterFeedback" 
+                  [(ngModel)]="headquarter"  
+                  name="headquarter"     
+                  required>
+                <div id="headquarterFeedback" formFeedback="headquarter" class="invalid-feedback mt-3"></div>
+              </div>
+
+              <div class="input-group has-validation">
+                <span class="input-group-text" id="originGroupPrepend">{{ translationService.translate('generalInformationOrigin') }}</span>
+                <input
+                  formId = 'origin' 
+                  form="registerForm" 
+                  type="text" 
+                  class="form-control" 
+                  id="origin" 
+                  aria-describedby="originGroupPrepend originFeedback" 
+                  [(ngModel)]="origin"  
+                  name="origin"     
+                  required>
+                <div id="originFeedback" formFeedback="origin" class="invalid-feedback mt-3"></div>
+              </div>
+
+              <div class="input-group has-validation">
+                <span class="input-group-text" id="foundedGroupPrepend">{{ translationService.translate('generalInformationFounded') }}</span>
+                <input
+                  formId = 'founded' 
+                  form="registerForm" 
+                  type="text" 
+                  class="form-control" 
+                  id="founded" 
+                  aria-describedby="foundedGroupPrepend foundedFeedback" 
+                  [(ngModel)]="founded"  
+                  name="founded"     
+                  required>
+                <div id="foundedFeedback" formFeedback="founded" class="invalid-feedback mt-3"></div>
+              </div>
+
+              <div class="input-group has-validation">
+                <span class="input-group-text" id="websiteGroupPrepend">{{ translationService.translate('generalInformationWebsite') }}</span>
+                <input
+                  formId = 'website' 
+                  form="registerForm" 
+                  type="text" 
+                  class="form-control" 
+                  id="website" 
+                  aria-describedby="websiteGroupPrepend websiteFeedback" 
+                  [(ngModel)]="website"  
+                  name="website"     
+                  required>
+                <div id="websiteFeedback" formFeedback="website" class="invalid-feedback mt-3"></div>
+              </div>
+
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+    </form>
+    </div>
+</div>

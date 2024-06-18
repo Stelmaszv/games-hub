@@ -9,10 +9,9 @@ import { TranslationService } from 'src/app/services/common/translation/translat
 })
 export class ShowPublisherGeneralInformationComponent implements OnInit {
   @Input() publisher!: Publisher|null;
+  @Input() edit!: boolean | undefined;
 
-  constructor(public translationService: TranslationService){
-
-  }
+  constructor(public translationService: TranslationService){}
 
   public ngOnInit(): void {
     console.log(this.publisher)

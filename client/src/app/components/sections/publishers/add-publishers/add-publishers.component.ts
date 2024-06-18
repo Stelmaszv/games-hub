@@ -77,6 +77,7 @@ export class AddPublishersComponent {
         {"url":this.descriptionsScraperForm?.get('fr')?.value,"lng":"fr"},
       ],
     }
+    
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/descriptions', postData ).subscribe({  
       next: (response : PublisherDescriptionsScraperResponse) => {
         const publisherDescriptions : PublisherDescriptions = {

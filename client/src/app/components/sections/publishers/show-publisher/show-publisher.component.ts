@@ -11,7 +11,8 @@ import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.
 })
 export class ShowPublisherComponent implements OnInit {
   public publisher: Publisher | null = null;
-  public componentAttributes: { [key: string]: boolean | undefined } = {};
+  
+  private permissionAttributes: { [key: string]: boolean | undefined } = {};
 
   public constructor(private route: ActivatedRoute, private HttpServiceService : HttpServiceService, private isGrantedService : IsGrantedService) { }
 
@@ -20,11 +21,11 @@ export class ShowPublisherComponent implements OnInit {
   }
 
   public showPublisherGeneralInformation(){
-    return (this.publisher?.id && Object.keys(this.componentAttributes).length)
+    return (this.publisher?.id && Object.keys(this.permissionAttributes).length)
   }
 
-  private async checkPermission(attribute:string , id:number, componentAttribute : string){
-    this.componentAttributes[componentAttribute] = await this.isGrantedService.checkIfGuardCanActivate(attribute,'publisher', id);
+  private async checkPermission(attribute:string , id:number){
+    this.permissionAttributes[attribute] = await this.isGrantedService.checkIfGuardCanActivate(attribute,'publisher', id);
   }
 
   private async setPublisher() : Promise<void>
@@ -33,14 +34,15 @@ export class ShowPublisherComponent implements OnInit {
   }
 
   public checkIfGranted(attribute:string){
-    return this.componentAttributes[attribute];
+    return this.permissionAttributes[attribute];
   }
 
   private async getPublisher(){
     this.route.params.subscribe(params => {
       this.HttpServiceService.getData('http://localhost/api/publisher/show/'+params['id']).subscribe((publisher: Publisher ) => {
         this.publisher = publisher
-        this.checkPermission('CAN_SHOW_PUBLISHER_GENERAL_INFORMATION', publisher.id,'CAN_SHOW_PUBLISHER_GENERAL_INFORMATION')
+        this.checkPermission('CAN_SHOW_PUBLISHER_GENERAL_INFORMATION', publisher.id)
+        this.checkPermission('CAN_EDIT_PUBLISHER_GENERAL_INFORMATION', publisher.id)
       });
     });
   }

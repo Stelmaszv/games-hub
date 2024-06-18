@@ -31,4 +31,15 @@ export class HttpServiceService {
 
     return this.http.post<any>(url, data, { headers });
   }
+
+  putData(url: string, data: any): Observable<any> {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put<any>(url, data, { headers });
+  }
 }

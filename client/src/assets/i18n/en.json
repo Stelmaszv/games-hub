@@ -28,6 +28,7 @@
     "userExist": "This email address is already taken!",
     "passwordsIsWeak": "This password is too weak!",
 
+    "edit" : "Edit",
     "save" : "Save",
     "next" : "Next",
     "add" : "Add",

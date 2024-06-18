@@ -26,6 +26,7 @@ import { AddPublishersComponent } from './components/sections/publishers/add-pub
 import { UserProfileModalComponent } from './components/sections/common/navbar/user-navbar/user-profile-modal/user-profile-modal.component';
 import { MessagesModelComponent } from './components/sections/common/navbar/user-navbar/messages-model/messages-model.component';
 import { ShowPublisherGeneralInformationComponent } from './components/sections/publishers/show-publisher/show-publisher-genral-information/show-publisher-general-information.component';
+import { EditPublisherGeneralInformationComponent } from './components/sections/publishers/edit-publisher/edit-publisher-general-information/edit-publisher-general-information.component';
 
 
 
@@ -50,7 +51,8 @@ import { ShowPublisherGeneralInformationComponent } from './components/sections/
     AddPublishersButtonComponent,
     ShowPublisherComponent,
     AddPublishersComponent,
-    ShowPublisherGeneralInformationComponent
+    ShowPublisherGeneralInformationComponent,
+    EditPublisherGeneralInformationComponent
   ],
   imports: [
     BrowserModule,
