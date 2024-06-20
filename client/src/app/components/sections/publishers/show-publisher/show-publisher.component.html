@@ -1,7 +1,16 @@
+<div class="alertBox" id="alert-publisher">
+    <div class="alert" style="text-align: left;" role="alert">
+        <h4 class="alert-heading"></h4>
+        <p class="alert-body"></p>
+    </div>
+</div>
+
 <div *ngIf="showPublisherGeneralInformation()">
+
     <div class="row">
         <div *ngIf="checkIfGranted('CAN_SHOW_PUBLISHER_GENERAL_INFORMATION')" class="item-card col-4">
             <show-publisher-general-information [publisher]="publisher" [edit]="checkIfGranted('CAN_SHOW_PUBLISHER_GENERAL_INFORMATION')" ></show-publisher-general-information>
         </div>
     </div>
+
 </div>

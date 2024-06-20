@@ -41,6 +41,39 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
     descriptions: this.descriptions
   })
 
+  showAlert(id: string, className:string ,messages: string, status : string|null = null ): void {
+    var alert = document.getElementById(id);
+
+    if (alert && alert.style) {
+      alert.style.display = 'block';
+      let alertClass = alert.querySelector('.alert');
+      let alertHeading = alert.querySelector('.alert-heading');
+      let alertBody = alert.querySelector('.alert-body');
+
+      if (alertHeading && status) {
+        alertHeading.innerHTML = status
+      }
+
+      if (alertClass) {
+        alertClass.classList.add(className);
+      }
+
+      if (alertBody) {
+        alertBody.innerHTML = messages
+      }
+    }
+
+    setTimeout(() => {
+      var alert = document.getElementById(id);
+
+      if (alert && alert.style) {
+        alert.style.display = 'none'
+      }
+
+    }, 5000);
+  
+  }
+
   closeModal(id: string): void {
     var modal = document.getElementById(id);
     if (modal) {
@@ -69,12 +102,11 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
       descriptions: []
     }
 
-    
-
     this.httpServiceService.putData(`http://localhost/api/publisher/edit/general-information/${this.publisher?.id}`,postData  ).subscribe({  
       next: (response : any) => {
         if(response.success){
           this.closeModal('editGeneralInformation');
+          this.showAlert('alert-publisher','alert-success','Edycjia sie powiodła !')
         }
       },
       error: (errorList: HttpErrorResponse) => {
