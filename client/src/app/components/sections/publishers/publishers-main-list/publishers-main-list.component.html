@@ -2,7 +2,7 @@
   <div class="actions">
       <add-publishers-button></add-publishers-button>
   </div>
-
+  
   <div class="list" *ngIf="canListPublishers">
     <div class="listElements" *ngFor="let publisher of publishers">
         <div *ngIf="publisher.canShowPublisher" class="row list-element">
