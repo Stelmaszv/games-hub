@@ -21,6 +21,7 @@ class GeneralInformationDTO implements DTO
     public string $origin = '';
 
     /**
+     * @Assert\Url(message="invalidUrl")
      * @Assert\NotBlank(message="emptyField")
      */
     public ?string $website = '';

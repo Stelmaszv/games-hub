@@ -1,5 +1,5 @@
 <div class="modal fade" id="editGeneralInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
       <form class="form" (ngSubmit)="onSubmit()" #generalInformationForm="ngForm" id="generalInformationForm">
         <div class="modal-content">
           <div class="modal-header">
@@ -8,82 +8,130 @@
           </div>
           <div class="modal-body">
 
-              <div class="input-group has-validation">
-                <span class="input-group-text" id="nameGroupPrepend">{{ translationService.translate('generalInformationName') }}</span>
-                <input
-                  formId = 'name' 
-                  form="registerForm" 
-                  type="text" 
-                  class="form-control" 
-                  id="name" 
-                  aria-describedby="nameGroupPrepend nameFeedback" 
-                  [(ngModel)]="name"  
-                  name="name"     
-                  required>
-                <div id="nameFeedback" formFeedback="name" class="invalid-feedback mt-3"></div>
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-signature"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="name" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationName') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        formId = 'generalInformationname' 
+                        form="generalInformation" 
+                        type="text" 
+                        class="form-control" 
+                        id="name" 
+                        aria-describedby="nameGroupPrepend nameFeedback" 
+                        [(ngModel)]="name"  
+                        name="name"     
+                        required
+                      >
+                      <div id="generalInformationnameFeedback" formFeedback="generalInformationname" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
               </div>
 
-              <div class="input-group has-validation">
-                <span class="input-group-text" id="headquarterGroupPrepend">{{ translationService.translate('generalInformationHeadquarter') }}</span>
-                <input
-                  formId = 'headquarter' 
-                  form="registerForm" 
-                  type="text" 
-                  class="form-control" 
-                  id="headquarter" 
-                  aria-describedby="headquarterGroupPrepend headquarterFeedback" 
-                  [(ngModel)]="headquarter"  
-                  name="headquarter"     
-                  required>
-                <div id="headquarterFeedback" formFeedback="headquarter" class="invalid-feedback mt-3"></div>
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="headquarter" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationHeadquarter') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                          formId = 'generalInformationheadquarter' 
+                          form="generalInformation" 
+                          type="text" 
+                          class="form-control" 
+                          id="headquarter" 
+                          aria-describedby="headquarterGroupPrepend headquarterFeedback" 
+                          [(ngModel)]="headquarter"  
+                          name="headquarter"     
+                          required
+                      >
+                      <div id="generalInformationheadquarterFeedback" formFeedback="generalInformationheadquarter" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
               </div>
 
-              <div class="input-group has-validation">
-                <span class="input-group-text" id="originGroupPrepend">{{ translationService.translate('generalInformationOrigin') }}</span>
-                <input
-                  formId = 'origin' 
-                  form="registerForm" 
-                  type="text" 
-                  class="form-control" 
-                  id="origin" 
-                  aria-describedby="originGroupPrepend originFeedback" 
-                  [(ngModel)]="origin"  
-                  name="origin"     
-                  required>
-                <div id="originFeedback" formFeedback="origin" class="invalid-feedback mt-3"></div>
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-building-flag"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="origin" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationOrigin') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                          formId = 'generalInformationorigin' 
+                          form="generalInformation" 
+                          type="text" 
+                          class="form-control" 
+                          id="origin" 
+                          aria-describedby="originGroupPrepend originFeedback" 
+                          [(ngModel)]="origin"  
+                          name="origin"     
+                          required
+                      >
+                      <div id="generalInformationoriginFeedback" formFeedback="generalInformationorigin" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
               </div>
 
-              <div class="input-group has-validation">
-                <span class="input-group-text" id="foundedGroupPrepend">{{ translationService.translate('generalInformationFounded') }}</span>
-                <input
-                  formId = 'founded' 
-                  form="registerForm" 
-                  type="text" 
-                  class="form-control" 
-                  id="founded" 
-                  aria-describedby="foundedGroupPrepend foundedFeedback" 
-                  [(ngModel)]="founded"  
-                  name="founded"     
-                  required>
-                <div id="foundedFeedback" formFeedback="founded" class="invalid-feedback mt-3"></div>
-              </div>
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="founded" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationFounded') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        formId = 'generalInformationfounded' 
+                        form="generalInformation" 
+                        type="text" 
+                        class="form-control" 
+                        id="founded" 
+                        aria-describedby="foundedGroupPrepend foundedFeedback" 
+                        [(ngModel)]="founded"  
+                        name="founded"     
+                        required
+                      >
+                      <div id="generalInformationfoundedFeedback" formFeedback="generalInformationfounded" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>  
 
-              <div class="input-group has-validation">
-                <span class="input-group-text" id="websiteGroupPrepend">{{ translationService.translate('generalInformationWebsite') }}</span>
-                <input
-                  formId = 'website' 
-                  form="registerForm" 
-                  type="text" 
-                  class="form-control" 
-                  id="website" 
-                  aria-describedby="websiteGroupPrepend websiteFeedback" 
-                  [(ngModel)]="website"  
-                  name="website"     
-                  required>
-                <div id="websiteFeedback" formFeedback="website" class="invalid-feedback mt-3"></div>
-              </div>
-
-            
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-globe"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="website" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationWebsite') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        formId = 'generalInformationwebsite' 
+                        form="generalInformation" 
+                        type="text" 
+                        class="form-control" 
+                        id="website" 
+                        aria-describedby="websiteGroupPrepend websiteFeedback" 
+                        [(ngModel)]="website"  
+                        name="website"     
+                        required
+                      >
+                      <div id="generalInformationwebsiteFeedback" formFeedback="generalInformationwebsite" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>             
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
