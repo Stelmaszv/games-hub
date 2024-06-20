@@ -1,0 +1,62 @@
+{
+    "games": "Games",
+    "publishers" : "Publishers",
+    "developers" : "Developers",
+    "profile" : "Profile",
+    "messages" : "Messages",
+    "notifications" : "Notifications",
+    "addPublishers" :"Add Publishers",
+    "generalInformation" :"General Information",
+    "chooseLang" : "Choose language",
+    "generalInformationScraper" : "Download data for General Information",
+    "descriptionsScraper" : "Download descriptions",
+    "sessionInformation" :"Session Information",
+    "session" : "Session",
+    "login": "Login",
+    "register" :"Register",
+ 
+    "sessionExpirationIn" : "Session Expiration In",
+    "sessionExpirationLeft" : "left {{days}} days",
+    "logOut" : "Log Out",
+
+    "loginIn" : "Login",
+    "password" : "Password",
+    "repeatPassword" : "Repeat Password",
+    "invalidDataLogin" : "Invalid Data Login",
+    "invalidLoginOrPassword" : "Invalid Login Or Password",
+    "forgotPassword": "Forget Password ?",
+    "userExist": "This email address is already taken!",
+    "passwordsIsWeak": "This password is too weak!",
+
+    "edit" : "Edit",
+    "save" : "Save",
+    "next" : "Next",
+    "add" : "Add",
+    "scrap" : "Scrap",
+    "resetFields" : "Reset fields",
+
+    "emptyField": "This field cannot be empty!",
+    "fieldLength": "This field is too short. Required length is {{length}} characters!",
+    "invalidEmail": "Invalid email address!",
+    "passwordsNotMatch": "Passwords do not match!",
+    "invalidUrl" :"This is not url",
+    "invalidScraperUrl": "This Host is not allowed.",
+
+    "generalInformationName": "Name",
+    "generalInformationOrigin": "Origin",
+    "generalInformationFounded": "Founded",
+    "generalInformationWebsite": "Website",
+    "generalInformationHeadquarter": "Headquarter",
+    "generalInformationDescriptions" :"Descriptions",
+
+    "month" : [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ],
+
+    "languages" : [
+        {"en":"English"},
+        {"pl":"Polish"},
+        {"fr":"French"}
+    ]
+}

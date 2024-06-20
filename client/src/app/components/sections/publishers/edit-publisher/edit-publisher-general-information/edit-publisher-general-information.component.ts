@@ -39,7 +39,6 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
   })
 
   onSubmit(): void {
-    console.log(this.name)
 
     let postData = {
       'generalInformation' :{
@@ -52,8 +51,9 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
       descriptions: []
     }
 
-    this.httpServiceService.postData('http://localhost/api/publisher/edit/general-information/37',postData  ).subscribe({  
+    this.httpServiceService.putData('http://localhost/api/publisher/edit/general-information/37',postData  ).subscribe({  
       next: (response : any) => {
+        console.log('edit put')
         console.log(response)
       },
       error: (errorList: HttpErrorResponse) => {

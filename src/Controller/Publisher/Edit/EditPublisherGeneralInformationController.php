@@ -7,7 +7,7 @@ use App\Validation\DTO\Publisher\PublisherDTO;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericUpdateController;
 
-#[Route('api/publisher/edit/general-information/{id}', name: 'publisher_edit_general_information', methods: ['POST'])]
+#[Route('api/publisher/edit/general-information/{id}', name: 'publisher_edit_general_information', methods: ['PUT'])]
 class EditPublisherGeneralInformationController extends GenericUpdateController
 {
     protected ?string $entity = Publisher::class;
