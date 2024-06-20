@@ -10,6 +10,7 @@ use App\Service\Validation\PasswordChecker;
 use App\Validation\DTO\User\UserDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -187,8 +188,8 @@ trait AuthenticationAPi
     }
 
     #[Route(path: '/login', name: 'app_login')]
-    public function loginAction(AuthenticationUtils $authenticationUtils): never
+    public function loginAction(AuthenticationUtils $authenticationUtils): RedirectResponse
     {
-        throw new \LogicException('Login Action');
+        return $this->redirectToRoute('home');
     }
 }

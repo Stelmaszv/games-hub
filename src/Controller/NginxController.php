@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class NginxController extends AbstractController
 {
     private function getView() : Response
     {
@@ -70,5 +70,4 @@ class HomeController extends AbstractController
     {
         return $this->getView();
     }
-
 }
