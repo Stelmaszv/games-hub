@@ -1,7 +1,7 @@
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
-import { Component, Input, Output, EventEmitter, OnInit, ElementRef,ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Publisher } from '../../interfaces';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
@@ -16,32 +16,29 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
   constructor(public translationService: TranslationService,private fb: FormBuilder, private httpServiceService: HttpServiceService,private formValidatorService: FormValidatorService){}
   
   @Input() publisher!: Publisher|null;
-  name: string | undefined =''
-  headquarter: string | null | undefined = ''
-  origin: string | null | undefined = ''
-  founded: string | null | undefined = ''
-  website: string | null | undefined = ''
+  @Output() publisherChange = new EventEmitter<Publisher>();
+  private id: number = 0;
+  name: string = ''
+  headquarter: string | null  = null
+  origin: string | null  = null
+  founded: string | null  = null
+  website: string | null  = null
 
-  public generalInformation: FormGroup = this.fb.group({
-    name: null,
-    origin: null,
-    founded: null,
-    website: null,
-    headquarter: null
-  });
 
-  public descriptions: FormGroup = this.fb.group({
-    eng: null,
-    pl: null,
-    fr: null,
-  });
-
-  public editGeneralInformationForm : FormGroup = this.fb.group({
-    generalInformation: this.generalInformation,
-    descriptions: this.descriptions
-  })
+  private updatePublisher(newPublisher: Publisher): void {
+    this.publisher = newPublisher;
+    this.publisherChange.emit(this.publisher);
+  }
+  
+  private changePublisherData(): void {
+    if(this.publisher !== null){
+      const updatedPublisher: Publisher = this.publisher;
+      this.updatePublisher(updatedPublisher);
+    }
+  }
 
   showAlert(id: string, className:string ,messages: string, status : string|null = null ): void {
+
     var alert = document.getElementById(id);
 
     if (alert && alert.style) {
@@ -109,7 +106,8 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
 
   onSubmit(): void {
 
-    let postData = {
+    let postData : Publisher = {
+      'id' : this.id,
       'generalInformation' :{
         'name':this.name,
         'headquarter':this.headquarter,
@@ -124,7 +122,8 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
       next: (response : any) => {
         if(response.success){
           this.closeModal('editGeneralInformation');
-          this.showAlert('alert-publisher','alert-success','Edycjia sie powiodła !')
+          this.showAlert('alert-publisher','alert-success',this.translationService.translate('editPublisherGeneralInformationSuccess'))
+          this.updatePublisher(postData)
         }
       },
       error: (errorList: HttpErrorResponse) => {
@@ -134,10 +133,11 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.name = this.publisher?.generalInformation.name
-    this.headquarter = this.publisher?.generalInformation.headquarter
-    this.origin = this.publisher?.generalInformation.origin
-    this.founded = this.publisher?.generalInformation.founded
-    this.website = this.publisher?.generalInformation.website
+    this.id = (this.publisher?.id) ? this.publisher?.id : 0
+    this.name = (this.publisher?.generalInformation.name) ? this.publisher?.generalInformation.name : ''
+    this.headquarter = (this.publisher?.generalInformation.headquarter) ? this.publisher?.generalInformation.headquarter : null
+    this.origin = (this.publisher?.generalInformation.origin) ? this.publisher?.generalInformation.origin : null
+    this.founded =  (this.publisher?.generalInformation.founded) ? this.publisher?.generalInformation.founded : null
+    this.website = (this.publisher?.generalInformation.website) ? this.publisher?.generalInformation.website : null 
   }
 }

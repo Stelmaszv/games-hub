@@ -16,4 +16,9 @@ export class ShowPublisherGeneralInformationComponent implements OnInit {
   public ngOnInit(): void {
     console.log(this.publisher)
   }
+
+  onPublisherChange(updatedPublisher: Publisher): void {
+    console.log(updatedPublisher)
+    this.publisher = updatedPublisher;
+  }
 }

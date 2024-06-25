@@ -1,6 +1,6 @@
 {
     "watch": ["src"],
-    "ext": "ts,html,scss",
+    "ext": "ts,html,scss,json",
     "ignore": ["dist/*", "node_modules/*"],
     "exec": "ng build --output-path=../public/build'"
   }

@@ -41,4 +41,4 @@
 
 </div>
 
-<edit-publisher-general-information [publisher]="publisher" *ngIf="edit"></edit-publisher-general-information>
+<edit-publisher-general-information (publisherChange)="onPublisherChange($event)" [publisher]="publisher" *ngIf="edit"></edit-publisher-general-information>

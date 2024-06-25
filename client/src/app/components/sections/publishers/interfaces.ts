@@ -52,6 +52,8 @@ export interface Publisher{
       founded: string|null;
       website: string|null;
     };
+
+    descriptions: []
 }
   
 export interface PublisherPermissions{

@@ -56,6 +56,8 @@
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
     ],
 
+    "editPublisherGeneralInformationSuccess": "Edycja Wydawcy: Informacje ogólne zakończone sukcesem!",
+
     "languages" : [
         {"en":"Angielski"},
         {"pl":"Polski"},

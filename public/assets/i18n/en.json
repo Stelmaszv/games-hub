@@ -54,6 +54,8 @@
         "July", "August", "September", "October", "November", "December"
     ],
 
+    "editPublisherGeneralInformationSuccess": "Editing Publisher: General Information successfully completed!",
+
     "languages" : [
         {"en":"English"},
         {"pl":"Polish"},
