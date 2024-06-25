@@ -1,6 +1,6 @@
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Publisher } from '../../interfaces';
+import { GeneralInformationResponse, GeneralInformationScraper, Publisher, PublisherGeneralInformation } from '../../interfaces';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
@@ -18,11 +18,12 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
   @Input() publisher!: Publisher|null;
   @Output() publisherChange = new EventEmitter<Publisher>();
   private id: number = 0;
-  name: string = ''
-  headquarter: string | null  = null
-  origin: string | null  = null
-  founded: string | null  = null
-  website: string | null  = null
+  public scraper: string = '';
+  public name: string  = ''
+  public headquarter: string | null  = null
+  public origin: string | null  = null
+  public founded: string | null  = null
+  public website: string | null  = null
 
   private updatePublisher(newPublisher: Publisher): void {
     this.publisher = newPublisher;
@@ -64,12 +65,36 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
     });
   }
 
+  public getDataFromScraper() :void {
+    let postData : GeneralInformationScraper = {    
+      url: this.scraper
+    }
+
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/general-information',postData).subscribe({  
+      next: (response : GeneralInformationResponse ) => {
+        const data = response['generalInformation']
+        this.generalInformationSetValue(data);
+      },
+      error: (errorList: HttpErrorResponse) => {
+        this.formValidatorService.processErrors(errorList.error.errors,postData,'generalInformation')
+      }
+    });
+  }
+
+  public updateGeneralInformation(data: PublisherGeneralInformation | null): void {
+    this.id = this.publisher?.id || 0;
+    this.name = data?.name || '';
+    this.headquarter = data?.headquarter || null;
+    this.origin = data?.origin || null;
+    this.founded = data?.founded || null;
+    this.website = data?.website || null;
+  }
+  
   public ngOnInit(): void {
-    this.id = (this.publisher?.id) ? this.publisher?.id : 0
-    this.name = (this.publisher?.generalInformation.name) ? this.publisher?.generalInformation.name : ''
-    this.headquarter = (this.publisher?.generalInformation.headquarter) ? this.publisher?.generalInformation.headquarter : null
-    this.origin = (this.publisher?.generalInformation.origin) ? this.publisher?.generalInformation.origin : null
-    this.founded =  (this.publisher?.generalInformation.founded) ? this.publisher?.generalInformation.founded : null
-    this.website = (this.publisher?.generalInformation.website) ? this.publisher?.generalInformation.website : null 
+    this.updateGeneralInformation(this.publisher?.generalInformation || null);
+  }
+  
+  public generalInformationSetValue(data: PublisherGeneralInformation): void {
+    this.updateGeneralInformation(data);
   }
 }

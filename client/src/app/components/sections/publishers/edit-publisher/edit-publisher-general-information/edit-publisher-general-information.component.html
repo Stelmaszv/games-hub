@@ -6,7 +6,35 @@
             <h1 class="modal-title fs-5" id="exampleModalLabel">{{translationService.translate('edit')}} : {{ translationService.translate('generalInformation') }}</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
           <div class="modal-body">
+              <div class="row mb-3">
+                <div class="row">
+                    <div class="col-4">
+                      <label for="name" class="col-sm-2 col-form-label">Scraper</label>
+                    </div>
+                    <div class="col-7">
+                      <div class="row">
+                        <div class="col-10">
+                          <input
+                            formId = 'url' 
+                            form="generalInformation" 
+                            type="text" 
+                            class="form-control" 
+                            id="scraper" 
+                            [(ngModel)]="scraper"  
+                            name="scraper"     
+                            required
+                          >
+                        </div>
+                        <div class="col-2">
+                          <button type="button" (click)="getDataFromScraper()" class="btn btn-primary"><i class="fa-solid fa-arrow-down"></i></button>
+                        </div>
+                      </div>
+                      <div id="generalInformationscraperFeedback" formFeedback="generalInformationscraper" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>
 
               <div class="row mb-3">
                 <div class="row">
