@@ -11,11 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class GeneralInformationScraperDTO implements DTO
 {
     /**
-     * @Assert\NotBlank(message="emptyField")
-     *
-     * @Assert\Url(message="invalidUrl")
-     *
-     * @CustomAssert\PublisherUrl
+     * @CustomAssert\ScraperPublisherUrl
      */
     public ?string $url = null;
 

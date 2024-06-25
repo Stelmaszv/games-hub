@@ -17,6 +17,7 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
   
   @Input() publisher!: Publisher|null;
   @Output() publisherChange = new EventEmitter<Publisher>();
+  
   private id: number = 0;
   public scraper: string = '';
   public name: string  = ''
