@@ -9,14 +9,17 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class UrlValidator extends ConstraintValidator {
     public function validate(mixed $value, Constraint $constraint): void {
-      if (null !== $value) {
-        // Check for valid URL with or without "www"
-        $pattern = '/^(?:http(s)?:\/\/)?(?:www\.)?([^\s]+\.[^\s]+)$/i';
-        if (!preg_match($pattern, $value)) {
-          $this->context->buildViolation('Invalid URL format')
-            ->atPath('website')
-            ->addViolation();
-        }
+
+      if($value === null || empty($value)){
+        return;
       }
+
+      $pattern = '/^(?:http(s)?:\/\/)?(?:www\.)?([^\s]+\.[^\s]+)$/i';
+      if (!preg_match($pattern, $value)) {
+        $this->context->buildViolation(Url::message)
+          ->atPath('website')
+          ->addViolation();
+      }
+      
     }
   }

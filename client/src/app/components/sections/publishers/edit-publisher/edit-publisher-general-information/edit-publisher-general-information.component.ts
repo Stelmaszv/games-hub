@@ -55,6 +55,7 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
     this.httpServiceService.putData(`http://localhost/api/publisher/edit/general-information/${this.publisher?.id}`,postData  ).subscribe({  
       next: (response : any) => {
         if(response.success){
+          this.formValidatorService.restNotUseInputs({})
           this.bootstrapService.closeModal('editGeneralInformation');
           this.bootstrapService.showAlert('alert-publisher','alert-success',this.translationService.translate('editPublisherGeneralInformationSuccess'))
           this.updatePublisher(postData)
