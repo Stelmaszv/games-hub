@@ -75,17 +75,35 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
   }
 
   closeModal(id: string): void {
-    var modal = document.getElementById(id);
+    const modal = document.getElementById(id);
     if (modal) {
       modal.classList.remove('show');
       modal.classList.add('fade');
+      modal.style.display = 'none';
       modal.setAttribute('aria-hidden', 'true');
+
       document.body.classList.remove('modal-open');
-  
-      var backdrop = document.getElementsByClassName('modal-backdrop')[0];
+      
+      const backdrop = document.getElementsByClassName('modal-backdrop')[0];
       if (backdrop) {
-        backdrop?.parentNode?.removeChild(backdrop);
+        backdrop.parentNode?.removeChild(backdrop);
       }
+    }
+  }
+
+  openModal(id: string): void {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.style.display = 'block';
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('show');
+      modal.classList.remove('fade');
+
+      document.body.classList.add('modal-open');
+      
+      const backdrop = document.createElement('div');
+      backdrop.className = 'modal-backdrop show';
+      document.body.appendChild(backdrop);
     }
   }
 
