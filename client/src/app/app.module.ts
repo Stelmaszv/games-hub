@@ -28,6 +28,7 @@ import { MessagesModelComponent } from './components/sections/common/navbar/user
 import { ShowPublisherGeneralInformationComponent } from './components/sections/publishers/show-publisher/show-publisher-genral-information/show-publisher-general-information.component';
 import { EditPublisherGeneralInformationComponent } from './components/sections/publishers/edit-publisher/edit-publisher-general-information/edit-publisher-general-information.component';
 import { ShowDescriptionComponent } from './components/sections/publishers/show-publisher/show-description/show-description.component';
+import { EditPublisherDescriptionsComponent } from './components/sections/publishers/edit-publisher/edit-publisher-descriptions/edit-publisher-descriptions.component';
 
 
 
@@ -54,7 +55,8 @@ import { ShowDescriptionComponent } from './components/sections/publishers/show-
     AddPublishersComponent,
     ShowPublisherGeneralInformationComponent,
     EditPublisherGeneralInformationComponent,
-    ShowDescriptionComponent
+    ShowDescriptionComponent,
+    EditPublisherDescriptionsComponent
   ],
   imports: [
     BrowserModule,

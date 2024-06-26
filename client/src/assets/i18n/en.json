@@ -49,7 +49,7 @@
     "generalInformationHeadquarter": "Headquarter",
     "generalInformationDescriptions" :"Descriptions",
 
-    "publisherDescription" :"Description",
+    "description" :"Description",
 
     "month" : [
         "January", "February", "March", "April", "May", "June",

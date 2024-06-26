@@ -23,4 +23,8 @@ export class ShowDescriptionComponent implements OnInit {
     private getDescription(key: string|null): void {
       this.description = this.publisher?.descriptions[key as Languages.ENG | Languages.FR | Languages.PL];
     }
+
+    public onPublisherChange(updatedPublisher: Publisher): void {
+      this.publisher = updatedPublisher;
+    }
 }
