@@ -3,22 +3,22 @@
 namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
-use App\Generic\Auth\JWT;
-use App\Generic\Api\Interfaces\DTO;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;
-use App\Generic\Api\Trait\GenericValidation;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
+use App\Generic\Api\Interfaces\DTO;
+use App\Generic\Api\Interfaces\GenericInterface;
 use App\Generic\Api\Trait\GenericJSONResponse;
 use App\Generic\Api\Trait\GenericProcessEntity;
-use App\Generic\Api\Interfaces\GenericInterface;
+use App\Generic\Api\Trait\GenericValidation;
+use App\Generic\Api\Trait\Security as SecurityTrait;
+use App\Generic\Auth\JWT;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use App\Generic\Api\Trait\Security as SecurityTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GenericUpdateController extends AbstractController implements GenericInterface
 {
@@ -80,7 +80,7 @@ class GenericUpdateController extends AbstractController implements GenericInter
 
         $dto = new $this->dto(json_decode($data, true));
 
-        if(!$dto instanceof DTO){
+        if (!$dto instanceof DTO) {
             return $this->respondWithError('this is not instanceof DTO', JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -118,7 +118,7 @@ class GenericUpdateController extends AbstractController implements GenericInter
         if (!$entity) {
             return $this->respondWithError('Object not found', JsonResponse::HTTP_NOT_FOUND);
         }
-        
+
         return $this->managerRegistry->getRepository($this->entity)->find($this->id);
     }
 }

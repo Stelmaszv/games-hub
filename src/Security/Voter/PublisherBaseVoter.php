@@ -24,7 +24,7 @@ class PublisherBaseVoter extends Voter
         Atribute::CAN_EDIT_PUBLISHER,
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_LIST_PUBLISHERS,
-        Atribute::CAN_SHOW_PUBLISHER
+        Atribute::CAN_SHOW_PUBLISHER,
     ];
 
     private JWT $jwtService;
@@ -60,7 +60,7 @@ class PublisherBaseVoter extends Voter
             }
         }
 
-        if ($userHasSuperRule || $isAdmin || $attribute == Atribute::CAN_LIST_PUBLISHERS) {
+        if ($userHasSuperRule || $isAdmin || Atribute::CAN_LIST_PUBLISHERS == $attribute) {
             return true;
         }
 

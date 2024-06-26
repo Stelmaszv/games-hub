@@ -17,7 +17,7 @@ class ListPublisherController extends GenericListController
     /**
      * @var array<string>
      */
-    protected array $columns = ['id','generalInformation'];
+    protected array $columns = ['id', 'generalInformation'];
 
     protected ?string $voterAttribute = Atribute::CAN_LIST_PUBLISHERS;
 }

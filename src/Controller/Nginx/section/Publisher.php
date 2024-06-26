@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Controller\Nginx\section;
 
 use Symfony\Component\HttpFoundation\Response;
 
 trait Publisher
 {
-	/**
+    /**
      * @Route("/publishers/list", name="publishers-list")
      */
     public function publishersList(): Response
