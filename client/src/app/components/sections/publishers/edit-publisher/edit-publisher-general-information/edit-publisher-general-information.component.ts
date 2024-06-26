@@ -52,7 +52,7 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
       descriptions: []
     }
 
-    this.httpServiceService.putData(`http://localhost/api/publisher/edit/general-information/${this.publisher?.id}`,postData  ).subscribe({  
+    this.httpServiceService.putData(`http://localhost/api/publisher/edit/${this.publisher?.id}`,postData  ).subscribe({  
       next: (response : any) => {
         if(response.success){
           this.formValidatorService.restNotUseInputs({})

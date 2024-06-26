@@ -12,7 +12,6 @@ class RolePublisherEditor
 
     public const ROLES = [
         Atribute::CAN_EDIT_PUBLISHER,
-        Atribute::CAN_EDIT_PUBLISHER_GENERAL_INFORMATION,
         Atribute::CAN_DELETE_PUBLISHER,
         Atribute::CAN_ADD_DEVELOPER,
         Atribute::CAN_EDIT_DEVELOPER.

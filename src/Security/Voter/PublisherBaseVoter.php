@@ -22,11 +22,9 @@ class PublisherBaseVoter extends Voter
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_DELETE_PUBLISHER,
         Atribute::CAN_EDIT_PUBLISHER,
-        Atribute::CAN_EDIT_PUBLISHER_GENERAL_INFORMATION,
         Atribute::CAN_ADD_PUBLISHER,
         Atribute::CAN_LIST_PUBLISHERS,
-        Atribute::CAN_SHOW_PUBLISHER,
-        Atribute::CAN_SHOW_PUBLISHER_GENERAL_INFORMATION
+        Atribute::CAN_SHOW_PUBLISHER
     ];
 
     private JWT $jwtService;
@@ -75,12 +73,12 @@ class PublisherBaseVoter extends Voter
             case Atribute::CAN_ADD_PUBLISHER:
                 return $this->userHasRule($user, RolePublisherCreator::NAME);
 
-            case Atribute::CAN_EDIT_PUBLISHER || Atribute::CAN_EDIT_PUBLISHER_GENERAL_INFORMATION:
+            case Atribute::CAN_EDIT_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
                 return ($isEditor && $userHasRule) || $isCreator;
 
-            case Atribute::CAN_SHOW_PUBLISHER || Atribute::CAN_SHOW_PUBLISHER_GENERAL_INFORMATION:
+            case Atribute::CAN_SHOW_PUBLISHER:
                 return $isVerified || $isEditor || $isCreator;
         }
 

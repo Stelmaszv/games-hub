@@ -3,7 +3,7 @@
 
 namespace App\Controller\Nginx\section;
 
-use GuzzleHttp\Psr7\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 trait Publisher
 {

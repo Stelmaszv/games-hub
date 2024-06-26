@@ -41,8 +41,8 @@ export class ShowPublisherComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.HttpServiceService.getData('http://localhost/api/publisher/show/'+params['id']).subscribe((publisher: Publisher ) => {
         this.publisher = publisher
-        this.checkPermission('CAN_SHOW_PUBLISHER_GENERAL_INFORMATION', publisher.id)
-        this.checkPermission('CAN_EDIT_PUBLISHER_GENERAL_INFORMATION', publisher.id)
+        this.checkPermission('CAN_SHOW_PUBLISHER', publisher.id)
+        this.checkPermission('CAN_EDIT_PUBLISHER', publisher.id)
       });
     });
   }
