@@ -48,7 +48,7 @@ export class TranslationService {
     localStorage.setItem('lang',lang)
   }
 
-  public getLang(){
+  public getLang() : string|null{
     return this.lang
   }
 

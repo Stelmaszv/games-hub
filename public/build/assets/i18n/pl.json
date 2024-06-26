@@ -51,6 +51,8 @@
     "generalInformationHeadquarter": "Siedziba",
     "generalInformationDescriptions" :"Opisy",
 
+    "publisherDescription" :"Opis",
+
     "month" : [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"

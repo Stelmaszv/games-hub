@@ -48,7 +48,11 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
         'founded':this.founded,
         'website': this.website
       },
-      descriptions: []
+      descriptions: {
+        'fr':(this.publisher?.descriptions.fr)? this.publisher?.descriptions.fr: '',
+        'pl':(this.publisher?.descriptions.pl)? this.publisher?.descriptions.pl: '',
+        'eng':(this.publisher?.descriptions.eng)? this.publisher?.descriptions.eng: '',
+      }
     }
 
     this.httpServiceService.putData(`http://localhost/api/publisher/edit/${this.publisher?.id}`,postData  ).subscribe({  

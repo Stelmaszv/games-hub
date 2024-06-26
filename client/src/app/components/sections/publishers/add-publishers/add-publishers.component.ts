@@ -7,6 +7,7 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
 import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse, PublisherGeneralInformation} from '../interfaces';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { Response } from 'src/app/components/interface';
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
 @Component({
   selector: 'app-add-publishers',
@@ -114,7 +115,7 @@ export class AddPublishersComponent {
   }
 
   public onSubmit() : void 
-  { 
+  {     
     const generalInformation : PublisherGeneralInformation = {
       name: this.generalInformation?.get('name')?.value,
       origin: this.generalInformation?.get('origin')?.value,
