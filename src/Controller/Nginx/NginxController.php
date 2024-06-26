@@ -1,12 +1,14 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Nginx;
 
+use App\Controller\Nginx\section\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class NginxController extends AbstractController
 {
+    use Publisher;
     private function getView() : Response
     {
         $directoryName = './build'; 
@@ -43,30 +45,6 @@ class NginxController extends AbstractController
      * @Route("", name="home")
      */
     public function home(): Response
-    {
-        return $this->getView();
-    }
-
-    /**
-     * @Route("/publishers/list", name="publishers-list")
-     */
-    public function publishersList(): Response
-    {
-        return $this->getView();
-    }
-
-    /**
-     * @Route("/publishers/add", name="publishers-add")
-     */
-    public function publishersAdd(): Response
-    {
-        return $this->getView();
-    }
-
-    /**
-     * @Route("/publisher/show/{id}", name="publishers-show")
-     */
-    public function publishersShow(): Response
     {
         return $this->getView();
     }
