@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Validation\DTO\Publisher;
 
 use App\Generic\Api\Interfaces\DTO;
+use App\Validation\Validator\Cuman as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class GeneralInformationDTO implements DTO
@@ -21,7 +22,7 @@ class GeneralInformationDTO implements DTO
     public string $origin = '';
 
     /**
-     * @Assert\NotBlank(message="emptyField")
+     * @CustomAssert\Url
      */
     public ?string $website = '';
 

@@ -7,28 +7,22 @@ namespace App\Validation\Validator\Publisher;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class PublisherUrlValidator extends ConstraintValidator
+class ScraperPublisherUrlValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (empty($value)) {
-            $this->context->buildViolation('URL cannot be empty.')
-                ->addViolation();
-
-            return;
-        }
-
         $urlParts = parse_url($value);
 
         if (!isset($urlParts['host'])) {
-            $this->context->buildViolation('Invalid URL format.')
+            $this->context
+                ->buildViolation('invalidUrl')
                 ->addViolation();
 
             return;
         }
 
         if (!in_array($urlParts['host'], PublisherHosts::HOST)) {
-            $this->context->buildViolation(PublisherUrl::message)
+            $this->context->buildViolation(ScraperPublisherUrl::message)
                 ->setParameter('{{ host }}', $urlParts['host'])
                 ->addViolation();
         }

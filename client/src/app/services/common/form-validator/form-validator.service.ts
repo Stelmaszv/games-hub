@@ -59,7 +59,7 @@ export class FormValidatorService {
     });
   }
 
-  private restNotUseInputs(errorList: { [key: string]: string[] }): void {
+  public restNotUseInputs(errorList: { [key: string]: string[] }): void {
     const invalidIds = Object.keys(errorList);
 
     this.formControls?.forEach(element => {

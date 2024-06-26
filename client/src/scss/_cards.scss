@@ -1,0 +1,18 @@
+.item-card{
+    margin-top: 10px;
+    padding: 5px;
+    position: relative;
+    .edit{
+        z-index: 99;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+}
+
+.card-body{
+    margin-top: 10px;
+    .name{
+        text-align:left;
+    }
+}

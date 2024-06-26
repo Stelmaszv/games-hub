@@ -60,7 +60,7 @@ class PublisherBaseVoter extends Voter
             }
         }
 
-        if ($userHasSuperRule || $isAdmin) {
+        if ($userHasSuperRule || $isAdmin || Atribute::CAN_LIST_PUBLISHERS == $attribute) {
             return true;
         }
 
@@ -68,7 +68,7 @@ class PublisherBaseVoter extends Voter
             case Atribute::CAN_DELETE_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return ($subject->isEditor($user['id']) && $userHasRule) || $isCreator;
+                return ($isEditor && $userHasRule) || $isCreator;
 
             case Atribute::CAN_ADD_PUBLISHER:
                 return $this->userHasRule($user, RolePublisherCreator::NAME);
@@ -76,10 +76,7 @@ class PublisherBaseVoter extends Voter
             case Atribute::CAN_EDIT_PUBLISHER:
                 $userHasRule = $this->userHasRule($user, RolePublisherEditor::NAME);
 
-                return ($subject->isEditor($user['id']) && $userHasRule) || $isCreator;
-
-            case Atribute::CAN_LIST_PUBLISHERS:
-                return true;
+                return ($isEditor && $userHasRule) || $isCreator;
 
             case Atribute::CAN_SHOW_PUBLISHER:
                 return $isVerified || $isEditor || $isCreator;

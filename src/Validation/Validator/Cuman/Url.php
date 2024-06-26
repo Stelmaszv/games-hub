@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class Url extends Constraint
 {
-    public const message = 'Host {{ host }} is not allowed.';
+    public const message = 'invalidUrl';
 }

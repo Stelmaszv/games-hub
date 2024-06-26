@@ -11,13 +11,15 @@ class UrlValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (null !== $value && !filter_var($value, FILTER_VALIDATE_URL)) {
-            $url = 'http://'.$value;
-            if (!filter_var($url, FILTER_VALIDATE_URL)) {
-                $this->context->buildViolation('Invalid URL format')
-                    ->atPath('website')
-                    ->addViolation();
-            }
+        if (null === $value || empty($value)) {
+            return;
+        }
+
+        $pattern = '/^(?:http(s)?:\/\/)?(?:www\.)?([^\s]+\.[^\s]+)$/i';
+        if (!preg_match($pattern, $value)) {
+            $this->context->buildViolation(Url::message)
+              ->atPath('website')
+              ->addViolation();
         }
     }
 }

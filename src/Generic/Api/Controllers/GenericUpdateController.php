@@ -4,6 +4,7 @@ namespace App\Generic\Api\Controllers;
 
 use App\Entity\User;
 use App\Generic\Api\Interfaces\ApiInterface;
+use App\Generic\Api\Interfaces\DTO;
 use App\Generic\Api\Interfaces\GenericInterface;
 use App\Generic\Api\Trait\GenericJSONResponse;
 use App\Generic\Api\Trait\GenericProcessEntity;
@@ -27,6 +28,7 @@ class GenericUpdateController extends AbstractController implements GenericInter
     use SecurityTrait;
     private Security $security;
     private JWT $jwt;
+    private int $id;
     protected ParameterBag $attributes;
     protected ParameterBag $query;
 
@@ -37,12 +39,14 @@ class GenericUpdateController extends AbstractController implements GenericInter
         ManagerRegistry $managerRegistry,
         Security $security,
         JWT $jwt,
+        int $id
     ): JsonResponse {
         $this->initialize($request, $serializer, $validator, $managerRegistry, $security);
         $this->checkData();
         $this->jwt = $jwt;
         $this->attributes = $request->attributes;
         $this->query = $request->query;
+        $this->setId($id);
 
         return $this->setSecurityView('updateAction', $jwt);
     }
@@ -70,9 +74,15 @@ class GenericUpdateController extends AbstractController implements GenericInter
         }
 
         $JWTtoken = $this->jwt->getJWTFromHeader();
-        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtoken['id']);
+        $JWTtokenDecoded = $this->jwt->decode($JWTtoken);
 
-        $dto = $this->deserializeDto($data);
+        $user = $this->managerRegistry->getRepository(User::class)->find($JWTtokenDecoded['id']);
+
+        $dto = new $this->dto(json_decode($data, true));
+
+        if (!$dto instanceof DTO) {
+            return $this->respondWithError('this is not instanceof DTO', JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         $dto->setComponentsData([
             'managerRegistry' => $this->managerRegistry,
@@ -97,16 +107,18 @@ class GenericUpdateController extends AbstractController implements GenericInter
 
     public function getEntity(): ?ApiInterface
     {
-        if (null === $this->request->attributes->get('id')) {
+        $entity = $this->managerRegistry->getRepository($this->entity)->find($this->id);
+
+        if (null === $this->id) {
             return $this->respondWithError('GenericUpdateController {id} in address', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        $entity = $this->managerRegistry->getRepository($this->entity)->find($this->$this->attributes->get('id'));
+        $entity = $this->managerRegistry->getRepository($this->entity)->find($this->id);
 
         if (!$entity) {
             return $this->respondWithError('Object not found', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        return $entity;
+        return $this->managerRegistry->getRepository($this->entity)->find($this->id);
     }
 }

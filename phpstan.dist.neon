@@ -10,6 +10,7 @@ parameters:
         - tests/
 
     excludes_analyse:
+        - config/bundles.php
         - src/Generic/Api/Controllers/GenericActionController.php
         - src/Generic/Web/Controllers/GenericUpdateController.php
         - src/Generic/Web/Controllers/GenericListController.php

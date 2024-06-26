@@ -1,0 +1,172 @@
+<div class="modal fade" id="editGeneralInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <form class="form" (ngSubmit)="onSubmit()" #generalInformationForm="ngForm" id="generalInformationForm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">{{translationService.translate('edit')}} : {{ translationService.translate('generalInformation') }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+              <div class="row mb-3">
+                <div class="row">
+                    <div class="col-4">
+                      <label for="name" class="col-sm-2 col-form-label">Scraper</label>
+                    </div>
+                    <div class="col-7">
+                      <div class="row">
+                        <div class="col-10">
+                          <input
+                            formId = 'url' 
+                            form="generalInformation" 
+                            type="text" 
+                            class="form-control" 
+                            id="scraper" 
+                            [(ngModel)]="scraper"  
+                            name="scraper"     
+                            required
+                          >
+                          <div id="generalInformationscraperFeedback" formFeedback="url" class="invalid-feedback mt-3"></div>
+                        </div>
+                        <div class="col-2">
+                          <button type="button" (click)="getDataFromScraper()" class="btn btn-primary"><i class="fa-solid fa-arrow-down"></i></button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-signature"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="name" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationName') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        formId = 'generalInformationname' 
+                        form="generalInformation" 
+                        type="text" 
+                        class="form-control" 
+                        id="name" 
+                        aria-describedby="nameGroupPrepend nameFeedback" 
+                        [(ngModel)]="name"  
+                        name="name"     
+                        required
+                      >
+                      <div id="generalInformationnameFeedback" formFeedback="generalInformationname" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="headquarter" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationHeadquarter') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                          formId = 'generalInformationheadquarter' 
+                          form="generalInformation" 
+                          type="text" 
+                          class="form-control" 
+                          id="headquarter" 
+                          aria-describedby="headquarterGroupPrepend headquarterFeedback" 
+                          [(ngModel)]="headquarter"  
+                          name="headquarter"     
+                          required
+                      >
+                      <div id="generalInformationheadquarterFeedback" formFeedback="generalInformationheadquarter" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-building-flag"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="origin" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationOrigin') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                          formId = 'generalInformationorigin' 
+                          form="generalInformation" 
+                          type="text" 
+                          class="form-control" 
+                          id="origin" 
+                          aria-describedby="originGroupPrepend originFeedback" 
+                          [(ngModel)]="origin"  
+                          name="origin"     
+                          required
+                      >
+                      <div id="generalInformationoriginFeedback" formFeedback="generalInformationorigin" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="founded" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationFounded') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        formId = 'generalInformationfounded' 
+                        form="generalInformation" 
+                        type="text" 
+                        class="form-control" 
+                        id="founded" 
+                        aria-describedby="foundedGroupPrepend foundedFeedback" 
+                        [(ngModel)]="founded"  
+                        name="founded"     
+                        required
+                      >
+                      <div id="generalInformationfoundedFeedback" formFeedback="generalInformationfounded" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>  
+
+              <div class="row mb-3">
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fa-solid fa-globe"></i>
+                  </div>
+                    <div class="col-4">
+                      <label for="website" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationWebsite') }}</label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        formId = 'generalInformationwebsitewebsite' 
+                        form="generalInformation" 
+                        type="text" 
+                        class="form-control" 
+                        id="website" 
+                        aria-describedby="websiteGroupPrepend websiteFeedback" 
+                        [(ngModel)]="website"  
+                        name="website"     
+                        required
+                      >
+                      <div id="generalInformationwebsiteFeedback" formFeedback="generalInformationwebsitewebsite" class="invalid-feedback mt-3"></div>
+                    </div>
+                </div>
+              </div>             
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+    </form>
+    </div>
+</div>

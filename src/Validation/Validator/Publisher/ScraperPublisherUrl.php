@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class PublisherUrl extends Constraint
+class ScraperPublisherUrl extends Constraint
 {
     public const message = 'invalidScraperUrl';
 }

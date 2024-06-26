@@ -65,7 +65,7 @@ abstract class AbstractJsonMapper
                 'bool' => is_bool($value),
                 'int' => is_int($value),
                 'non-empty-string' => is_string($value) && '' !== $value,
-                default => false, // Obsługa pozostałych przypadków
+                default => false,
             };
         }
     }

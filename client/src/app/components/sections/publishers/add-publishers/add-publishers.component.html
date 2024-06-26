@@ -67,8 +67,21 @@
                             <label for="website" class="col-sm-2 col-form-label">{{ translationService.translate('generalInformationWebsite') }}</label>
                         </div>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" requestId = "generalInformation.website" form="generalInformation" formId = "generalInformationwebsite" id="website" formControlName="website">
-                            <div formFeedback = "generalInformationwebsite" class="invalid-feedback"></div>
+                            <input 
+                            type="text" 
+                            formControlName="website" 
+                            formId = 'generalInformationwebsitewebsite' 
+                            form="generalInformation" 
+                            type="text" 
+                            class="form-control" 
+                            id="website" 
+                            aria-describedby="websiteGroupPrepend websiteFeedback"     
+                            required
+                            >
+                            <div 
+                                formFeedback = "generalInformationwebsitewebsite" 
+                                class="invalid-feedback">
+                            </div>
                         </div>
                     </div>
                 </div>
