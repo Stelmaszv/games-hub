@@ -6,7 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { BootstrapService } from 'src/app/services/common/bootstrap/bootstrap.service';
 
-
 @Component({
   selector: 'edit-publisher-general-information',
   templateUrl: './edit-publisher-general-information.component.html',
