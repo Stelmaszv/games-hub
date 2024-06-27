@@ -5,6 +5,7 @@ import { HttpServiceService } from 'src/app/services/common/http-service/http-se
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { BootstrapService } from 'src/app/services/common/bootstrap/bootstrap.service';
+import { Response } from '../../../../interface';
 
 @Component({
   selector: 'edit-publisher-general-information',
@@ -56,7 +57,7 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
     }
 
     this.httpServiceService.putData(`http://localhost/api/publisher/edit/${this.publisher?.id}`,postData  ).subscribe({  
-      next: (response : any) => {
+      next: (response : Response) => {
         if(response.success){
           this.formValidatorService.restNotUseInputs({})
           this.bootstrapService.closeModal('editGeneralInformation');

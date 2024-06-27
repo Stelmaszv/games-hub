@@ -42,24 +42,10 @@ export interface PublisherDescriptionsScraperResponse extends Response{
     description: PublisherDescriptions,
 }
 
-interface PublisherDesc{
-    fr:string;
-    pl:string;
-    en:string
-}
-
 export interface Publisher{
     id: number;
-  
-    generalInformation: {
-      name: string;
-      headquarter: string|null;
-      origin: string|null;
-      founded: string|null;
-      website: string|null;
-    };
-
-    descriptions: PublisherDesc
+    generalInformation: PublisherGeneralInformation;
+    descriptions:PublisherDescriptions;
 }
   
 export interface PublisherPermissions{
