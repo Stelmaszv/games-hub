@@ -29,8 +29,8 @@ class DescriptionsDTO implements DTO
      */
     public function __construct(array $data = [])
     {
-        $this->eng = $data['pl'] ?? '';
-        $this->pl = $data['eng'] ?? '';
+        $this->eng = $data['eng'] ?? '';
+        $this->pl = $data['pl'] ?? '';
         $this->fr = $data['fr'] ?? '';
     }
 
