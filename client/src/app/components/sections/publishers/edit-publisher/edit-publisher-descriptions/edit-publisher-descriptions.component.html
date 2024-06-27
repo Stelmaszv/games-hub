@@ -9,71 +9,55 @@
 
           <div class="modal-body">
 
-            <div class="row mb-3">
-              <div class="row">
+            <div *ngFor="let language of languagesForm">
+              <div *ngIf="language.active">
+                <div class="row descriptions-item">
+
                   <div class="col-2">
-                    <label for="pl">English</label>
+                    <label for="{{language.key}}">{{language.key | uppercase}}</label>
                   </div>
+
                   <div class="col-10">
-                    <textarea
-                      formId = 'eng' 
-                      form="descriptions" 
-                      type="text" 
+                    <textarea 
                       class="form-control" 
-                      id="eng" 
-                      [(ngModel)]="eng"  
-                      name="eng"     
-                      required
-                      >
+                      type="text" 
+                      id="{{language.key}}" 
+                      [(ngModel)]="language.value" 
+                      name="{{language.key}}"
+                    >
                     </textarea>
-                    <div id="descriptionsengFeedback" formFeedback="eng" class="invalid-feedback mt-3"></div>
                   </div>
+
+                </div>
               </div>
             </div>
-            
-            <div class="row mb-3">
-              <div class="row">
-                  <div class="col-2">
-                    <label for="pl">Polski</label>
-                  </div>
-                  <div class="col-10">
-                    <textarea
-                      formId = 'pl' 
-                      form="descriptions" 
-                      type="text" 
-                      class="form-control" 
-                      id="pl" 
-                      [(ngModel)]="pl"  
-                      name="pl"     
-                      required
+
+            <div *ngIf="!allLanguage" (click) = "showAllLanguage()"> show more language </div>
+
+            <div *ngIf="allLanguage">
+              <div *ngFor="let language of languagesForm">
+                <div *ngIf="!language.active">
+                  <div class="row descriptions-item">
+
+                    <div class="col-2">
+                      <label for="{{language.key}}">{{language.key | uppercase}}</label>
+                    </div>
+
+                    <div class="col-10">
+                      <textarea 
+                        class="form-control" 
+                        type="text" 
+                        id="{{language.key}}" 
+                        [(ngModel)]="language.value" 
+                        name="{{language.key}}"
                       >
-                    </textarea>
-                    <div id="descriptionsplFeedback" formFeedback="pl" class="invalid-feedback mt-3"></div>
+                      </textarea>
+                    </div>
+                    
                   </div>
+                </div>
               </div>
             </div>
-            
-            <div class="row mb-3">
-              <div class="row">
-                  <div class="col-2">
-                    <label for="r">French</label>
-                  </div>
-                  <div class="col-10">
-                    <textarea
-                      formId = 'fr' 
-                      form="descriptions" 
-                      type="text" 
-                      class="form-control" 
-                      id="fr" 
-                      [(ngModel)]="fr"  
-                      name="fr"     
-                      required
-                      >
-                    </textarea>
-                    <div id="descriptionsfrFeedback" formFeedback="fr" class="invalid-feedback mt-3"></div>
-                  </div>
-              </div>
-            </div> 
 
           </div>
 

@@ -51,7 +51,7 @@ export class EditPublisherGeneralInformationComponent implements OnInit {
       descriptions: {
         'fr':(this.publisher?.descriptions.fr)? this.publisher?.descriptions.fr: '',
         'pl':(this.publisher?.descriptions.pl)? this.publisher?.descriptions.pl: '',
-        'eng':(this.publisher?.descriptions.eng)? this.publisher?.descriptions.eng: '',
+        'en':(this.publisher?.descriptions.en)? this.publisher?.descriptions.en: '',
       }
     }
 

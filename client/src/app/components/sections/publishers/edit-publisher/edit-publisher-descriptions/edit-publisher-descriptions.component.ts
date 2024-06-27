@@ -17,13 +17,13 @@ export class EditPublisherDescriptionsComponent {
   @Output() publisherChange = new EventEmitter<Publisher>();
 
   private id: number = 0;
-  public pl : string|null = null;
-  public eng :string|null = null;
-  public fr :string|null = null;
+  public languagesForm : any = null;
+  public allLanguage : boolean = false;
 
   constructor(public translationService: TranslationService, private httpServiceService: HttpServiceService,private formValidatorService: FormValidatorService, private bootstrapService: BootstrapService){}
 
   public onSubmit(): void {
+
     let postData : Publisher = {
 
       'id' : this.id,
@@ -37,9 +37,9 @@ export class EditPublisherDescriptionsComponent {
       },
 
       'descriptions' : {
-        'fr':(this.fr)? this.fr : '',
-        'pl':(this.pl)?  this.pl : '',
-        'eng':(this.eng)? this.eng : '',
+        'fr':(this.languagesForm.find((language: { key: any; })  => language.key === 'fr'))?  this.languagesForm.find((language: { key: any; })  => language.key === 'fr').value : '',
+        'pl':(this.languagesForm.find((language: { key: any; })  => language.key === 'pl'))?  this.languagesForm.find((language: { key: any; })  => language.key === 'pl').value : '',
+        'en':(this.languagesForm.find((language: { key: any; })  => language.key === 'en'))?  this.languagesForm.find((language: { key: any; })  => language.key === 'en').value : '',
       }
 
     }
@@ -60,8 +60,29 @@ export class EditPublisherDescriptionsComponent {
 
   public ngOnInit(): void {
     this.id = this.publisher?.id || 0;
-    this.eng = (this.publisher?.descriptions.eng) ? this.publisher?.descriptions.eng : '' ;
-    this.pl = (this.publisher?.descriptions.pl) ? this.publisher?.descriptions.pl : '' ; 
-    this.fr = (this.publisher?.descriptions.fr) ? this.publisher?.descriptions.fr : '' ;
+    let lang = this.translationService.getLang()
+
+    this.languagesForm = [
+      {
+        'key' : 'fr',
+        'value' : (this.publisher?.descriptions.fr) ? this.publisher?.descriptions.fr : '',
+        'active' : (lang === 'fr'),
+      },
+      {
+        'key' : 'en',
+        'value' : (this.publisher?.descriptions.en) ? this.publisher?.descriptions.en : '',
+        'active' : (lang === 'en'),
+      },
+      {
+        'key' : 'pl',
+        'value' : (this.publisher?.descriptions.pl) ? this.publisher?.descriptions.pl : '',
+        'active' : (lang === 'pl'),
+      }
+    ]
+
+  }
+
+  public showAllLanguage() : void {
+    this.allLanguage = true;
   }
 }

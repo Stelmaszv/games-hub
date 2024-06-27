@@ -7,7 +7,7 @@ export interface PublisherAddForm {
 }
 
 export interface PublisherDescriptions {
-    eng: null | string,
+    en: null | string,
     pl: null | string,
     fr: null | string,
     [key: string]: null | string;
@@ -45,7 +45,7 @@ export interface PublisherDescriptionsScraperResponse extends Response{
 interface PublisherDesc{
     fr:string;
     pl:string;
-    eng:string
+    en:string
 }
 
 export interface Publisher{

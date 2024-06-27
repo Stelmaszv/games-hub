@@ -1,7 +1,8 @@
 import { Component, Input,OnInit } from '@angular/core';
 import { Publisher } from '../../interfaces';
-import { Languages } from '../../enum';
+
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
+import { Languages } from '../../enum';
 
 @Component({
   selector: 'show-description',
@@ -21,7 +22,7 @@ export class ShowDescriptionComponent implements OnInit {
     }
 
     private getDescription(key: string|null): void {
-      this.description = this.publisher?.descriptions[key as Languages.ENG | Languages.FR | Languages.PL];
+      this.description = this.publisher?.descriptions[key as Languages.EN | Languages.FR | Languages.PL];
     }
 
     public onPublisherChange(updatedPublisher: Publisher): void {
