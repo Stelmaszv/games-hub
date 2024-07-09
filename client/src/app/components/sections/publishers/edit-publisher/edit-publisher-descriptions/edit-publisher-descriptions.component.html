@@ -11,9 +11,8 @@
           <div *ngFor="let language of languagesForm">
             <div *ngIf="language.active">
               <div class="row descriptions-item">
-
                 <div class="col-2">
-                  <label for="{{language.key}}">{{language.key | uppercase}}</label>
+                  <label for="{{language.key}}">{{ translationService.getLanguageName(language.key) }}</label>
                 </div>
 
                 <div class="col-10">
@@ -40,7 +39,7 @@
                 <div class="row descriptions-item">
 
                   <div class="col-2">
-                    <label for="{{language.key}}">{{language.key | uppercase}}</label>
+                    <label for="{{language.key}}">{{ translationService.getLanguageName(language.key) }}</label>
                   </div>
 
                   <div class="col-10">
