@@ -51,6 +51,7 @@ export class EditPublisherDescriptionsComponent {
           this.formValidatorService.restNotUseInputs({})
           this.bootstrapService.closeModal('editDescriptions');
           this.bootstrapService.showAlert('alert-publisher','alert-success',this.translationService.translate('editPublisherGeneralInformationSuccess'))
+          this.updatePublisher(postData)
         }
       },
       error: (errorList: HttpErrorResponse) => {
@@ -85,5 +86,17 @@ export class EditPublisherDescriptionsComponent {
 
   public showAllLanguage() : void {
     this.allLanguage = true;
+  }
+
+  private updatePublisher(newPublisher: Publisher): void {
+    this.publisher = newPublisher;
+    this.publisherChange.emit(this.publisher);
+  }
+  
+  private changePublisherData(): void {
+    if(this.publisher !== null){
+      const updatedPublisher: Publisher = this.publisher;
+      this.updatePublisher(updatedPublisher);
+    }
   }
 }

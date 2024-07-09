@@ -27,5 +27,6 @@ export class ShowDescriptionComponent implements OnInit {
 
     public onPublisherChange(updatedPublisher: Publisher): void {
       this.publisher = updatedPublisher;
+      this.getDescription(this.translationService.getLang())
     }
 }

@@ -10,6 +10,7 @@ import { IsGrantedService } from 'src/app/services/common/is-granted/is-granted.
   styleUrls: ['./show-publisher.component.scss']
 })
 export class ShowPublisherComponent implements OnInit {
+  
   public publisher: Publisher | null = null;
   
   private permissionAttributes: { [key: string]: boolean | undefined } = {};
