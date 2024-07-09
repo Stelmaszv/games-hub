@@ -13,7 +13,4 @@ export class ShowPublisherGeneralInformationComponent{
 
   constructor(public translationService: TranslationService){}
 
-  public onPublisherChange(updatedPublisher: Publisher): void {
-    this.publisher = updatedPublisher;
-  }
 }
