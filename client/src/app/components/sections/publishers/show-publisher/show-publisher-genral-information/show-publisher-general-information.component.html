@@ -1,40 +1,45 @@
-<div class="card">
-    <div class="card-body">
-
-        <h2>{{ translationService.translate('generalInformation') }}</h2>
+<div class="card-content">
+    <div class="card card-section">
+        <div class="card-body">
             
-        <div class="row" *ngIf="publisher!.generalInformation.name">
-            <div class="col-2"><i class="fa-solid fa-signature"></i></div>
-            <div class="col-4 name">{{ translationService.translate('generalInformationName') }}</div>
-            <div class="col-6">{{ publisher!.generalInformation.name }}</div>
-        </div>
+            <h2>{{ translationService.translate('generalInformation') }}</h2>
+                
+            <div class="row" *ngIf="publisher!.generalInformation.name">
+                <div class="col-2"><i class="fa-solid fa-signature"></i></div>
+                <div class="col-4 name">{{ translationService.translate('generalInformationName') }}</div>
+                <div class="col-6">{{ publisher!.generalInformation.name }}</div>
+            </div>
 
-        <div class="row" *ngIf="publisher!.generalInformation.headquarter">
-            <div class="col-2"><i class="fa-solid fa-location-dot"></i></div>
-            <div class="col-4 name">{{ translationService.translate('generalInformationHeadquarter') }}</div>
-            <div class="col-6">{{ publisher!.generalInformation.headquarter }}</div>
-        </div>
-        
+            <div class="row" *ngIf="publisher!.generalInformation.headquarter">
+                <div class="col-2"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="col-4 name">{{ translationService.translate('generalInformationHeadquarter') }}</div>
+                <div class="col-6">{{ publisher!.generalInformation.headquarter }}</div>
+            </div>
+            
 
-        <div class="row" *ngIf="publisher!.generalInformation.origin">
-            <div class="col-2"><i class="fa-solid fa-building-flag"></i></div>
-            <div class="col-4 name">{{ translationService.translate('generalInformationOrigin') }}</div>
-            <div class="col-6">{{ publisher!.generalInformation.origin }}</div>
-        </div>
+            <div class="row" *ngIf="publisher!.generalInformation.origin">
+                <div class="col-2"><i class="fa-solid fa-building-flag"></i></div>
+                <div class="col-4 name">{{ translationService.translate('generalInformationOrigin') }}</div>
+                <div class="col-6">{{ publisher!.generalInformation.origin }}</div>
+            </div>
 
-        <div class="row" *ngIf="publisher!.generalInformation.founded">
-            <div class="col-2"><i class="fa-solid fa-calendar-days"></i></div>
-            <div class="col-4 name">{{ translationService.translate('generalInformationFounded') }}</div>
-            <div class="col-6">{{ publisher!.generalInformation.founded }}</div>
-        </div>
+            <div class="row" *ngIf="publisher!.generalInformation.founded">
+                <div class="col-2"><i class="fa-solid fa-calendar-days"></i></div>
+                <div class="col-4 name">{{ translationService.translate('generalInformationFounded') }}</div>
+                <div class="col-6">{{ publisher!.generalInformation.founded }}</div>
+            </div>
 
-        <div class="row" *ngIf="publisher!.generalInformation.website">
-            <div class="col-2"><i class="fa-solid fa-globe"></i></div>
-            <div class="col-4 name">{{ translationService.translate('generalInformationWebsite') }}</div>
-            <div class="col-6"><a href="https://www.{{ publisher!.generalInformation.website }}">{{ publisher!.generalInformation.website }}</a></div>
-        </div>
+            <div class="row" *ngIf="publisher!.generalInformation.website">
+                <div class="col-2"><i class="fa-solid fa-globe"></i></div>
+                <div class="col-4 name">{{ translationService.translate('generalInformationWebsite') }}</div>
+                <div class="col-6"><a href="https://www.{{ publisher!.generalInformation.website }}">{{ publisher!.generalInformation.website }}</a></div>
+            </div>
 
+        </div>
     </div>
+    <div class="card-edit" *ngIf="edit">
+        <edit-publisher-general-information (publisherChange)="onPublisherChange($event)" [publisher]="publisher"></edit-publisher-general-information>
+    </div>
+</div>   
 
-</div>
 
