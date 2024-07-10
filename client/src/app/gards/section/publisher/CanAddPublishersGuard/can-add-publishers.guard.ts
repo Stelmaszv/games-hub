@@ -11,6 +11,15 @@ export class CanAddPublishersGuard implements CanActivate {
   constructor(private isGrantedService : IsGrantedService){}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
+    let addPublisher = await this.isGrantedService.checkIfGuardCanActivate('CAN_ADD_PUBLISHER', 'Publisher')
+    if(addPublisher){
+      return true;
+    }
+
+    
+
+
+    console.log(addPublisher)
     return await this.isGrantedService.checkIfGuardCanActivate('CAN_ADD_PUBLISHER', 'Publisher');
   }
   

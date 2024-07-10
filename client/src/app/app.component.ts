@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { AuthGuard } from './gards/auth-guard';
-import { ActivatedRouteSnapshot, Router} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 import { HttpServiceService } from './services/common/http-service/http-service.service';
 import { AuthService } from './services/common/auth/auth.service';
 
@@ -19,10 +19,13 @@ export class AppComponent implements OnInit {
     const emptyRouteSnapshot = {} as ActivatedRouteSnapshot;
 
     this.auth = !this.authGuard.canActivate(emptyRouteSnapshot, this.router.routerState.snapshot)
-    
-    if (this.auth) {
-      this.router.navigate(['/login']);
-    }
+    let authRouts: string[] = ['/register','/login'];
+
+    setTimeout(() => {
+      if (!authRouts.includes(this.router.url) && this.auth){
+        this.router.navigate(['/login']);
+      }
+    }, 100);
 
     if(this.authService.isTokenNeedRefresh()){
       this.HttpServiceService.getData('http://localhost/api/refresh-tokken/'+this.authService.getUserInfoFromToken()['id']).subscribe((data) => {
