@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     const emptyRouteSnapshot = {} as ActivatedRouteSnapshot;
 
     this.auth = !this.authGuard.canActivate(emptyRouteSnapshot, this.router.routerState.snapshot)
-    let authRouts: string[] = ['/register','/login'];
+    let authRouts: string[] = ['/register','/login','/forgot-password'];
 
     setTimeout(() => {
       if (!authRouts.includes(this.router.url) && this.auth){
