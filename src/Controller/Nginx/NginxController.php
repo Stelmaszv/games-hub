@@ -2,6 +2,7 @@
 
 namespace App\Controller\Nginx;
 
+use App\Controller\Nginx\section\Auth;
 use App\Controller\Nginx\section\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class NginxController extends AbstractController
 {
     use Publisher;
+    use Auth;
 
     private function getView(): Response
     {

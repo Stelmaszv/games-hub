@@ -10,10 +10,9 @@ import { AuthService } from './services/common/auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title:string = 'Gamers Hub';
-  auth:boolean = false;
-  activeGuardInfo: string | null = null; 
-
+  public title : string = 'Gamers Hub';
+  public auth : boolean = false;
+  
   constructor(public authService: AuthService, private HttpServiceService : HttpServiceService, private authGuard: AuthGuard, private router: Router){}
 
   ngOnInit(): void {

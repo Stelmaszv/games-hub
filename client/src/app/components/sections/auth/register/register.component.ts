@@ -72,15 +72,18 @@ export class RegisterComponent {
       }
     });
   }
+
   public validLogin(): void {
-    this.httpServiceService.getData(`http://localhost/api/dynamic-validation/login/${this.email}`).subscribe({
-      next: (response) => {
-        this.handleSuccessResponse(response);
-      },
-      error: (errorList: HttpErrorResponse) => {
-        this.handleErrorResponse(errorList);
-      }
-    });
+    if(this.email.length > 3){
+      this.httpServiceService.getData(`http://localhost/api/dynamic-validation/login/${this.email}`).subscribe({
+        next: (response) => {
+          this.handleSuccessResponse(response);
+        },
+        error: (errorList: HttpErrorResponse) => {
+          this.handleErrorResponse(errorList);
+        }
+      });
+    }
   }
 
   public onSubmit() {
