@@ -100,11 +100,12 @@ export class AddPublishersComponent {
   public onGeneralInformationScraperSubmit() : void 
   {
     let postData : GeneralInformationScraper = {    
-      url: this.generalInformationScraperForm?.get('url')?.value
+      url: (this.generalInformationScraperForm?.get('url')?.value)? this.generalInformationScraperForm?.get('url')?.value : ''
     }
 
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/general-information',postData).subscribe({  
       next: (response : GeneralInformationResponse ) => {
+        this.formValidatorService.restNotUseInputs({})
         const data = response['generalInformation']
         this.generalInformation.setValue(data);
       },
