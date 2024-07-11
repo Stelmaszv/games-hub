@@ -7,4 +7,11 @@
         right: 2%;
         top:0;
     }
+
+    .cart-show-more {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+    }
 }

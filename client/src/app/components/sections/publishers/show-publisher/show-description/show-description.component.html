@@ -1,11 +1,18 @@
 <div class="card-content">
+
     <div class="card card-section">
         <div class="card-body desc">
             <h2>{{ translationService.translate('description') }}</h2>
-            <p>{{ description }}</p>
+            <p>{{ description | stringLength:190 }}</p>
         </div>
     </div>
+
+    <div class="cart-show-more">
+        show more
+    </div>
+
     <div class="card-edit" *ngIf="edit">
         <edit-publisher-descriptions (publisherChange)="onPublisherChange($event)" [publisher]="publisher" ></edit-publisher-descriptions>
     </div>
+
 </div>
