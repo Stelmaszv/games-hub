@@ -31,6 +31,7 @@ import { ShowDescriptionComponent } from './components/sections/publishers/show-
 import { EditPublisherDescriptionsComponent } from './components/sections/publishers/edit-publisher/edit-publisher-descriptions/edit-publisher-descriptions.component';
 import { StringLengthPipe } from './pipe/common/stringLength/string-length.pipe';
 import { FullDescriptionPipe } from './pipe/common/description/full-description.pipe';
+import { ShowMoreComponent } from './components/sections/common/show-more/show-more.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { FullDescriptionPipe } from './pipe/common/description/full-description.
     ShowDescriptionComponent,
     EditPublisherDescriptionsComponent,
     StringLengthPipe,
-    FullDescriptionPipe
+    FullDescriptionPipe,
+    ShowMoreComponent
   ],
   imports: [
     BrowserModule,

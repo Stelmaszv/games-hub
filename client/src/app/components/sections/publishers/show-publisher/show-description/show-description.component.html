@@ -3,12 +3,12 @@
     <div class="card card-section">
         <div class="card-body desc">
             <h2>{{ translationService.translate('description') }}</h2>
-            <p>{{ description | stringLength:190 }}</p>
+            <p>{{ description | stringLength:descriptionLength }}</p>
         </div>
     </div>
 
-    <div class="cart-show-more">
-        show more
+    <div class="cart-show-more" *ngIf="showMore()">
+        <show-more [content]="description"></show-more>
     </div>
 
     <div class="card-edit" *ngIf="edit">
@@ -16,3 +16,4 @@
     </div>
 
 </div>
+
