@@ -19,12 +19,14 @@ export class EditPublisherDescriptionsComponent {
 
   private id: number = 0;
   public languagesForm : any = null;
+  public languagesScraper : any = null;
   public allLanguage : boolean = false;
-
+  public mode = 'scraper';
+  
   constructor(public translationService: TranslationService, private httpServiceService: HttpServiceService,private formValidatorService: FormValidatorService, private bootstrapService: BootstrapService){}
 
-  public onSubmit(): void {
-
+  private normalSubmit() : void 
+  {
     let postData : Publisher = {
 
       'id' : this.id,
@@ -60,6 +62,18 @@ export class EditPublisherDescriptionsComponent {
     });
   }
 
+  private scraperSubmit(): void
+  {
+    console.log(this.languagesScraper)
+  }
+  public onSubmit(): void {
+    if(this.mode == 'scraper'){
+      this.scraperSubmit()
+    }else{
+      this.normalSubmit()
+    }
+  }
+
   public ngOnInit(): void {
     this.id = this.publisher?.id || 0;
     let lang = this.translationService.getLang()
@@ -79,6 +93,21 @@ export class EditPublisherDescriptionsComponent {
         'key' : 'pl',
         'value' : (this.publisher?.descriptions.pl) ? this.publisher?.descriptions.pl : '',
         'active' : (lang === 'pl'),
+      }
+    ]
+
+    this.languagesScraper = [
+      {
+        'key' : 'fr',
+        'value' : ''
+      },
+      {
+        'key' : 'en',
+        'value' :  ''
+      },
+      {
+        'key' : 'pl',
+        'value' :  ''
       }
     ]
 
