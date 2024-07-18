@@ -66,6 +66,7 @@ export class EditPublisherDescriptionsComponent {
   {
     console.log(this.languagesScraper)
   }
+
   public onSubmit(): void {
     if(this.mode == 'scraper'){
       this.scraperSubmit()
@@ -115,6 +116,10 @@ export class EditPublisherDescriptionsComponent {
 
   public showAllLanguage() : void {
     this.allLanguage = true;
+  }
+
+  public scraperSwitch(): void {
+    this.mode = this.mode === 'form' ? 'scraper' : 'form';
   }
 
   private updatePublisher(newPublisher: Publisher): void {

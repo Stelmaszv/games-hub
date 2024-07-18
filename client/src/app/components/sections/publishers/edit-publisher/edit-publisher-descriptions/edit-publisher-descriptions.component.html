@@ -5,12 +5,19 @@
     <form class="form" (ngSubmit)="onSubmit()" #descriptionsForm="ngForm" id="descriptionsForm">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="editDescriptionsLabel">{{translationService.translate('edit')}} : {{ translationService.translate('descriptions') }}</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="col-6">
+            <h1 class="modal-title fs-5" id="editDescriptionsLabel">{{translationService.translate('edit')}} : {{ translationService.translate('descriptions') }}</h1>
+          </div>
+          <div class="col-3">
+            <i *ngIf = "mode == 'form'" class="fa-solid fa-arrow-down" (click) = "scraperSwitch()"></i>
+            <i *ngIf = "mode == 'scraper'" class="fa-solid fa-file" (click) = "scraperSwitch()"></i>
+          </div>
+          <div class="col-3">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
         </div>
 
         <div class="modal-body">
-
           <div *ngIf = "mode == 'form'">
             <div *ngFor="let language of languagesForm">
               <div *ngIf="language.active">
