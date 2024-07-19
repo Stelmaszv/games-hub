@@ -16,10 +16,6 @@ export class CanAddPublishersGuard implements CanActivate {
       return true;
     }
 
-    
-
-
-    console.log(addPublisher)
     return await this.isGrantedService.checkIfGuardCanActivate('CAN_ADD_PUBLISHER', 'Publisher');
   }
   
