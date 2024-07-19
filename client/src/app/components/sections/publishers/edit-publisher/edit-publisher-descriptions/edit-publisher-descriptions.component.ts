@@ -1,5 +1,5 @@
 import { Component,Input,Output,EventEmitter } from '@angular/core';
-import { Publisher, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse } from '../../interfaces';
+import { Publisher, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse } from '../../interfaces';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
@@ -28,7 +28,7 @@ export class EditPublisherDescriptionsComponent {
   public languagesForm : any = null;
   public languagesScraper: Language[] = [];
   public allLanguage : boolean = false;
-  public mode = 'scraper';
+  public mode = 'form';
   
   constructor(public translationService: TranslationService, private httpServiceService: HttpServiceService,private formValidatorService: FormValidatorService, private bootstrapService: BootstrapService){}
 
@@ -81,15 +81,9 @@ export class EditPublisherDescriptionsComponent {
     
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/descriptions', postData ).subscribe({  
       next: (response : PublisherDescriptionsScraperResponse) => {
-        /*
-        const publisherDescriptions : PublisherDescriptions = {
-          'en' : this.getDescription('en',response['description']),
-          'fr': this.getDescription('fr',response['description']),
-          'pl':this.getDescription('pl',response['description']),
-        }
-        this.descriptions.setValue(publisherDescriptions);
-        */
         this.formValidatorService.restNotUseInputsMultiError('scraper')
+        this.updateLanguagesScraper(response.description)
+        this.mode = 'form'
       },
       error: (errorList: HttpErrorResponse) => {
         this.formValidatorService.processErrors(errorList.error.errors, postData ,'descriptions')
@@ -149,6 +143,12 @@ export class EditPublisherDescriptionsComponent {
       }
     ]
 
+  }
+
+  private updateLanguagesScraper(description: PublisherDescriptions){
+    for(let lang of this.languagesForm){
+      lang.value =  description[lang['key']]
+    }
   }
 
   public showAllLanguage() : void {
