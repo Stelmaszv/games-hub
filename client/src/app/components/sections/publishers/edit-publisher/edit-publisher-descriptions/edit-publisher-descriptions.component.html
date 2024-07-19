@@ -73,23 +73,21 @@
           <div *ngIf = "mode == 'scraper'">
             <div *ngFor="let scraperUrl of languagesScraper">
               <div class="row languages">
-
                 <div class="col-4">
                   <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName(scraperUrl.key) }}</label>
                 </div>
-
-                <div class="col-8">
-                  <input 
-                    type="text" 
-                    requestId = "fr" 
-                    class="form-control item" 
-                    id="{{scraperUrl.key}}"  
-                    [(ngModel)]="scraperUrl.value" 
-                    name="{{scraperUrl.key}}"
-                    required
-                  >
+                  <div class="col-8">
+                    <input 
+                      type="text" 
+                      requestId = "fr" 
+                      class="form-control item" 
+                      id="{{scraperUrl.index}}"  
+                      [(ngModel)]="scraperUrl.value" 
+                      name="{{scraperUrl.key}}"
+                      required
+                    >
+                  <div class="invalid-feedback" formFeedback = "multi-error" id="fF{{scraperUrl.index}}"></div>
                   </div>
-
                 </div>
               </div>
             </div> 

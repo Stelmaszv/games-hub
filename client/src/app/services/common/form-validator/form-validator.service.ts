@@ -71,13 +71,21 @@ export class FormValidatorService {
   }
 
   private markInvalid(inputId: string): void {
-    const inputClass = document.querySelector(`[formId="${inputId}"]`);
+    let inputClass = document.querySelector(`[formId="${inputId}"]`);
+
+    if(inputClass === null){
+      inputClass = document.querySelector(`[id="${inputId}"]`);
+    }
 
     if (inputClass) inputClass.classList.add('is-invalid');
   }
 
   private displayError(inputId: string, translationKey: string, parsedJson: { [key: string]: string }): void {
-    const inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
+    let inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
+
+    if(inputErrorValue === null){
+      inputErrorValue = document.querySelector(`[id="fF${inputId}"]`);
+    }
     
     if (inputErrorValue) {
       inputErrorValue.innerHTML = this.translationService.translate(translationKey, parsedJson);

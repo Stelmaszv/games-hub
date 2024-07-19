@@ -1,5 +1,5 @@
 import { Component,Input,Output,EventEmitter } from '@angular/core';
-import { Publisher } from '../../interfaces';
+import { Publisher, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse } from '../../interfaces';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
@@ -7,11 +7,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BootstrapService } from 'src/app/services/common/bootstrap/bootstrap.service';
 import { Response } from '../../../../interface';
 
+interface Language {
+  key: string;
+  value: string;
+  index: string
+}
+
 @Component({
   selector: 'edit-publisher-descriptions',
   templateUrl: './edit-publisher-descriptions.component.html',
   styleUrls: ['./edit-publisher-descriptions.component.scss']
 })
+
 export class EditPublisherDescriptionsComponent {
 
   @Input() publisher!: Publisher|null;
@@ -19,7 +26,7 @@ export class EditPublisherDescriptionsComponent {
 
   private id: number = 0;
   public languagesForm : any = null;
-  public languagesScraper : any = null;
+  public languagesScraper: Language[] = [];
   public allLanguage : boolean = false;
   public mode = 'scraper';
   
@@ -64,7 +71,40 @@ export class EditPublisherDescriptionsComponent {
 
   private scraperSubmit(): void
   {
-    console.log(this.languagesScraper)
+    let postData : PublisherDescriptionsScraper = {    
+      "descriptions":[
+        {"url":this.findLanguageByIndex('fr')?.value || '',"lng":"fr"},
+        {"url":this.findLanguageByIndex('en')?.value || '',"lng":"en"},
+        {"url":this.findLanguageByIndex('pl')?.value || '',"lng":"pl"},
+      ]
+    }
+    
+    this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/descriptions', postData ).subscribe({  
+      next: (response : PublisherDescriptionsScraperResponse) => {
+        /*
+        const publisherDescriptions : PublisherDescriptions = {
+          'en' : this.getDescription('en',response['description']),
+          'fr': this.getDescription('fr',response['description']),
+          'pl':this.getDescription('pl',response['description']),
+        }
+        this.descriptions.setValue(publisherDescriptions);
+        */
+        this.formValidatorService.restNotUseInputs({})
+      },
+      error: (errorList: HttpErrorResponse) => {
+        //if(errorList.status == 500){
+          //console.log('Server Error')
+        //}
+        //
+        //console.log(errorList.error[0])
+        this.formValidatorService.restNotUseInputs({})
+        this.formValidatorService.processErrors(errorList.error.errors, postData ,'descriptions')
+      }
+    });
+  }
+
+  private findLanguageByIndex(key: string): Language | undefined {
+    return this.languagesScraper.find((language) => language.key === key);
   }
 
   public onSubmit(): void {
@@ -100,15 +140,18 @@ export class EditPublisherDescriptionsComponent {
     this.languagesScraper = [
       {
         'key' : 'fr',
-        'value' : ''
+        'value' : '',
+        'index' : 'descriptions[0]url'
       },
       {
         'key' : 'en',
-        'value' :  ''
+        'value' :'',
+        'index' :'descriptions[1]url'
       },
       {
         'key' : 'pl',
-        'value' :  ''
+        'value' :  '',
+        'index' :'descriptions[2]url'
       }
     ]
 

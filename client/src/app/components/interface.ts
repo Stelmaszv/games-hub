@@ -22,3 +22,4 @@ export interface ResponseList {
     results : any[],
     paginatorData : PaginatorData
 }
+
