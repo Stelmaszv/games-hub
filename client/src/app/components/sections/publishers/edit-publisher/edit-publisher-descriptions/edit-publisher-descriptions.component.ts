@@ -13,6 +13,13 @@ interface Language {
   index: string
 }
 
+interface LanguageData{
+  key: string;
+  value: string | null; 
+  active: boolean
+}
+
+
 @Component({
   selector: 'edit-publisher-descriptions',
   templateUrl: './edit-publisher-descriptions.component.html',
@@ -25,10 +32,10 @@ export class EditPublisherDescriptionsComponent {
   @Output() publisherChange = new EventEmitter<Publisher>();
 
   private id: number = 0;
-  public languagesForm : any = null;
+  public languagesForm : LanguageData[] = [];
   public languagesScraper: Language[] = [];
   public allLanguage : boolean = false;
-  public mode = 'form';
+  public mode : string = 'form';
   
   constructor(public translationService: TranslationService, private httpServiceService: HttpServiceService,private formValidatorService: FormValidatorService, private bootstrapService: BootstrapService){}
 
@@ -46,11 +53,11 @@ export class EditPublisherDescriptionsComponent {
         'website': (this.publisher?.generalInformation.website)? this.publisher?.generalInformation.website : null
       },
 
-      'descriptions' : {
-        'fr':(this.languagesForm.find((language: { key: any; })  => language.key === 'fr'))?  this.languagesForm.find((language: { key: any; })  => language.key === 'fr').value : '',
-        'pl':(this.languagesForm.find((language: { key: any; })  => language.key === 'pl'))?  this.languagesForm.find((language: { key: any; })  => language.key === 'pl').value : '',
-        'en':(this.languagesForm.find((language: { key: any; })  => language.key === 'en'))?  this.languagesForm.find((language: { key: any; })  => language.key === 'en').value : '',
-      }
+      'descriptions': {
+        fr: (this.languagesForm.find((language) => language.key === 'fr'))?.value || '',
+        pl: (this.languagesForm.find((language) => language.key === 'pl'))?.value || '',
+        en: (this.languagesForm.find((language) => language.key === 'en'))?.value || '',
+      },
 
     }
 
@@ -127,18 +134,18 @@ export class EditPublisherDescriptionsComponent {
 
     this.languagesScraper = [
       {
-        'key' : 'fr',
-        'value' : 'https://pl.wikipedia.org/wiki/Ubisoft',
-        'index' : 'descriptions[0]url'
+        'key'   :'fr',
+        'value' :'',
+        'index' :'descriptions[0]url'
       },
       {
-        'key' : 'en',
-        'value' :'https://pl.wikipedia.org/wiki/Ubisoft',
+        'key'   :'en',
+        'value' :'',
         'index' :'descriptions[1]url'
       },
       {
-        'key' : 'pl',
-        'value' :  'https://pl.wikipedia.org/wiki/Ubisoft',
+        'key'   :'pl',
+        'value' :'',
         'index' :'descriptions[2]url'
       }
     ]
