@@ -4,8 +4,8 @@ namespace App\Controller\Nginx\section;
 
 use Symfony\Component\HttpFoundation\Response;
 
-trait Auth{
-
+trait Auth
+{
     /**
      * @Route("/register", name="register-nginx")
      */
