@@ -8,6 +8,7 @@ export class FormValidatorService {
 
   private formControls: NodeListOf<Element> | null = null;
 
+
   public constructor(private translationService: TranslationService) { }
 
   public processErrors( errorList: any, values: any, formName:string ,subError : string|null = null) {
@@ -28,6 +29,15 @@ export class FormValidatorService {
     this.setForm(formName);
     this.showErrors(processErrors, values);
     this.restNotUseInputs(processErrors);
+  }
+
+  public restNotUseInputsMultiError(multiErrorId:string) {
+    const multiErrors = document.querySelectorAll(`[multi-error]`)
+    Object.entries(multiErrors).forEach(([inputName, value]) => {
+      if(value.getAttribute('multi-error-id') == multiErrorId){
+        value.classList.remove('is-invalid');
+      }
+    });
   }
 
   private setForm(id: string): void {

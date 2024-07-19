@@ -57,7 +57,7 @@
                         rows="10"
                         class="form-control" 
                         type="text" 
-                        id="{{language.key}}" 
+                        id="{{language.key}}"
                         [(ngModel)]="language.value" 
                         name="{{language.key}}"
                       >
@@ -77,16 +77,18 @@
                   <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName(scraperUrl.key) }}</label>
                 </div>
                   <div class="col-8">
-                    <input 
+                    <input
+                      multi-error-id="scraper"
                       type="text" 
                       requestId = "fr" 
                       class="form-control item" 
                       id="{{scraperUrl.index}}"  
                       [(ngModel)]="scraperUrl.value" 
                       name="{{scraperUrl.key}}"
+                      multi-error
                       required
                     >
-                  <div class="invalid-feedback" formFeedback = "multi-error" id="fF{{scraperUrl.index}}"></div>
+                    <div class="invalid-feedback" formFeedback = "multi-error" id="fF{{scraperUrl.index}}"></div>
                   </div>
                 </div>
               </div>

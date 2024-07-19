@@ -89,15 +89,9 @@ export class EditPublisherDescriptionsComponent {
         }
         this.descriptions.setValue(publisherDescriptions);
         */
-        this.formValidatorService.restNotUseInputs({})
+        this.formValidatorService.restNotUseInputsMultiError('scraper')
       },
       error: (errorList: HttpErrorResponse) => {
-        //if(errorList.status == 500){
-          //console.log('Server Error')
-        //}
-        //
-        //console.log(errorList.error[0])
-        this.formValidatorService.restNotUseInputs({})
         this.formValidatorService.processErrors(errorList.error.errors, postData ,'descriptions')
       }
     });
@@ -140,17 +134,17 @@ export class EditPublisherDescriptionsComponent {
     this.languagesScraper = [
       {
         'key' : 'fr',
-        'value' : '',
+        'value' : 'https://pl.wikipedia.org/wiki/Ubisoft',
         'index' : 'descriptions[0]url'
       },
       {
         'key' : 'en',
-        'value' :'',
+        'value' :'https://pl.wikipedia.org/wiki/Ubisoft',
         'index' :'descriptions[1]url'
       },
       {
         'key' : 'pl',
-        'value' :  '',
+        'value' :  'https://pl.wikipedia.org/wiki/Ubisoft',
         'index' :'descriptions[2]url'
       }
     ]
