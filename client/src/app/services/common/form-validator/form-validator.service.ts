@@ -8,6 +8,7 @@ export class FormValidatorService {
 
   private formControls: NodeListOf<Element> | null = null;
 
+
   public constructor(private translationService: TranslationService) { }
 
   public processErrors( errorList: any, values: any, formName:string ,subError : string|null = null) {
@@ -28,6 +29,15 @@ export class FormValidatorService {
     this.setForm(formName);
     this.showErrors(processErrors, values);
     this.restNotUseInputs(processErrors);
+  }
+
+  public restNotUseInputsMultiError(multiErrorId:string) {
+    const multiErrors = document.querySelectorAll(`[multi-error]`)
+    Object.entries(multiErrors).forEach(([inputName, value]) => {
+      if(value.getAttribute('multi-error-id') == multiErrorId){
+        value.classList.remove('is-invalid');
+      }
+    });
   }
 
   private setForm(id: string): void {
@@ -71,13 +81,21 @@ export class FormValidatorService {
   }
 
   private markInvalid(inputId: string): void {
-    const inputClass = document.querySelector(`[formId="${inputId}"]`);
+    let inputClass = document.querySelector(`[formId="${inputId}"]`);
+
+    if(inputClass === null){
+      inputClass = document.querySelector(`[id="${inputId}"]`);
+    }
 
     if (inputClass) inputClass.classList.add('is-invalid');
   }
 
   private displayError(inputId: string, translationKey: string, parsedJson: { [key: string]: string }): void {
-    const inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
+    let inputErrorValue = document.querySelector(`[formFeedback="${inputId}"]`);
+
+    if(inputErrorValue === null){
+      inputErrorValue = document.querySelector(`[id="fF${inputId}"]`);
+    }
     
     if (inputErrorValue) {
       inputErrorValue.innerHTML = this.translationService.translate(translationKey, parsedJson);
