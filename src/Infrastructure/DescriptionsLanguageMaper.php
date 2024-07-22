@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\JsonMaper\Publisher;
+namespace App\Infrastructure;
 
-use App\Infrastructure\Languages;
 use App\Generic\Components\AbstractJsonMapper;
 
-class DescriptionsMapper extends AbstractJsonMapper
+class DescriptionsLanguageMaper extends AbstractJsonMapper
 {
     public function jsonSchema(): array
     {
