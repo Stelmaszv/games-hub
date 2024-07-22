@@ -18,7 +18,7 @@ class Languages
             'flag' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACgCAMAAADUx0IOAAAAElBMVEXp6OfUIT3q7Ovmz9DYWWfTETQtMyOrAAAA0UlEQVR4nO3QCQ3AQAzAsO7jT3kwolNtBFFmAAAAAAAAAAAAAAAAAAAAAAAAADjQvdw8y8273HzLzbWcAXVAzYA6oGZAHVAzoA6oGVAH1AyoA2oG1AE1A+qAmgF1QM2AOqBmQB1QM6AOqBlQB9QMqANqBtQBNQPqgJoBdUDNgDqgZkAdUDOgDqgZUAfUDKgDagbUATUD6oCaAXVAzYA6oGZAHVAzoA6oGVAH1AyoA2oG1AE1A+qAmgF1QM2AOqBmQB1QM6AOqBlQB9QMqANq6wf80jJcAW6NkIwAAAAASUVORK5CYII=' 
         ],
         [
-            'lang' => 'fr', 
+            'key' => 'fr', 
             'name' => 'Français',
             'flag' => 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg' 
         ]

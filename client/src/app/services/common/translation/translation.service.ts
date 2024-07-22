@@ -9,20 +9,24 @@ import { Language } from 'src/app/components/interface';
 export class TranslationService {
   private translations: { [key: string]: string } = {};
   private languagesList: Language[] = [];
+  private translationsFiles : any[] = [];
   public lang : string | null = null;
-  private defaultLand : string = 'eng';
+  private defaultLand : string = 'en';
 
   constructor(private http: HttpClient) {
     this.initializeService();
   }
 
   private async initializeService(): Promise<void> {
+    this.lang = localStorage.getItem('lang')
+
     try {
       this.languagesList = await this.setLanguagesList();
       const long = localStorage.getItem('lang');
 
       if (long !== null) {
-        this.loadTranslations(long);
+        this.translationsFiles = await this.loadTranslationsList(long);
+        this.loadTranslations()
         this.lang = long;
       } else {
         const preferredLanguage = navigator.language || this.defaultLand;
@@ -34,7 +38,8 @@ export class TranslationService {
           document.documentElement.lang = this.defaultLand;
         }
 
-        this.loadTranslations(document.documentElement.lang);
+        this.translationsFiles = await this.loadTranslationsList(document.documentElement.lang);
+        this.loadTranslations()
         this.lang = document.documentElement.lang;
       }
 
@@ -44,24 +49,20 @@ export class TranslationService {
   }
 
 
-  async setLanguagesList(): Promise<Language[]> {
-    try {
-      const data = await firstValueFrom(this.http.get<Language[]>('http://localhost/api/list_languages'));
-      return data;
-    } catch (error) {
-      console.error('Error fetching languages', error);
-      throw error;
-    }
+  public async setLanguagesList(): Promise<Language[]> {
+    return await firstValueFrom(this.http.get<Language[]>('http://localhost/api/list_languages'));
   }
 
-  private loadTranslations(lang: string): void {
-    this.http.get<any>(`assets/i18n/${lang}.json`).subscribe(translations => {
-      for (const key in translations) {
-        if (translations.hasOwnProperty(key)) {
-          this.translations[key] = translations[key];
-        }
+  private async loadTranslationsList(lang: string): Promise<any> {
+    return await firstValueFrom(this.http.get<any>(`assets/i18n/${lang}.json`));
+  }
+
+  private loadTranslations(): void {
+    for (const key in this.translationsFiles) {
+      if (this.translationsFiles.hasOwnProperty(key)) {
+        this.translations[key] = this.translationsFiles[key];
       }
-    });
+    }
   }
 
   public setLang(lang: string|null): void{

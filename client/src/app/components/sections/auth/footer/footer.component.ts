@@ -31,4 +31,8 @@ export class FooterComponent implements OnInit {
     location.reload()
   }
 
+  getCorrectLang(){
+    return this.languages?.find(language => language.key == this.lang)?.flag
+  }
+
 }
