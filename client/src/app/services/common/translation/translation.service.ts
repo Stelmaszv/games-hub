@@ -1,31 +1,56 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { Language } from 'src/app/components/interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslationService {
   private translations: { [key: string]: string } = {};
-  private languagesList = [{"lang":"pl","name":"Polski"},{"lang":"en","name":"English"}]
+  private languagesList: Language[] = [];
   public lang : string | null = null;
+  private defaultLand : string = 'eng';
 
   constructor(private http: HttpClient) {
-    const long = localStorage.getItem('lang')
-    if(long !== null){
-      this.loadTranslations(long);
-      this.lang = long;
-    }else{
-      const preferredLanguage = navigator.language || navigator.language;
-      const supportedLanguages = ['en', 'pl'];
+    this.initializeService();
+  }
 
-      if (supportedLanguages.includes(preferredLanguage)) {
-          document.documentElement.lang = preferredLanguage;
+  private async initializeService(): Promise<void> {
+    try {
+      this.languagesList = await this.setLanguagesList();
+      const long = localStorage.getItem('lang');
+
+      if (long !== null) {
+        this.loadTranslations(long);
+        this.lang = long;
       } else {
-          document.documentElement.lang = 'en';
+        const preferredLanguage = navigator.language || this.defaultLand;
+        const supportedLanguages = this.languagesList.map(language => language.key);;
+
+        if (supportedLanguages.includes(preferredLanguage)) {
+          document.documentElement.lang = preferredLanguage;
+        } else {
+          document.documentElement.lang = this.defaultLand;
+        }
+
+        this.loadTranslations(document.documentElement.lang);
+        this.lang = document.documentElement.lang;
       }
 
-      this.loadTranslations(document.documentElement.lang);
-      this.lang = document.documentElement.lang
+    } catch (error) {
+      console.error('Error initializing TranslationService', error);
+    }
+  }
+
+
+  async setLanguagesList(): Promise<Language[]> {
+    try {
+      const data = await firstValueFrom(this.http.get<Language[]>('http://localhost/api/list_languages'));
+      return data;
+    } catch (error) {
+      console.error('Error fetching languages', error);
+      throw error;
     }
   }
 
@@ -51,10 +76,6 @@ export class TranslationService {
     return this.lang
   }
 
-  public getLanguagesList(){
-    return this.languagesList.map(el => el.lang);
-  }
-
   public getLanguageName(langKey: string) : string {
     return this.getDataFromSubArray('languages',langKey)
   }
@@ -78,8 +99,8 @@ export class TranslationService {
     }
   }
 
-  public translateLanguage(lang: string){
-    const found = this.languagesList.find(element => element.lang === lang);
+  public translateLanguage(key: string){
+    const found = this.languagesList.find(element => element.key === key);
     
     if(found !== undefined){
         return found.name;

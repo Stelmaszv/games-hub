@@ -7,17 +7,31 @@ namespace App\Infrastructure;
 class Languages
 {
     private const LANGUAGES_LIST = [
-        'en'  => 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Flag_of_Poland_%28normative%29.svg/2000px-Flag_of_Poland_%28normative%29.svg.png',
-        'pl'  => 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg',
-        'fr' => 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg'
+        [
+            'key' => 'en', 
+            'name' => 'English',
+            'flag' => 'https://d.allegroimg.com/original/0160c5/3b0359234c95b7a4baac988680dd/OFICJALNA-FLAGA-WIELKIEJ-BRYTANII-UK-ANGIELSKA' 
+        ],
+        [
+            'key' => 'pl', 
+            'name' => 'Polski',
+            'flag' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACgCAMAAADUx0IOAAAAElBMVEXp6OfUIT3q7Ovmz9DYWWfTETQtMyOrAAAA0UlEQVR4nO3QCQ3AQAzAsO7jT3kwolNtBFFmAAAAAAAAAAAAAAAAAAAAAAAAADjQvdw8y8273HzLzbWcAXVAzYA6oGZAHVAzoA6oGVAH1AyoA2oG1AE1A+qAmgF1QM2AOqBmQB1QM6AOqBlQB9QMqANqBtQBNQPqgJoBdUDNgDqgZkAdUDOgDqgZUAfUDKgDagbUATUD6oCaAXVAzYA6oGZAHVAzoA6oGVAH1AyoA2oG1AE1A+qAmgF1QM2AOqBmQB1QM6AOqBlQB9QMqANq6wf80jJcAW6NkIwAAAAASUVORK5CYII=' 
+        ],
+        [
+            'lang' => 'fr', 
+            'name' => 'Français',
+            'flag' => 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg' 
+        ]
     ];
 
-    public static function getLanguagesList(): array
+    public static function getLanguagesKeys(): array
     {
-        return array_keys(self::LANGUAGES_LIST);
+        return array_map(function ($language) {
+            return $language['lang'];
+        }, self::LANGUAGES_LIST);
     }
 
-    public static function getLanguagesListApi(): array
+    public static function getLanguagesList(): array
     {
         return self::LANGUAGES_LIST;
     }

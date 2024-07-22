@@ -14,8 +14,8 @@ class LanguageController extends AbstractController
     #[Route('/api/list_languages', name: 'list_languages', methods: ['GET'])]
     public function list(): JsonResponse
     {        
-        return new JsonResponse([
-            'list' => Languages::getLanguagesListApi(),
-        ]);
+        return new JsonResponse(
+            Languages::getLanguagesList()
+        );
     }
 }
