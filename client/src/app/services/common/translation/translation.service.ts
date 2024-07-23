@@ -83,14 +83,18 @@ export class TranslationService {
 
   private getDataFromSubArray(subArray:string, key:string) :string {
     const subData :any = this.translations[subArray];
-    const subDataKey = subData.find((lang: any) => lang.hasOwnProperty(key));
+      if(subData !== undefined){
+      const subDataKey = subData.find((lang: any) => lang.hasOwnProperty(key));
 
-    if (!subDataKey) {
-      console.error('Language not found for key: ' + key);
-      return '';
+      if (!subDataKey) {
+        console.error('Language not found for key: ' + key);
+        return '';
+      }
+
+      return subDataKey[key]
     }
 
-    return subDataKey[key]
+    return 'undefined';
   }
 
   public translateMonth(monthNumber: number){

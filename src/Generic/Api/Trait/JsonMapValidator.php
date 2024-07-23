@@ -18,11 +18,10 @@ trait JsonMapValidator
         if (!$mapperObj instanceof AbstractJsonMapper) {
             throw new \InvalidArgumentException('Invalid Instance !');
         }
-
+        
         if (null === $value) {
             return $mapperObj->defaultValue();
         }
-
         if (0 === count($value)) {
             return $mapperObj->defaultValue();
         }

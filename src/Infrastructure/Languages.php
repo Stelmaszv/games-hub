@@ -27,7 +27,7 @@ class Languages
     public static function getLanguagesKeys(): array
     {
         return array_map(function ($language) {
-            return $language['lang'];
+            return $language['key'];
         }, self::LANGUAGES_LIST);
     }
 

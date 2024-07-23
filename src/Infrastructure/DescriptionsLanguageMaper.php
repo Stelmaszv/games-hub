@@ -10,18 +10,18 @@ class DescriptionsLanguageMaper extends AbstractJsonMapper
 {
     public function jsonSchema(): array
     {
-        $languages = Languages::getLanguagesList();
+        $languages  = Languages::getLanguagesKeys();
         $schema = [];
         foreach ($languages as $language) {
             $schema[$language] = 'string';
         }
-        
+
         return $schema;
     }
 
     public function defaultValue(): array
     {
-        $languages = Languages::getLanguagesList();
+        $languages = Languages::getLanguagesKeys();
         $defaults = [];
         foreach ($languages as $language) {
             $defaults[$language] = '';
