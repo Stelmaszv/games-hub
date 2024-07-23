@@ -67,4 +67,13 @@ export class LanguageService {
 
     return description;
   }
+
+  static descriptionsFields(language:any){
+    
+    return {
+      en: null,
+      pl: null,
+      fr: null,
+    }
+  }
 }

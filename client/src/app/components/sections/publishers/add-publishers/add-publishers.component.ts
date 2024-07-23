@@ -32,6 +32,7 @@ export class AddPublishersComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.languages = await this.languageService.returnFields()
+
   }
 
   public generalInformation: FormGroup = this.fb.group({
@@ -42,11 +43,7 @@ export class AddPublishersComponent implements OnInit {
     headquarter: null
   });
 
-  public descriptions: FormGroup = this.fb.group({
-    en: null,
-    pl: null,
-    fr: null,
-  });
+  public descriptions: FormGroup = this.fb.group(LanguageService.descriptionsFields(this.languages));
 
   public publisherForm : FormGroup = this.fb.group({
     generalInformation: this.generalInformation,
@@ -57,11 +54,7 @@ export class AddPublishersComponent implements OnInit {
     url: null,
   })
 
-  public descriptionsScraperForm : FormGroup = this.fb.group({
-    en: null,
-    pl: null,
-    fr: null,
-  })
+  public descriptionsScraperForm : FormGroup = this.fb.group(LanguageService.descriptionsFields(this.languages))
 
   private getDescription(lng: string, response: PublisherDescriptions): string {
     let description: string = '';
