@@ -1,21 +1,23 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormValidatorService } from 'src/app/services/common/form-validator/form-validator.service';
 import { HttpServiceService } from 'src/app/services/common/http-service/http-service.service';
 import { GeneralInformationResponse, GeneralInformationScraper, PublisherAddForm, PublisherDescriptions, PublisherDescriptionsScraper, PublisherDescriptionsScraperResponse, PublisherGeneralInformation} from '../interfaces';
 import { TranslationService } from 'src/app/services/common/translation/translation.service';
-import { Response } from 'src/app/components/interface';
-import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
+import { Language, Response } from 'src/app/components/interface';
+import { LanguageService } from 'src/app/services/common/language/language.service';
 
 @Component({
   selector: 'app-add-publishers',
   templateUrl: './add-publishers.component.html',
   styleUrls: ['./add-publishers.component.scss']
 })
-export class AddPublishersComponent {
+export class AddPublishersComponent implements OnInit {
   public section: String = 'general_information_normal';
+  public languages: Language[] = [];
+
   private generalInformationValidation : boolean = false
   private add : boolean = false
 
@@ -24,8 +26,14 @@ export class AddPublishersComponent {
     private httpServiceService: HttpServiceService ,
     private formValidatorService: FormValidatorService,
     private router: Router,
-    public translationService: TranslationService
+    public translationService: TranslationService,
+    public languageService :LanguageService
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    this.languages = await this.languageService.returnFields()
+
+  }
 
   public generalInformation: FormGroup = this.fb.group({
     name: null,
@@ -35,11 +43,7 @@ export class AddPublishersComponent {
     headquarter: null
   });
 
-  public descriptions: FormGroup = this.fb.group({
-    en: null,
-    pl: null,
-    fr: null,
-  });
+  public descriptions: FormGroup = this.fb.group(LanguageService.descriptionsFields(this.languages));
 
   public publisherForm : FormGroup = this.fb.group({
     generalInformation: this.generalInformation,
@@ -50,17 +54,12 @@ export class AddPublishersComponent {
     url: null,
   })
 
-  public descriptionsScraperForm : FormGroup = this.fb.group({
-    en: null,
-    pl: null,
-    fr: null,
-  })
+  public descriptionsScraperForm : FormGroup = this.fb.group(LanguageService.descriptionsFields(this.languages))
 
   private getDescription(lng: string, response: PublisherDescriptions): string {
     let description: string = '';
 
     if (this.descriptions?.get(lng)?.value === null || this.descriptions?.get(lng)?.value === '') {
-        console.log(response);
         description = response[lng] ?? lng;
     } else {
         description = this.descriptions?.get(lng)?.value ?? '';
@@ -69,7 +68,7 @@ export class AddPublishersComponent {
     return description;
   }
 
-  public onDescriptionsScraperSubmit() : void 
+  public async onDescriptionsScraperSubmit() : Promise<void> 
   {
     let postData : PublisherDescriptionsScraper = {    
       "descriptions":[
@@ -80,13 +79,13 @@ export class AddPublishersComponent {
     }
     
     this.httpServiceService.postData('http://localhost/api/publisher/web-scraper/add/descriptions', postData ).subscribe({  
-      next: (response : PublisherDescriptionsScraperResponse) => {
-        const publisherDescriptions : PublisherDescriptions = {
-          'en' : this.getDescription('en',response['description']),
-          'fr': this.getDescription('fr',response['description']),
-          'pl':this.getDescription('pl',response['description']),
-        }
+      next: (response) => {
+
+        this.languageService.setDescriptionsScraper(this.languages,response,this.descriptions)
+
+        const publisherDescriptions  = this.languageService.setDescriptionsScraper(this.languages,response,this.descriptions)
         this.descriptions.setValue(publisherDescriptions);
+        this.formValidatorService.restNotUseInputsMultiError('scraper')
       },
       error: (errorList: HttpErrorResponse) => {
         if(errorList.status == 500){
@@ -115,7 +114,7 @@ export class AddPublishersComponent {
     });
   }
 
-  public onSubmit() : void 
+  public async onSubmit() : Promise<void> 
   {     
     const generalInformation : PublisherGeneralInformation = {
       name: this.generalInformation?.get('name')?.value,
@@ -124,16 +123,12 @@ export class AddPublishersComponent {
       website: this.generalInformation?.get('website')?.value,
       headquarter: this.generalInformation?.get('headquarter')?.value,
     };
-  
-    const descriptions : PublisherDescriptions = {
-      en: this.descriptions?.get('en')?.value,
-      pl: this.descriptions?.get('pl')?.value,
-      fr: this.descriptions?.get('fr')?.value
-    };
 
-    let postData : PublisherAddForm = {
+    let values = await this.languageService.setDescriptionsValues(this.descriptions)
+  
+    let postData = {
       'generalInformation' : generalInformation,
-      'descriptions' :descriptions,
+      'descriptions' :values,
       'add' : this.add
     }
 
@@ -176,16 +171,15 @@ export class AddPublishersComponent {
     this.onSubmit()
   }
 
-  public restDescription() : void {
-    const publisherDescriptions : PublisherDescriptions = {
-      'en' : null,
-      'fr': null,
-      'pl': null
-    }
+  public async restDescription() : Promise<void> {
+    let reset = await this.languageService.resetFormDescription()
+    const publisherDescriptions = reset
+    
     this.descriptions.setValue(publisherDescriptions);
   }
 
   public checkErrors() : boolean {
     return this.generalInformationValidation
   }
+
 }

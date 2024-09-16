@@ -102,24 +102,18 @@
 
             <div formGroupName="descriptions" *ngIf="section == 'descriptions_normal' ">
                 <h2>{{ translationService.translate('generalInformationDescriptions') }}</h2>
-                <div class="row mb-3">
-                    <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('en') }}</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="en" formControlName="en"></textarea>
+
+                <div *ngFor="let lang of languages">
+
+                    <div class="row mb-3">
+                        <label for="{{ lang.key }}" class="col-sm-2 col-form-label">{{ lang.name }}</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" id="{{ lang.key }}" formControlName="{{ lang.key }}"></textarea>
+                        </div>
                     </div>
+
                 </div>
-                <div class="row mb-3">
-                    <label for="pl" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('pl') }}</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="pl" formControlName="pl"></textarea>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="fr" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('fr') }}</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="fr" formControlName="fr"></textarea>
-                    </div>
-                </div>
+
             </div>
             <div class="actions" *ngIf="section === 'general_information_normal'">
                 <button type="submit" (click)="onSubmit()" class="btn btn-primary btn-lg w-100">{{ translationService.translate('next') }}</button>
@@ -187,64 +181,25 @@
         <form [formGroup]="descriptionsScraperForm" class="container mx-auto" (ngSubmit)="onDescriptionsScraperSubmit()">
             <div class="modal-body">
 
-                <div class="row">
-                    <div class="col-4">
-                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('en') }}</label>
-                    </div>
-                    <div class="col-8">
-                        <input 
-                            type="text" 
-                            form="descriptions" 
-                            requestId = "en" 
-                            formId = "descriptions[0]url" 
-                            class="form-control" 
-                            id="en" 
-                            name="en" 
-                            id="en"  
-                            formControlName="en"
-                            required
-                        >
-                        <div class="invalid-feedback" formFeedback = "descriptions[0]url"></div>
-                    </div>
-               </div>
-
-               <div class="row">
-                    <div class="col-4">
-                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('pl') }}</label>
-                    </div>
-                    <div class="col-8">
-                        <input 
-                            type="text" 
-                            form="descriptions" 
-                            requestId = "pl" 
-                            formId = "descriptions[1]url" 
-                            class="form-control" 
-                            id="pl" 
-                            name="pl"  
-                            formControlName="pl"
-                            required
-                        >
-                        <div class="invalid-feedback" formFeedback = "descriptions[1]url"></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-4">
-                        <label for="eng" class="col-sm-2 col-form-label">{{ translationService.getLanguageName('fr') }}</label>
-                    </div>
-                    <div class="col-8">
-                        <input 
-                            type="text" 
-                            form="descriptions" 
-                            requestId = "fr" 
-                            formId = "descriptions[2]url" 
-                            class="form-control" 
-                            id="fr" 
-                            name="fr"  
-                            formControlName="fr"
-                            required
-                        >
-                        <div class="invalid-feedback" formFeedback = "descriptions[2]url"></div>
+                <div *ngFor="let lang of languages">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="{{ lang.key }}" class="col-sm-2 col-form-label">{{ lang.name }}</label>
+                        </div>
+                        <div class="col-8">
+                            <input 
+                                multi-error-id="scraper"
+                                type="text" 
+                                form="descriptions" 
+                                class="form-control" 
+                                id="{{ lang.index }}"
+                                name="{{ lang.key }}" 
+                                formControlName="{{ lang.key }}"
+                                multi-error
+                                required
+                            >
+                            <div class="invalid-feedback" formFeedback = "multi-error" id="fF{{lang.index}}"></div>
+                        </div>
                     </div>
                 </div>
 
